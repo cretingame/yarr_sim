@@ -1,6 +1,6 @@
 Vivado Simulator 2016.3
 Copyright 1986-1999, 2001-2016 Xilinx, Inc. All Rights Reserved.
-Running: C:/Xilinx/Vivado/2016.3/bin/unwrapped/win64.o/xelab.exe -wto 065b24f1651e4cfdbcb9bd0f289efcec --debug typical --relax --mt 2 -L fifo_generator_v13_1_2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot l2p_dma_bench_behav xil_defaultlib.l2p_dma_bench xil_defaultlib.glbl -log elaborate.log 
+Running: C:/Xilinx/Vivado/2016.3/bin/unwrapped/win64.o/xelab.exe -wto 065b24f1651e4cfdbcb9bd0f289efcec --debug typical --relax --mt 2 -L xil_defaultlib -L fifo_generator_v13_1_2 -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot l2p_dma_bench_behav xil_defaultlib.l2p_dma_bench xil_defaultlib.glbl -log elaborate.log 
 Using 2 slave threads.
 Starting static elaboration
 WARNING: [VRFC 10-516] comparison between unequal length arrays always returns FALSE [C:/cygwin64/home/saute/yarr_sim/l2p_dma/l2p_dma_master.vhd:360]

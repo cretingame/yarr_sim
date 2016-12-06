@@ -4,19 +4,19 @@ USE IEEE.NUMERIC_STD.all;
 use IEEE.std_logic_unsigned.all; 
 
 
-entity top_bench is
+entity wb_master64_bench is
     generic (
 		constant period : time := 100 ns;
 		constant axis_data_width_c : integer := 64;
 		constant axis_rx_tkeep_width_c : integer := 64/8;
 		constant axis_rx_tuser_width_c : integer := 22;
-		constant wb_address_width_c : integer := 15;
+		constant wb_address_width_c : integer := 8;
 		constant wb_data_width_c : integer := 32
 	);
 	--port ();
-end top_bench;
+end wb_master64_bench;
 
-architecture Behavioral of top_bench is
+architecture Behavioral of wb_master64_bench is
 		signal clk_tbs : STD_LOGIC;
 		signal rst_tbs : STD_LOGIC;
 		-- Slave AXI-Stream
@@ -45,7 +45,7 @@ architecture Behavioral of top_bench is
 		-- Test bench specific signals
 		signal step : integer range 1 to 10;
 		
-		Component axis_rx is
+		Component wb_master64 is
 		Port (
 			clk_i : in STD_LOGIC;
 			rst_i : in STD_LOGIC;
@@ -77,8 +77,8 @@ architecture Behavioral of top_bench is
 		
 		component bram_wbs is
 		generic (
-			constant ADDR_WIDTH : integer := 16;
-			constant DATA_WIDTH : integer := 32 
+			constant ADDR_WIDTH : integer := 32;
+			constant DATA_WIDTH : integer := 15 
 		);
 		port (
 			-- SYS CON
@@ -139,16 +139,19 @@ begin
 		s_axis_rx_tuser_tbs <= "11" & X"e4004";
 		s_axis_rx_tvalid_tbs <= '1';
 		m_axis_tx_ready_tbs <= '1';
-		--wb_ack_s <= '0';
+		--wb_ack_s <= '0';		
+
 		wait for period;
 		step <= 3;
-		s_axis_rx_tdata_tbs <= X"a5a5a5a5f7d08000";
-		s_axis_rx_tkeep_tbs <= X"0F";
+		s_axis_rx_tdata_tbs <= X"BEEF5A5A" & --H3 Adress L (Last 4 bit must always pull at zero, byte to 8 byte)
+							   X"f7d08000";  --H2 Adress H 
+		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '1';
 		s_axis_rx_tuser_tbs <= "10" & X"e4004";
 		s_axis_rx_tvalid_tbs <= '1';
 		m_axis_tx_ready_tbs <= '1';
 		--wb_ack_s <= '0';
+		
 		wait for period;
 		step <= 4;
 		s_axis_rx_tdata_tbs <= X"0000000000000001";
@@ -172,7 +175,7 @@ begin
 		wait for period;
 		step <= 6;
 		--wait until s_axis_rx_ready_o = '1';
-		s_axis_rx_tdata_tbs <= X"0000000f00000001";
+		s_axis_rx_tdata_tbs <= X"0000000f" & X"00000001";
 		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '0';
 		s_axis_rx_tuser_tbs <= "00" & X"e4004";
@@ -181,7 +184,7 @@ begin
 		wait for period;
 		step <= 7;
 		--wait until s_axis_rx_ready_o = '1';
-		s_axis_rx_tdata_tbs <= X"592eaa50f7d08000";
+		s_axis_rx_tdata_tbs <= X"592eaa50" & X"f7d08000";
 		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '1';
 		s_axis_rx_tuser_tbs <= "11" & X"60004";
@@ -190,14 +193,18 @@ begin
 		wait for period;
 		wait for period;
 		wait for period;
+		step <= 8;
 		wait for period;
 		wait for period;
+		m_axis_tx_ready_tbs <= '0';
 		wait for period;
-		
+		m_axis_tx_ready_tbs <= '1';
+		step <= 9;
+		wait;
 		
 	end process stimuli_p;
 	
-	dut1:axis_rx
+	dut1:wb_master64
 	port map(
 		clk_i => clk_tbs,
 		rst_i => rst_tbs,
