@@ -1,0 +1,10 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/common/gn4124_core_pkg.vhd" into library xil_defaultlib
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/l2p_dma/l2p_fifo.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity l2p_fifo
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/common/common_pkg.vhd" into library xil_defaultlib
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/l2p_dma/l2p_dma_master.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity l2p_dma_master
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/common/bcf_bram_wbs.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity bram_wbs
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/l2p_dma/l2p_dma_bench.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity l2p_dma_bench

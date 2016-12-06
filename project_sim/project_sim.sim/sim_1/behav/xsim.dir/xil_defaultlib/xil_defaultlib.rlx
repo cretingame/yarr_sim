@@ -1,0 +1,12 @@
+0.6
+2016.3
+Oct 10 2016
+19:46:48
+C:/cygwin64/home/saute/yarr_sim/common/bcf_bram_wbs.vhd,1480979668,vhdl,,,,bram_wbs,,,,,,,,
+C:/cygwin64/home/saute/yarr_sim/common/common_pkg.vhd,1479850959,vhdl,C:/cygwin64/home/saute/yarr_sim/l2p_dma/l2p_dma_master.vhd,,,common_pkg,,,,,,,,
+C:/cygwin64/home/saute/yarr_sim/common/gn4124_core_pkg.vhd,1479850968,vhdl,C:/cygwin64/home/saute/yarr_sim/common/common_pkg.vhd;C:/cygwin64/home/saute/yarr_sim/l2p_dma/l2p_dma_master.vhd,,,gn4124_core_pkg,,,,,,,,
+C:/cygwin64/home/saute/yarr_sim/l2p_dma/l2p_dma_bench.vhd,1480978213,vhdl,,,,l2p_dma_bench,,,,,,,,
+C:/cygwin64/home/saute/yarr_sim/l2p_dma/l2p_dma_master.vhd,1480978462,vhdl,,,,l2p_dma_master,,,,,,,,
+C:/cygwin64/home/saute/yarr_sim/l2p_dma/l2p_fifo.vhd,1480442216,vhdl,,,,l2p_fifo,,,,,,,,
+C:/cygwin64/home/saute/yarr_sim/project_sim/project_sim.sim/sim_1/behav/glbl.v,1476033524,verilog,,,,glbl,,,,,,,,
+C:/cygwin64/home/saute/yarr_sim/project_sim/project_sim.srcs/sources_1/ip/fifo_generator_0/sim/fifo_generator_0.v,1481041936,verilog,,,,fifo_generator_0,,,,,,,,
