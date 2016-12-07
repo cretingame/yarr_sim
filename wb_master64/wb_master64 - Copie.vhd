@@ -40,7 +40,7 @@ entity wb_master64 is
 end wb_master64;
 
 architecture Behavioral of wb_master64 is
-	type state_t is (idle, hd0_rx, hd1_rx, wb, ignore, wb_read, hd0_tx, hd1_tx, lastdata_rx, data_tx);
+	type state_t is (idle, h1h0_rx, d0h2_rx, wb, ignore, wb_read, h1h0_tx, d0h2_tx, h3h2_rx, d1d0_rx, h3h2_tx, d1d0_tx);
 	signal state_s : state_t;
 	--signal wb_adr_s : STD_LOGIC_VECTOR (wb_address_width_c - 1 downto 0);
 	signal wb_dat_o_s : STD_LOGIC_VECTOR (wb_data_width_c - 1 downto 0);
@@ -61,7 +61,6 @@ architecture Behavioral of wb_master64 is
 	signal s_axis_rx_tuser_s : STD_LOGIC_VECTOR (21 downto 0);
 	signal m_axis_tx_tdata_s : STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
 	signal wb_dat_i_s : STD_LOGIC_VECTOR (wb_data_width_c - 1 downto 0);
-	signal s_axis_rx_tlast_s : STD_LOGIC;
 begin
 
 
@@ -69,95 +68,6 @@ begin
 	begin
 		if rst_i = '1' then
 			state_s <= idle;
-		elsif clk_i = '1' and clk_i'event then
-			case state_s is
-				when idle =>
-					if s_axis_rx_tvalid_i = '1' then
-						state_s <= hd0_rx;
-					else
-						state_s <= idle;
-					end if;
-				when hd0_rx =>
-					if s_axis_rx_tvalid_i = '1' then
-						--if s_axis_rx_tlast_i = '1' then
-							state_s <= hd1_rx; -- 
-						--end if;
-					end if;
-					
-					-- if s_axis_rx_tvalid_i = '1' and s_axis_rx_tlast_i = '1' then
-						-- state_s <= hd1_rx;
-					-- elsif s_axis_rx_tvalid_i = '1' and s_axis_rx_tlast_i = '0' then
-						-- state_s <= ignore;
-					-- else
-						-- state_s <= hd0_rx;
-					-- end if;
-				when hd1_rx =>
-					if s_axis_rx_tlast_s = '1' then
-						if header_type_s = H3DW then
-							state_s <= wb;
-						elsif header_type_s = H4DW and tlp_type_s = MRd then
-							state_s <= wb;
-						else
-							state_s <= ignore;
-						end if;
-					elsif s_axis_rx_tvalid_i = '1' and s_axis_rx_tlast_i = '1' then
-						state_s <= lastdata_rx;
-					elsif s_axis_rx_tvalid_i = '1' and s_axis_rx_tlast_i = '1' then
-						state_s <= ignore; -- TODO: MORE DATA
-					else
-						state_s <= ignore; -- Ignore others packets type
-					end if;
-					
-					
-				when wb =>
-					if wb_ack_i = '1' and wb_we_s = '1' then
-						state_s <= idle;
-					elsif wb_ack_i = '1' and wb_we_s = '0' then
-						state_s <= wb_read;
-					else
-						state_s <= wb;
-					end if;
-				when ignore =>
-					if s_axis_rx_tvalid_i = '1' then
-						state_s <= ignore;
-					else
-						state_s <= idle;
-					end if;
-				when wb_read =>
-						state_s <= hd0_tx;
-				when hd0_tx => 
-					if m_axis_tx_ready_i = '1' then
-						state_s <= hd1_tx;
-					end if;
-				when hd1_tx =>
-                    if m_axis_tx_ready_i = '1' and header_type_s <= H3DW then
-                        state_s <= idle;
-                    elsif m_axis_tx_ready_i = '1' and header_type_s <= H4DW then
-                        state_s <= data_tx;
-                    end if;
-				when lastdata_rx => 
-					state_s <= wb;
-				when data_tx =>
-					
-			end case;
-		end if;		
-	end process state_p;
-	
-	delay_p: process(clk_i)
-	begin
-		if clk_i = '1' and clk_i'event then
-			s_axis_rx_tdata_s <= s_axis_rx_tdata_i;
-			s_axis_rx_tkeep_s <= s_axis_rx_tkeep_i;
-			s_axis_rx_tuser_s <= s_axis_rx_tuser_i;
-			s_axis_rx_tlast_s <= s_axis_rx_tlast_i;
-			wb_dat_i_s <= wb_dat_i;
-		end if;
-	end process delay_p;
-	
-	reg_p: process(rst_i,clk_i)
-	begin
-		if rst_i = '1' then
-			--wb_adr_o <= (others => '0');
 			wb_dat_o_s <= (others => '0');
 			address_s <= (others => '0');
 			tlp_type_s <= unknown;
@@ -165,8 +75,31 @@ begin
 			wb_we_s <= '0';
 		elsif clk_i = '1' and clk_i'event then
 			case state_s is
-				when hd0_rx =>
-
+				when idle =>
+					if s_axis_rx_tvalid_i = '1' then
+						state_s <= h1h0_rx;
+					else
+						state_s <= idle;
+					end if;
+				when h1h0_rx =>
+					if s_axis_rx_tvalid_i = '1' then
+						if s_axis_rx_tlast_i = '1' and header_type_s <= H3DW then
+							state_s <= d0h2_rx;
+						elsif header_type_s <= H4DW then
+							state_s <= h3h2_rx;
+						else
+							state_s <= ignore;
+						end if;
+					end if;
+					
+					
+					-- if s_axis_rx_tvalid_i = '1' and s_axis_rx_tlast_i = '1' then
+						-- state_s <= d0h2_rx;
+					-- elsif s_axis_rx_tvalid_i = '1' and s_axis_rx_tlast_i = '0' then
+						-- state_s <= ignore;
+					-- else
+						-- state_s <= h1h0_rx;
+					-- end if;
 					bar_hit_s <= s_axis_rx_tuser_s(8 downto 2);
 					length_s <= s_axis_rx_tdata_s(9 downto 0);
 					case s_axis_rx_tdata_s(31 downto 24) is
@@ -262,16 +195,80 @@ begin
 								wb_we_s <= '0';
 							end if;
 					end case;
-				when hd1_rx =>
+				when d0h2_rx =>
+					state_s <= wb;
+				when wb =>
+					if wb_ack_i = '1' and wb_we_s = '1' then
+						state_s <= idle;
+					elsif wb_ack_i = '1' and wb_we_s = '0' then
+						state_s <= wb_read;
+					else
+						state_s <= wb;
+					end if;
+					
 					wb_dat_o_s <= s_axis_rx_tdata_s(63 downto 32);
 					--address_s <= s_axis_rx_tdata_s(31 downto 2) and address_mask_c;
 					address_s <= s_axis_rx_tdata_s(31 downto 2) & "00" and address_mask_c;
-					--for i in 30-1 to wb_address_width_c loop
-						--address_s(i) <= '0';
-					--end loop;
+				when ignore =>
+					if s_axis_rx_tvalid_i = '1' then
+						state_s <= ignore;
+					else
+						state_s <= idle;
+					end if;
+				when wb_read =>
+				    --state_s <= h1h0_tx;
+					--if m_axis_tx_ready_i = '1' then
+						state_s <= h1h0_tx;
+					--else
+						--state_s <= wait_1;
+					--end if;
+					data_s <= wb_dat_i_s;
+				when h1h0_tx => 
+					if m_axis_tx_ready_i = '1' then
+						state_s <= d0h2_tx;
+					--else
+						--state_s <= wait_2;
+					end if;
+				when d0h2_tx =>
+                    if m_axis_tx_ready_i = '1' then
+                        state_s <= idle;
+                    --else
+                        --state_s <= d0h2_tx;
+                    end if;
+					--state_s <= idle;
+				when h3h2_rx => 
+				when d1d0_rx => 
+				when h3h2_tx => 
+				when d1d0_tx =>
+			end case;
+		end if;		
+	end process state_p;
+	
+	delay_p: process(clk_i)
+	begin
+		if clk_i = '1' and clk_i'event then
+			s_axis_rx_tdata_s <= s_axis_rx_tdata_i;
+			s_axis_rx_tkeep_s <= s_axis_rx_tkeep_i;
+			s_axis_rx_tuser_s <= s_axis_rx_tuser_i;
+			wb_dat_i_s <= wb_dat_i;
+		end if;
+	end process delay_p;
+	
+	reg_p: process(rst_i,clk_i)
+	begin
+		if rst_i = '1' then
+			--wb_adr_o <= (others => '0');
+
+		elsif clk_i = '1' and clk_i'event then
+			case state_s is
+				when h1h0_rx =>
+
+
+				when d0h2_rx =>
+
 					
 				when wb_read =>
-					data_s <= wb_dat_i_s;
+					
 					
 				when others =>
 
@@ -294,7 +291,7 @@ begin
 					wb_cyc_o <= '0';
 					wb_stb_o <= '0';
 					wb_we_o <= '0';
-				when hd0_rx =>
+				when h1h0_rx =>
 					s_axis_rx_ready_o <= '1';
 					m_axis_tx_tvalid_o <= '0';
 					m_axis_tx_tlast_o <= '0';
@@ -303,7 +300,7 @@ begin
 					wb_cyc_o <= '0';
 					wb_stb_o <= '0';
 					wb_we_o <= '0';
-				when hd1_rx =>
+				when d0h2_rx =>
 					s_axis_rx_ready_o <= '0';
 					m_axis_tx_tvalid_o <= '0';
 					m_axis_tx_tlast_o <= '0';
@@ -339,7 +336,7 @@ begin
 					wb_cyc_o <= '0';
 					wb_stb_o <= '0';
 					wb_we_o <= '0';
-				when hd0_tx => 
+				when h1h0_tx => 
 					s_axis_rx_ready_o <= '0';
 					m_axis_tx_tvalid_o <= '1';
 					m_axis_tx_tlast_o <= '0';
@@ -348,17 +345,19 @@ begin
 					wb_cyc_o <= '0';
 					wb_stb_o <= '0';
 					wb_we_o <= '0';
-				when hd1_tx =>
+				when d0h2_tx =>
 					s_axis_rx_ready_o <= '0';
 					m_axis_tx_tvalid_o <= '1';
 					m_axis_tx_tlast_o <= '1';
-					m_axis_tx_tdata_o <= data_s & address_s; --& "00";
+					m_axis_tx_tdata_o <= data_s & address_s & "00";
 					m_axis_tx_req_o <= '1';
 					wb_cyc_o <= '0';
 					wb_stb_o <= '0';
 					wb_we_o <= '0';
-				when lastdata_rx => 
-				when data_tx =>
+				when h3h2_rx => 
+				when d1d0_rx => 
+				when h3h2_tx => 
+				when d1d0_tx =>
 			end case;
 	end process output_p;
 	

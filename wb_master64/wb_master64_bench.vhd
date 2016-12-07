@@ -10,7 +10,7 @@ entity wb_master64_bench is
 		constant axis_data_width_c : integer := 64;
 		constant axis_rx_tkeep_width_c : integer := 64/8;
 		constant axis_rx_tuser_width_c : integer := 22;
-		constant wb_address_width_c : integer := 8;
+		constant wb_address_width_c : integer := 6;
 		constant wb_data_width_c : integer := 32
 	);
 	--port ();
