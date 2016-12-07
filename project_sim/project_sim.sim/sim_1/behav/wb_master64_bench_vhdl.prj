@@ -1,0 +1,7 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  "../../../../common/bcf_bram_wbs.vhd"
+vhdl xil_defaultlib  "../../../../wb_master64/wb_master64.vhd"
+vhdl xil_defaultlib  "../../../../wb_master64/wb_master64_bench.vhd"
+
+# Do not sort compile order
+nosort

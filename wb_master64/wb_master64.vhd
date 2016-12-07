@@ -5,9 +5,9 @@ USE IEEE.NUMERIC_STD.all;
 entity wb_master64 is
 	Generic (
 		axis_data_width_c : integer := 64;
-		wb_address_width_c : integer := 6;
-		wb_data_width_c : integer := 32;
-		address_mask_c : STD_LOGIC_VECTOR(32-1 downto 0) := X"000000FF"
+		wb_address_width_c : integer := 64;
+		wb_data_width_c : integer := 64;
+		address_mask_c : STD_LOGIC_VECTOR(64-1 downto 0) := X"00000000" & X"000000FF" -- depends on pcie memory size
 		);
 	Port (
 		clk_i : in STD_LOGIC;
@@ -54,8 +54,8 @@ architecture Behavioral of wb_master64 is
 	type bool_t is (false,true);
 	signal payload_s : bool_t;
 	signal tlp_prefix : bool_t;
-	signal address_s : STD_LOGIC_VECTOR(32-1 downto 0); 
-	signal data_s : STD_LOGIC_VECTOR(32-1 downto 0);
+	signal address_s : STD_LOGIC_VECTOR(wb_address_width_c-1 downto 0); 
+	signal data_s : STD_LOGIC_VECTOR(64-1 downto 0);
 	signal s_axis_rx_tdata_s : STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
 	signal s_axis_rx_tkeep_s : STD_LOGIC_VECTOR (axis_data_width_c/8 - 1 downto 0);
 	signal s_axis_rx_tuser_s : STD_LOGIC_VECTOR (21 downto 0);
@@ -83,14 +83,6 @@ begin
 							state_s <= hd1_rx; -- 
 						--end if;
 					end if;
-					
-					-- if s_axis_rx_tvalid_i = '1' and s_axis_rx_tlast_i = '1' then
-						-- state_s <= hd1_rx;
-					-- elsif s_axis_rx_tvalid_i = '1' and s_axis_rx_tlast_i = '0' then
-						-- state_s <= ignore;
-					-- else
-						-- state_s <= hd0_rx;
-					-- end if;
 				when hd1_rx =>
 					if s_axis_rx_tlast_s = '1' then
 						if header_type_s = H3DW then
@@ -157,7 +149,6 @@ begin
 	reg_p: process(rst_i,clk_i)
 	begin
 		if rst_i = '1' then
-			--wb_adr_o <= (others => '0');
 			wb_dat_o_s <= (others => '0');
 			address_s <= (others => '0');
 			tlp_type_s <= unknown;
@@ -263,23 +254,28 @@ begin
 							end if;
 					end case;
 				when hd1_rx =>
-					wb_dat_o_s <= s_axis_rx_tdata_s(63 downto 32);
-					--address_s <= s_axis_rx_tdata_s(31 downto 2) and address_mask_c;
-					address_s <= s_axis_rx_tdata_s(31 downto 2) & "00" and address_mask_c;
-					--for i in 30-1 to wb_address_width_c loop
-						--address_s(i) <= '0';
-					--end loop;
+					if header_type_s = H3DW then -- d0h2_rx
+						wb_dat_o_s <= X"00000000" & s_axis_rx_tdata_s(63 downto 32);
+						address_s <= X"00000000" & s_axis_rx_tdata_s(31 downto 2) & "00" and address_mask_c; -- TODO: endianness
+					else -- H4DW h3h2_rx
+						address_s(63 downto 32) <= s_axis_rx_tdata_s(31 downto 0) and address_mask_c(63 downto 32);
+						address_s(31 downto 0) <= s_axis_rx_tdata_s(63 downto 36) & "0000" and address_mask_c(31 downto 0); 
+					end if;
 					
 				when wb_read =>
 					data_s <= wb_dat_i_s;
-					
+				
+				when lastdata_rx =>
+					-- if big endian
+					wb_dat_o_s <= s_axis_rx_tdata_s; -- TODO: endianness
+				
 				when others =>
 
 			end case;
 		end if;
 	end process reg_p;
 	
-	wb_adr_o <= address_s(wb_address_width_c-1+2 downto 2);
+	wb_adr_o <= address_s;
 	wb_dat_o <= wb_dat_o_s;
 	
 	output_p:process (state_s)
@@ -304,7 +300,11 @@ begin
 					wb_stb_o <= '0';
 					wb_we_o <= '0';
 				when hd1_rx =>
-					s_axis_rx_ready_o <= '0';
+					if s_axis_rx_tlast_s = '1' then
+						s_axis_rx_ready_o <= '0';
+					else
+						s_axis_rx_ready_o <= '1';
+					end if;
 					m_axis_tx_tvalid_o <= '0';
 					m_axis_tx_tlast_o <= '0';
 					m_axis_tx_tdata_o <= (others => '0');
@@ -343,7 +343,9 @@ begin
 					s_axis_rx_ready_o <= '0';
 					m_axis_tx_tvalid_o <= '1';
 					m_axis_tx_tlast_o <= '0';
-					m_axis_tx_tdata_o <= X"000000044A000001"; -- 3DW header with data, CpID, Length = 1 
+					----------------------------------------------------------------------------------------------------------
+					m_axis_tx_tdata_o <= X"000000044A000001"; -- 3DW header with data, CpID, Length = 1 TODODODODODODODODODODO
+					----------------------------------------------------------------------------------------------------------
 					m_axis_tx_req_o <= '1';
 					wb_cyc_o <= '0';
 					wb_stb_o <= '0';
@@ -351,14 +353,36 @@ begin
 				when hd1_tx =>
 					s_axis_rx_ready_o <= '0';
 					m_axis_tx_tvalid_o <= '1';
-					m_axis_tx_tlast_o <= '1';
-					m_axis_tx_tdata_o <= data_s & address_s; --& "00";
+					if header_type_s = H3DW then
+						m_axis_tx_tlast_o <= '1';
+						m_axis_tx_tdata_o <= data_s(32-1 downto 0) & address_s(32-1 downto 0);
+					else
+						m_axis_tx_tlast_o <= '0';
+						m_axis_tx_tdata_o <= address_s(31 downto 0) & address_s(63 downto 32);
+					end if;
+					
 					m_axis_tx_req_o <= '1';
 					wb_cyc_o <= '0';
 					wb_stb_o <= '0';
 					wb_we_o <= '0';
 				when lastdata_rx => 
+					s_axis_rx_ready_o <= '0';
+					m_axis_tx_tvalid_o <= '0';
+					m_axis_tx_tlast_o <= '0';
+					m_axis_tx_tdata_o <= (others => '0');
+					m_axis_tx_req_o <= '0';
+					wb_cyc_o <= '0';
+					wb_stb_o <= '0';
+					wb_we_o <= '0';
 				when data_tx =>
+					s_axis_rx_ready_o <= '0';
+					m_axis_tx_tvalid_o <= '1';
+					m_axis_tx_tlast_o <= '1';
+					m_axis_tx_tdata_o <= data_s; -- TODO: endianness
+					m_axis_tx_req_o <= '1';
+					wb_cyc_o <= '0';
+					wb_stb_o <= '0';
+					wb_we_o <= '0';					
 			end case;
 	end process output_p;
 	
