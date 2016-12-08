@@ -40,12 +40,21 @@ entity wb_master64 is
 end wb_master64;
 
 architecture Behavioral of wb_master64 is
+	constant fmt_h3dw_nodata_c : STD_LOGIC_VECTOR (3 - 1 downto 0):= "000";
+	constant fmt_h3dw_data_c : STD_LOGIC_VECTOR (3 - 1 downto 0):= "001";
+	constant fmt_h4dw_nodata_c : STD_LOGIC_VECTOR (3 - 1 downto 0):= "010";
+	constant fmt_h4dw_data_c : STD_LOGIC_VECTOR (3 - 1 downto 0):= "011";
+	constant fmt_tlp_prefix_c : STD_LOGIC_VECTOR (3 - 1 downto 0):= "100";
+	
+	constant tlp_type_Mr_c : STD_LOGIC_VECTOR (5 - 1 downto 0):= "00000";
+	constant tlp_type_Cpl_c : STD_LOGIC_VECTOR (5 - 1 downto 0):= "01010";
+	
 	type state_t is (idle, hd0_rx, hd1_rx, wb, ignore, wb_read, hd0_tx, hd1_tx, lastdata_rx, data_tx);
 	signal state_s : state_t;
 	--signal wb_adr_s : STD_LOGIC_VECTOR (wb_address_width_c - 1 downto 0);
 	signal wb_dat_o_s : STD_LOGIC_VECTOR (wb_data_width_c - 1 downto 0);
 	signal wb_we_s : STD_LOGIC;
-	signal length_s : STD_LOGIC_VECTOR(9 downto 0);
+	signal payload_length_s : STD_LOGIC_VECTOR(9 downto 0);
 	signal bar_hit_s : STD_LOGIC_VECTOR(6 downto 0);
 	type tlp_type_t is (MRd,MRdLk,MWr,IORd,IOWr,CfgRd0,CfgWr0,CfgRd1,CfgWr1,TCfgRd,TCfgWr,Msg,MsgD,Cpl,CplD,CplLk,CplDLk,LPrfx,unknown);
 	signal tlp_type_s : tlp_type_t;
@@ -159,7 +168,7 @@ begin
 				when hd0_rx =>
 
 					bar_hit_s <= s_axis_rx_tuser_s(8 downto 2);
-					length_s <= s_axis_rx_tdata_s(9 downto 0);
+					payload_length_s <= s_axis_rx_tdata_s(9 downto 0);
 					case s_axis_rx_tdata_s(31 downto 24) is
 						when "00000000" =>
 							tlp_type_s <= MRd;
@@ -256,7 +265,7 @@ begin
 				when hd1_rx =>
 					if header_type_s = H3DW then -- d0h2_rx
 						wb_dat_o_s <= X"00000000" & s_axis_rx_tdata_s(63 downto 32);
-						address_s <= X"00000000" & s_axis_rx_tdata_s(31 downto 2) & "00" and address_mask_c; -- TODO: endianness
+						address_s <= X"00000000" & s_axis_rx_tdata_s(31 downto 2) & "00" and address_mask_c; -- see 2.2.4.1. in pcie spec
 					else -- H4DW h3h2_rx
 						address_s(63 downto 32) <= s_axis_rx_tdata_s(31 downto 0) and address_mask_c(63 downto 32);
 						address_s(31 downto 0) <= s_axis_rx_tdata_s(63 downto 36) & "0000" and address_mask_c(31 downto 0); 
@@ -278,7 +287,7 @@ begin
 	wb_adr_o <= address_s;
 	wb_dat_o <= wb_dat_o_s;
 	
-	output_p:process (state_s)
+	output_p:process (state_s,header_type_s,tlp_type_s)
 	begin
 		case state_s is
 				when idle =>
@@ -344,8 +353,21 @@ begin
 					m_axis_tx_tvalid_o <= '1';
 					m_axis_tx_tlast_o <= '0';
 					----------------------------------------------------------------------------------------------------------
-					m_axis_tx_tdata_o <= X"000000044A000001"; -- 3DW header with data, CpID, Length = 1 TODODODODODODODODODODO
+					m_axis_tx_tdata_o <= X"00000004" & X"4A000001"; -- 3DW header with data, CpID, Length = 1 TODODODODODODODODODODO
 					----------------------------------------------------------------------------------------------------------
+					m_axis_tx_tdata_o(63 downto 32) <= X"00000004";
+					
+					if header_type_s = H3DW then
+						m_axis_tx_tdata_o(31 downto 0) <= "010" & "01010" & X"00" &  -- H0 FMT & type & some unused bits
+							"000000" & payload_length_s; --H0 unused bits & length H & length L
+					else
+						m_axis_tx_tdata_o(31 downto 0) <= "011" & "01010" & X"00" &  -- H0 FMT & type & some unused bits
+							"000000" & payload_length_s; --H0 unused bits & length H & length L
+					end if;
+					--m_axis_tx_tdata_o <= X"0000" & --H1 Requester ID
+					   --X"00" & X"04" & --H1 Tag and Last DW BE and 1st DW BE
+					   --"010" & "01010" & X"00" &  -- H0 FMT & type & some unused bits -- X"4000" &
+					   --"000000" & "00" & X"01";  --H0 unused bits & length H & length L
 					m_axis_tx_req_o <= '1';
 					wb_cyc_o <= '0';
 					wb_stb_o <= '0';

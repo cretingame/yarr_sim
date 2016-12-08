@@ -53,46 +53,52 @@ architecture Behavioral of wb_master64_bench is
 			address_i : in STD_LOGIC_VECTOR(wb_address_width_c-1 downto 0); 
 			data_i : in STD_LOGIC_VECTOR(64-1 downto 0);
 			length_i : in STD_LOGIC_VECTOR(10-1 downto 0); 
-			s_axis_rx_tdata_0 : out STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
-			s_axis_rx_tdata_1 : out STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
-			s_axis_rx_tdata_2 : out STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0)
+			rx_data_0 : out STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
+			rx_data_1 : out STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
+			rx_data_2 : out STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0)
 			) is
 		begin
-			s_axis_rx_tdata_0(63 downto 48) := X"0000"; --H1 Requester ID
-			s_axis_rx_tdata_0(47 downto 32) := X"00" & X"0f"; --H1 Tag and Last DW BE and 1st DW BE
+			rx_data_0(63 downto 48) := X"0000"; --H1 Requester ID
+			rx_data_0(47 downto 40) := X"00"; --H1 Tag 
+			
+			if length_i = "00" & X"01" then
+				rx_data_0(39 downto 32) := X"0f"; --H1 Tag and Last DW BE and 1st DW BE see ch. 2.2.5 pcie spec
+			else
+				rx_data_0(39 downto 32) := X"ff";
+			end if;
 			
 			if tlp_type_i = MRd then
 				if header_type_i = H3DW then
-					s_axis_rx_tdata_0(31 downto 29) := "000"; -- H0 FMT
+					rx_data_0(31 downto 29) := "000"; -- H0 FMT
 				else
-					s_axis_rx_tdata_0(31 downto 29) := "001"; -- H0 FMT
+					rx_data_0(31 downto 29) := "001"; -- H0 FMT
 				end if;
 				
 			elsif tlp_type_i = MWr then
 				if header_type_i = H3DW then
-					s_axis_rx_tdata_0(31 downto 29) := "010"; -- H0 FMT
+					rx_data_0(31 downto 29) := "010"; -- H0 FMT
 				else
-					s_axis_rx_tdata_0(31 downto 29) := "011"; -- H0 FMT
+					rx_data_0(31 downto 29) := "011"; -- H0 FMT
 				end if;
 			else
 			
 			end if;
 			
 			
-			s_axis_rx_tdata_0(28 downto 24) := "00000"; -- H0 type Memory request
+			rx_data_0(28 downto 24) := "00000"; -- H0 type Memory request
 			
-			s_axis_rx_tdata_0(23 downto 16) := X"00";   -- some unused bits
-			s_axis_rx_tdata_0(15 downto 10) := "000000"; --H0 unused bits 
-			s_axis_rx_tdata_0(9 downto 0) := length_i;  --H0 length H & length L
+			rx_data_0(23 downto 16) := X"00";   -- some unused bits
+			rx_data_0(15 downto 10) := "000000"; --H0 unused bits 
+			rx_data_0(9 downto 0) := length_i;  --H0 length H & length L
 			
 			if header_type_i = H3DW then
-				s_axis_rx_tdata_1(63 downto 32) := data_i(31 downto 0); --D0 Data
-				s_axis_rx_tdata_1(31 downto 0)	:= address_i(31 downto 0);  --H2 Adress	
-				s_axis_rx_tdata_2 := (others => '0');
+				rx_data_1(63 downto 32) := data_i(31 downto 0); --D0 Data
+				rx_data_1(31 downto 0)	:= address_i(31 downto 0);  --H2 Adress	
+				rx_data_2 := (others => '0');
 			else
-				s_axis_rx_tdata_1(63 downto 32) := address_i(31 downto 0); --H3 Adress L (Last 4 bit must always pull at zero, byte to 8 byte)
-				s_axis_rx_tdata_1(31 downto 0)	:= address_i(63 downto 32);  --H2 Adress H
-				s_axis_rx_tdata_2 := data_i;
+				rx_data_1(63 downto 32) := address_i(31 downto 0); --H3 Adress L (Last 4 bit must always pull at zero, byte to 8 byte)
+				rx_data_1(31 downto 0)	:= address_i(63 downto 32);  --H2 Adress H
+				rx_data_2 := data_i;
 			end if;
 			
 
