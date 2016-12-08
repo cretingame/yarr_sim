@@ -1,10 +1,12 @@
-Unable to capture context for thread 9664 in process 19980, can not generate back trace
-Unable to capture context for thread 17704 in process 19980, can not generate back trace
-Unable to capture context for thread 13776 in process 19980, can not generate back trace
+Unable to capture context for thread 18544 in process 9004, can not generate back trace
 Exception at PC 0x00007FFA39187788
-Unable to capture context for thread 17936 in process 19980, can not generate back trace
+Unable to capture context for thread 20116 in process 9004, can not generate back trace
+Unable to capture context for thread 17344 in process 9004, can not generate back trace
+Unable to capture context for thread 13500 in process 9004, can not generate back trace
 Exception at PC 0x00007FFA39187788
-Exception at PC 0x00007FF9C6F3BB93
+Unable to capture context for thread 20116 in process 9004, can not generate back trace
+Unable to capture context for thread 13500 in process 9004, can not generate back trace
+Exception at PC 0x00007FF9D870BB93
 Printing stacktrace...
 
 Exception at PC 0x00007FFA39187788
@@ -14,24 +16,24 @@ Exception at PC 0x00007FFA39187788
 Exception at PC 0x00007FFA39187788
 Exception at PC 0x00007FFA39187788
 Exception at PC 0x00007FFA39187788
-[0]  [0x00007FF9C6F3BB93]
-[1]  [0x00007FF9C6F3BB93]
-[2]  [0x00007FF9C6F3B4A1]
-[3]  [0x00007FF9C6F3B3EF]
-[4]  [0x00007FF9C6F219FE]
-[5]  [0x00007FF9C6F20ED1]
-[6]  [0x00007FF9C6F20D76]
-[7]  [0x00007FF9C6EC79F6]
-[8]  [0x00007FF9C6EB7AFB]
-[9]  [0x00007FF9C6FDE90A]
-[10]  [0x00007FF9C6FF9F87]
-[11]  [0x00007FF9C6FFA05F]
+Exception at PC 0x00007FFA39187788
+Exception at PC 0x00007FFA39187788
+Exception at PC 0x00007FFA39187788
+[0]  [0x00007FF9D870BB93]
+[1]  [0x00007FF9D870BB93]
+[2]  [0x00007FF9D870B4A1]
+[3]  [0x00007FF9D870B3EF]
+[4]  [0x00007FF9D86F19FE]
+[5]  [0x00007FF9D86F0ED1]
+[6]  [0x00007FF9D86F0D76]
+[7]  [0x00007FF9D86979F6]
+[8]  [0x00007FF9D8687AFB]
+[9]  [0x00007FF9D87AE90A]
+[10]  [0x00007FF9D87C9F87]
+[11]  [0x00007FF9D87CA05F]
 [12] (BaseThreadInitThunk+0x14) [0x00007FFA3B5F8364]
 [13] (RtlUserThreadStart+0x21) [0x00007FFA3C805E91]
 Done
-Exception at PC 0x00007FFA39187788
-Exception at PC 0x00007FFA39187788
-Exception at PC 0x00007FFA39187788
 Exception at PC 0x00007FFA39187788
 Exception at PC 0x00007FFA39187788
 Exception at PC 0x00007FFA39187788

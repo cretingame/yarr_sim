@@ -130,7 +130,7 @@ begin
 				when lastdata_rx => 
 					state_s <= wb;
 				when data_tx =>
-					
+					state_s <= idle;
 			end case;
 		end if;		
 	end process state_p;

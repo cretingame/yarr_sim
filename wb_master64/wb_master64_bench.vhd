@@ -234,7 +234,7 @@ begin
 		wait for period;
 		wait for period;
 		step <= 6;
-		axis_data_p (MRd,H3DW,X"0000000000000000",X"00000000" & X"BEEF5A5A","00" & X"01",data_0,data_1,data_2);
+		axis_data_p (MRd,H3DW,X"0000000000000000",X"00000000" & X"BEEF5A5A","00" & X"00",data_0,data_1,data_2);
 		s_axis_rx_tdata_tbs <= X"0000000f" & X"00000001";
 		--s_axis_rx_tdata_tbs <= X"0000000f" & X"00000001";
 		s_axis_rx_tkeep_tbs <= X"FF";
@@ -272,7 +272,7 @@ begin
 		wait for period;
 		wait for period;
 		step <= 10;
-		axis_data_p (MWr,H4DW,X"0000000000000001",X"CACA5A5A" & X"BEEF5A5A","00" & X"01",data_0,data_1,data_2);
+		axis_data_p (MWr,H4DW,X"0000000000000010",X"CACA5A5A" & X"BEEF5A5A","00" & X"02",data_0,data_1,data_2);
 		s_axis_rx_tdata_tbs <= data_0;
 		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '0';
@@ -305,6 +305,34 @@ begin
 		m_axis_tx_ready_tbs <= '1';
 		wait for period;
 		step <= 13;
+		wait for period;
+		wait for period;
+		step <= 14;
+		axis_data_p (MRd,H4DW,X"0000000000000010",X"BEEF5A5A" & X"CACA5A5A","00" & X"00",data_0,data_1,data_2);
+		s_axis_rx_tdata_tbs <= data_0;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60004";
+		s_axis_rx_tvalid_tbs <= '1';
+		m_axis_tx_ready_tbs <= '1';
+		wait for period;
+		step <= 15;
+		s_axis_rx_tdata_tbs <= data_1;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '1';
+		s_axis_rx_tuser_tbs <= "11" & X"60004";
+		s_axis_rx_tvalid_tbs <= '1';
+		m_axis_tx_ready_tbs <= '1';
+		wait for period;
+		step <= 16;
+		s_axis_rx_tdata_tbs <= X"0000000000A00001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
+		m_axis_tx_ready_tbs <= '1';
+		wait for period;
+		step <= 17;
 		wait;
 		
 	end process stimuli_p;
@@ -349,7 +377,7 @@ begin
 		rst			=> rst_tbs,
 		
 		-- Wishbone Slave in
-		wb_adr_i	=> wb_adr_s(5 downto 0),
+		wb_adr_i	=> wb_adr_s(9 downto 4),
 		wb_dat_i	=> wb_dat_o_s,
 		wb_we_i		=> wb_we_s,
 		wb_stb_i	=> wb_stb_s,
