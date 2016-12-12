@@ -49,7 +49,7 @@ architecture Behavioral of wb_master64 is
 	constant tlp_type_Mr_c : STD_LOGIC_VECTOR (5 - 1 downto 0):= "00000";
 	constant tlp_type_Cpl_c : STD_LOGIC_VECTOR (5 - 1 downto 0):= "01010";
 	
-	type state_t is (idle, hd0_rx, hd1_rx, wb, ignore, wb_read, hd0_tx, hd1_tx, lastdata_rx, data_tx);
+	type state_t is (idle, hd0_rx, hd1_rx, wb_write, ignore, wb_read, hd0_tx, hd1_tx, lastdata_rx, data_tx);
 	signal state_s : state_t;
 	--signal wb_adr_s : STD_LOGIC_VECTOR (wb_address_width_c - 1 downto 0);
 	signal wb_dat_o_s : STD_LOGIC_VECTOR (wb_data_width_c - 1 downto 0);
@@ -95,9 +95,9 @@ begin
 				when hd1_rx =>
 					if s_axis_rx_tlast_s = '1' then
 						if header_type_s = H3DW then
-							state_s <= wb;
+							state_s <= wb_write;
 						elsif header_type_s = H4DW and tlp_type_s = MRd then
-							state_s <= wb;
+							state_s <= wb_write;
 						else
 							state_s <= ignore;
 						end if;
@@ -110,14 +110,8 @@ begin
 					end if;
 					
 					
-				when wb =>
-					if wb_ack_i = '1' and wb_we_s = '1' then
-						state_s <= idle;
-					elsif wb_ack_i = '1' and wb_we_s = '0' then
-						state_s <= wb_read;
-					else
-						state_s <= wb;
-					end if;
+				when wb_write =>
+					state_s <= wb_read;
 				when ignore =>
 					if s_axis_rx_tvalid_i = '1' then
 						state_s <= ignore;
@@ -125,7 +119,15 @@ begin
 						state_s <= idle;
 					end if;
 				when wb_read =>
-						state_s <= hd0_tx;
+					if wb_ack_i = '1' then
+						if wb_we_s = '1' then
+							state_s <= idle;
+						elsif wb_we_s = '0' then
+							state_s <= wb_read;
+						else
+							state_s <= hd0_tx;
+						end if;
+					end if;
 				when hd0_tx => 
 					if m_axis_tx_ready_i = '1' then
 						state_s <= hd1_tx;
@@ -137,7 +139,7 @@ begin
                         state_s <= data_tx;
                     end if;
 				when lastdata_rx => 
-					state_s <= wb;
+					state_s <= wb_write;
 				when data_tx =>
 					state_s <= idle;
 			end case;
@@ -287,7 +289,25 @@ begin
 	wb_adr_o <= address_s;
 	wb_dat_o <= wb_dat_o_s;
 	
-	output_p:process (state_s,header_type_s,tlp_type_s)
+	wb_output_p:process (state_s)
+	begin
+		case state_s is
+			when wb_write =>
+				wb_cyc_o <= '1';
+				wb_stb_o <= '1';
+				wb_we_o <= wb_we_s;
+			when wb_read =>
+				wb_cyc_o <= '0';
+				wb_stb_o <= '0';
+				wb_we_o <= '0';
+			when others =>
+				wb_cyc_o <= '0';
+				wb_stb_o <= '0';
+				wb_we_o <= '0';					
+		end case;
+	end process wb_output_p;
+	
+	axis_output_p:process (state_s,header_type_s,tlp_type_s)
 	begin
 		case state_s is
 				when idle =>
@@ -296,18 +316,12 @@ begin
 					m_axis_tx_tlast_o <= '0';
 					m_axis_tx_tdata_o <= (others => '0');
 					m_axis_tx_req_o <= '0';
-					wb_cyc_o <= '0';
-					wb_stb_o <= '0';
-					wb_we_o <= '0';
 				when hd0_rx =>
 					s_axis_rx_ready_o <= '1';
 					m_axis_tx_tvalid_o <= '0';
 					m_axis_tx_tlast_o <= '0';
 					m_axis_tx_tdata_o <= (others => '0');
 					m_axis_tx_req_o <= '0';
-					wb_cyc_o <= '0';
-					wb_stb_o <= '0';
-					wb_we_o <= '0';
 				when hd1_rx =>
 					if s_axis_rx_tlast_s = '1' then
 						s_axis_rx_ready_o <= '0';
@@ -318,43 +332,28 @@ begin
 					m_axis_tx_tlast_o <= '0';
 					m_axis_tx_tdata_o <= (others => '0');
 					m_axis_tx_req_o <= '0';
-					wb_cyc_o <= '0';
-					wb_stb_o <= '0';
-					wb_we_o <= '0';
-				when wb =>
+				when wb_write =>
 					s_axis_rx_ready_o <= '0';
 					m_axis_tx_tvalid_o <= '0';
 					m_axis_tx_tlast_o <= '0';
 					m_axis_tx_tdata_o <= (others => '0');
 					m_axis_tx_req_o <= '0';
-					wb_cyc_o <= '1';
-					wb_stb_o <= '1';
-					wb_we_o <= wb_we_s;
 				when ignore =>
 					s_axis_rx_ready_o <= '1';
 					m_axis_tx_tvalid_o <= '0';
 					m_axis_tx_tlast_o <= '0';
 					m_axis_tx_tdata_o <= (others => '0');
 					m_axis_tx_req_o <= '0';
-					wb_cyc_o <= '0';
-					wb_stb_o <= '0';
-					wb_we_o <= '0';
 				when wb_read =>
 					s_axis_rx_ready_o <= '0';
 					m_axis_tx_tvalid_o <= '0';
 					m_axis_tx_tlast_o <= '0';
 					m_axis_tx_tdata_o <= (others => '0');
 					m_axis_tx_req_o <= '0';
-					wb_cyc_o <= '0';
-					wb_stb_o <= '0';
-					wb_we_o <= '0';
 				when hd0_tx => 
 					s_axis_rx_ready_o <= '0';
 					m_axis_tx_tvalid_o <= '1';
 					m_axis_tx_tlast_o <= '0';
-					----------------------------------------------------------------------------------------------------------
-					m_axis_tx_tdata_o <= X"00000004" & X"4A000001"; -- 3DW header with data, CpID, Length = 1 TODODODODODODODODODODO
-					----------------------------------------------------------------------------------------------------------
 					m_axis_tx_tdata_o(63 downto 32) <= X"00000004";
 					
 					if header_type_s = H3DW then
@@ -369,9 +368,6 @@ begin
 					   --"010" & "01010" & X"00" &  -- H0 FMT & type & some unused bits -- X"4000" &
 					   --"000000" & "00" & X"01";  --H0 unused bits & length H & length L
 					m_axis_tx_req_o <= '1';
-					wb_cyc_o <= '0';
-					wb_stb_o <= '0';
-					wb_we_o <= '0';
 				when hd1_tx =>
 					s_axis_rx_ready_o <= '0';
 					m_axis_tx_tvalid_o <= '1';
@@ -384,29 +380,20 @@ begin
 					end if;
 					
 					m_axis_tx_req_o <= '1';
-					wb_cyc_o <= '0';
-					wb_stb_o <= '0';
-					wb_we_o <= '0';
 				when lastdata_rx => 
 					s_axis_rx_ready_o <= '0';
 					m_axis_tx_tvalid_o <= '0';
 					m_axis_tx_tlast_o <= '0';
 					m_axis_tx_tdata_o <= (others => '0');
 					m_axis_tx_req_o <= '0';
-					wb_cyc_o <= '0';
-					wb_stb_o <= '0';
-					wb_we_o <= '0';
 				when data_tx =>
 					s_axis_rx_ready_o <= '0';
 					m_axis_tx_tvalid_o <= '1';
 					m_axis_tx_tlast_o <= '1';
 					m_axis_tx_tdata_o <= data_s; -- TODO: endianness
-					m_axis_tx_req_o <= '1';
-					wb_cyc_o <= '0';
-					wb_stb_o <= '0';
-					wb_we_o <= '0';					
+					m_axis_tx_req_o <= '1';				
 			end case;
-	end process output_p;
+	end process axis_output_p;
 	
 	m_axis_tx_tkeep_o <= X"FF";
 	m_axis_tx_tuser_o <= "0000";
