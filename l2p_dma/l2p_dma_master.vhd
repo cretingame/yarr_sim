@@ -40,13 +40,13 @@ entity l2p_dma_master is
         --ldm_arb_dframe_o : out std_logic;
         ldm_arb_tlast_o   : out std_logic;
         ldm_arb_tdata_o   : out std_logic_vector(31 downto 0);
+        ldm_arb_tready_i : in  std_logic;                    -- Asserted when GN4124 is ready to receive master write
         ldm_arb_req_o    : out std_logic;
         arb_ldm_gnt_i    : in  std_logic;
 
 
         -- L2P channel control
         l2p_edb_o  : out std_logic;                    -- Asserted when transfer is aborted
-        l_wr_rdy_i : in  std_logic;                    -- Asserted when GN4124 is ready to receive master write
         l2p_rdy_i  : in  std_logic;                    -- De-asserted to pause transdert already in progress
         tx_error_i : in  std_logic;                    -- Asserted when unexpected or malformed paket received
 
@@ -100,11 +100,15 @@ architecture behavioral of l2p_dma_master is
     ---------------------
     signal fifo_rst        : std_logic;
     signal fifo_rst_t      : std_logic;
+	
+	-- Axi-Stream
+	--signal ldm_arb_tready_s: std_logic;
     
     -- Data FIFO
     signal data_fifo_rd    : std_logic;
     signal data_fifo_wr    : std_logic;
     signal data_fifo_empty : std_logic;
+	signal data_fifo_empty_t : std_logic;
     signal data_fifo_full  : std_logic;
     signal data_fifo_dout  : std_logic_vector(31 downto 0);
     signal data_fifo_din   : std_logic_vector(31 downto 0);
@@ -118,8 +122,8 @@ architecture behavioral of l2p_dma_master is
     signal addr_fifo_din   : std_logic_vector(31 downto 0);
 
     -- L2P FSM
-    type l2p_dma_state_type is (L2P_IDLE, L2P_SETUP, L2P_HEADER, 
-                                L2P_ADDR_H, L2P_ADDR_L, L2P_SETUP_DATA, L2P_DATA,
+    type l2p_dma_state_type is (L2P_IDLE, L2P_SETUP, L2P_HEADER, L2P_ADDR_L, 
+	                            L2P_SETUP_DATA, L2P_DATA,
                                 L2P_LAST_DATA, L2P_ERROR);
     signal l2p_dma_current_state : l2p_dma_state_type;
 
@@ -170,6 +174,15 @@ begin
 --                      else ldm_arb_data_l when (l2p_dma_current_state = L2P_ADDR_L)
 --                      else ldm_arb_data_l when (l2p_dma_current_state = L2P_ADDR_H)
 --                      else x"DEADBEEF";
+	delay_p : process(clk_i)
+	begin
+		if rising_edge(clk_i) then
+			--ldm_arb_tready_s <= ldm_arb_tready_i;
+			data_fifo_empty_t <= data_fifo_empty;
+		end if;
+	
+	end process delay_p;
+
     ---------------------
     -- L2P FSM
     ---------------------    
@@ -178,9 +191,9 @@ begin
         if (rst_n_i = '0') then
             l2p_dma_current_state <= L2P_IDLE;
             ldm_arb_req_o <= '0';
-            ldm_arb_data_l <= (others => '0');
-            ldm_arb_valid <= '0';
-            ldm_arb_tlast_o <= '0';
+            --ldm_arb_data_l <= (others => '0');
+            --ldm_arb_valid <= '0';
+            --ldm_arb_tlast_o <= '0';
             data_fifo_rd <= '0';
             dma_ctrl_done_o <= '0';
             l2p_edb_o <= '0';
@@ -195,9 +208,9 @@ begin
                     l2p_edb_o <= '0';
                     fifo_rst_t <= '0';
                     ldm_arb_req_o <= '0';
-                    ldm_arb_data_l <= (others => '0');
-                    ldm_arb_valid <= '0';
-                    ldm_arb_tlast_o <= '0';
+                    --ldm_arb_data_l <= (others => '0');
+                    --ldm_arb_valid <= '0';
+                    --ldm_arb_tlast_o <= '0';
                     data_fifo_rd <= '0';
 					data_fifo_valid <= '0';
                     dma_ctrl_done_o <= '0';
@@ -208,8 +221,8 @@ begin
                     
 
                 when L2P_SETUP =>
-                    ldm_arb_valid <= '0';
-                    ldm_arb_tlast_o <= '0';
+                    --ldm_arb_valid <= '0';
+                    --ldm_arb_tlast_o <= '0';
                     data_fifo_rd <= '0';
 					data_fifo_valid <= '0';
                     l2p_timeout_cnt <= (others => '0');
@@ -219,110 +232,69 @@ begin
                     end if;
 
                 when L2P_HEADER =>
-                    ldm_arb_valid <= '1';
-                    ldm_arb_tlast_o <= '0';
+                    --ldm_arb_valid <= '1';
+                    --ldm_arb_tlast_o <= '0';
                     if (arb_ldm_gnt_i = '1') then
                         ldm_arb_req_o <= '0'; -- Bus has been granted
                         -- Send header
-                        ldm_arb_data_l <= s_l2p_header;
+                        --ldm_arb_data_l <= s_l2p_header;
                         --ldm_arb_valid <= '1';
-                        
-                        if (l2p_64b_address = '1') then
-                            l2p_dma_current_state <= L2P_ADDR_H;
-                        else
-                            l2p_dma_current_state <= L2P_ADDR_L;
-                        end if;
-                    end if;
-
-                when L2P_ADDR_H =>
-                    ldm_arb_valid <= '1';
-                    if (l_wr_rdy_i = '1') then
-                        --ldm_arb_valid <= '1';
-                        ldm_arb_data_l <= l2p_address_h;
                         l2p_dma_current_state <= L2P_ADDR_L;
                     end if;
 
                 when L2P_ADDR_L =>
-                    ldm_arb_valid <= '1';
-                    if (l_wr_rdy_i = '1') then
+                    --ldm_arb_valid <= '1';
+                    --ldm_arb_data_l <= l2p_address_l;
+                    if (ldm_arb_tready_i = '1') then
                         --ldm_arb_valid <= '1';
-                        ldm_arb_data_l <= l2p_address_l;
                         l2p_dma_current_state <= L2P_DATA;
                     end if;
                     
 					
                 when L2P_DATA =>   
-                     ldm_arb_data_l <= x"DEADBEEF";
-                     ldm_arb_tlast_o <= '0';                
---                     if (data_fifo_empty = '0' and data_fifo_valid = '1' and l2p_data_cnt > 1) then
---						ldm_arb_data_l <= f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
---                        ldm_arb_valid <= '1';
---                        ldm_arb_dframe_o <= '1';
---                        data_fifo_valid <= '0';
---                     elsif (data_fifo_empty = '1' and data_fifo_valid = '1' and l2p_data_cnt > 1) then
---						ldm_arb_data_l <= f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
---                        ldm_arb_valid <= '0';
---                        ldm_arb_dframe_o <= '1';
---                        data_fifo_valid <= '0';
---                     elsif (data_fifo_valid = '1' and l2p_data_cnt <= 1) then
---						ldm_arb_data_l <= f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
---                        ldm_arb_valid <= '1';
---                        ldm_arb_dframe_o <= '0';
---                        l2p_dma_current_state <= L2P_LAST_DATA;
---                        data_fifo_valid <= '0';
---                     else
---                        ldm_arb_valid <= '0';
---                        ldm_arb_dframe_o <= '1';
---                     end if;
---                     
---                     if (data_fifo_empty = '0' and l2p_rdy_i = '1' and l2p_data_cnt > 1) then
---                        data_fifo_rd <= '1';
---                        data_fifo_valid <= '1';
---                     elsif (data_fifo_empty = '0' and l2p_rdy_i = '1' and l2p_data_cnt = 1 and data_fifo_valid = '0') then
---                        data_fifo_rd <= '1';
---                        data_fifo_valid <= '1';
---                     elsif (data_fifo_empty = '0' and l2p_rdy_i = '1' and l2p_data_cnt = 0) then
---                        data_fifo_rd <= '1';
---                        data_fifo_valid <= '1';                        
---                     else
---                        data_fifo_rd <= '0';
---                     end if;
+                     --ldm_arb_data_l <= x"DEADBEEF";
+                     --ldm_arb_tlast_o <= '0';                
 					 
-					 if (data_fifo_empty = '0' and l2p_rdy_i = '1' and l_wr_rdy_i = '1') then
+					 
+					 if (data_fifo_empty = '0' and l2p_rdy_i = '1' and ldm_arb_tready_i = '1') then
 						data_fifo_rd <= '1';
+						
 					 else
 						data_fifo_rd <= '0';
+
 					 end if;
 					 
 					if (data_fifo_rd = '1' and data_fifo_empty = '0' and l2p_data_cnt = 1) then
-						ldm_arb_data_l <= f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
-						ldm_arb_valid <= '1';
+						--ldm_arb_data_l <= f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
+						--ldm_arb_valid <= '1';
 						l2p_dma_current_state <= L2P_LAST_DATA;					
 						data_fifo_rd <= '0'; -- Don't read too much
 					elsif (data_fifo_rd = '1' and data_fifo_empty = '0' and l2p_data_cnt > 1) then
-						ldm_arb_data_l <= f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
-						ldm_arb_valid <= '1';
+						--ldm_arb_data_l <= f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
+						--ldm_arb_valid <= '1';
 					else
-						ldm_arb_data_l <= f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
-						ldm_arb_valid <= '0';
+						--ldm_arb_data_l <= f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
+						--ldm_arb_valid <= '0';
 					end if;
 					
-                    -- Error condition, aboirt transfer
+					--ldm_arb_data_l <= data_fifo_dout;
+					
+                    -- Error condition, abort transfer
                     if (tx_error_i = '1' or l2p_timeout_cnt > c_TIMEOUT or dma_ctrl_abort_i = '1') then
                         l2p_dma_current_state <= L2P_ERROR;
                     end if;
                      
                     -- Timeout counter
-                    if (data_fifo_empty = '1' or l2p_rdy_i = '1' or l_wr_rdy_i = '1') then
+                    if (data_fifo_empty = '1' or l2p_rdy_i = '1' or ldm_arb_tready_i = '1') then
                         l2p_timeout_cnt <= l2p_timeout_cnt + 1;
                     else
                         l2p_timeout_cnt <= (others => '0');
                     end if;
 
                 when L2P_LAST_DATA =>
-					ldm_arb_data_l <= x"DEADBEEF";
-                    ldm_arb_tlast_o <= '1';
-                    ldm_arb_valid <= '1';
+					--ldm_arb_data_l <= x"DEADBEEF";
+                    --ldm_arb_tlast_o <= '1';
+                    --ldm_arb_valid <= '1';
                     data_fifo_rd <= '0';
 					data_fifo_valid <= '0';
                     if (dma_ctrl_abort_i = '1' or tx_error_i = '1') then
@@ -336,9 +308,9 @@ begin
                     end if;
                 
                 when L2P_ERROR =>
-					ldm_arb_data_l <= x"DEADBEEF";
-                    ldm_arb_tlast_o <= '0';
-                    ldm_arb_valid <='1';
+					--ldm_arb_data_l <= x"DEADBEEF";
+                    --ldm_arb_tlast_o <= '0';
+                    --ldm_arb_valid <='1';
                     l2p_edb_o <= '1';
                     fifo_rst_t <= '1';
                     l2p_dma_current_state <= L2P_IDLE;
@@ -349,7 +321,39 @@ begin
             end case;
         end if;
     end process p_l2p_fsm;
+	
+	to_arbiter : process(l2p_dma_current_state,l2p_byte_swap,data_fifo_dout,s_l2p_header,l2p_address_h,l2p_address_l,data_fifo_rd)
+	begin
+		case l2p_dma_current_state is
+			when L2P_IDLE|L2P_SETUP =>
+				ldm_arb_data_l <= (others => '0');
+				ldm_arb_tlast_o <= '0';
+				ldm_arb_valid <= '0';
+			when L2P_HEADER => 
+				ldm_arb_data_l <= s_l2p_header;
+				ldm_arb_tlast_o <= '0';
+				ldm_arb_valid <= '1';
+			when L2P_ADDR_L =>
+				ldm_arb_data_l <= l2p_address_l;
+				ldm_arb_tlast_o <= '0';
+				ldm_arb_valid <= '1';
+			when L2P_DATA =>
+				--ldm_arb_data_l <= data_fifo_dout;
+				ldm_arb_data_l <= f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
+				ldm_arb_tlast_o <= '0';
+				ldm_arb_valid <= data_fifo_rd;
+			when L2P_LAST_DATA =>
+				ldm_arb_data_l <= x"DEADBEEF";
+				ldm_arb_tlast_o <= '1';
+				ldm_arb_valid <= '1';
+			when others =>
+				ldm_arb_data_l <= x"DEADBEEF";
+				ldm_arb_tlast_o <= '0';
+				ldm_arb_valid <= '0';
+		end case;
+	end process to_arbiter;
 
+	
 
     ---------------------
     --- Paket Generator

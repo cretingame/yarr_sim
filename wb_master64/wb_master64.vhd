@@ -289,7 +289,7 @@ begin
 	wb_adr_o <= address_s;
 	wb_dat_o <= wb_dat_o_s;
 	
-	wb_output_p:process (state_s)
+	wb_output_p:process (state_s,wb_we_s)
 	begin
 		case state_s is
 			when wb_write =>

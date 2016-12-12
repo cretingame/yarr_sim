@@ -37,13 +37,13 @@ architecture Behavioral of l2p_dma_bench is
 		signal ldm_arb_tvalid_s  : std_logic;
 		signal ldm_arb_tlast_s : std_logic;
 		signal ldm_arb_tdata_s   : std_logic_vector(31 downto 0);
+		signal ldm_arb_tready_tbs : std_logic;
 		signal ldm_arb_req_s    : std_logic;
 		signal arb_ldm_gnt_tbs    : std_logic;
 
 
 		-- L2P channel control
 		signal l2p_edb_s  : std_logic;                    -- Asserted when transfer is aborted
-		signal l_wr_rdy_tbs : std_logic; -- Asserted when GN4124 is ready to receive master write
 		signal l2p_rdy_tbs  : std_logic;                    -- De-asserted to pause transdert already in progress
 		signal tx_error_tbs : std_logic;                    -- Asserted when unexpected or malformed paket received
 
@@ -83,13 +83,13 @@ architecture Behavioral of l2p_dma_bench is
 			ldm_arb_tvalid_o  : out std_logic;
 			ldm_arb_tlast_o : out std_logic;
 			ldm_arb_tdata_o   : out std_logic_vector(31 downto 0);
+			ldm_arb_tready_i : in  std_logic;                    -- Asserted when GN4124 is ready to receive master write
 			ldm_arb_req_o    : out std_logic;
 			arb_ldm_gnt_i    : in  std_logic;
 
 
 			-- L2P channel control
 			l2p_edb_o  : out std_logic;                    -- Asserted when transfer is aborted
-			l_wr_rdy_i : in  std_logic;                    -- Asserted when GN4124 is ready to receive master write
 			l2p_rdy_i  : in  std_logic;                    -- De-asserted to pause transdert already in progress
 			tx_error_i : in  std_logic;                    -- Asserted when unexpected or malformed paket received
 
@@ -154,7 +154,7 @@ begin
 	stimuli_p: process
 	begin
 		step <= 1;
-		l_wr_rdy_tbs <= '1'; -- Asserted when GN4124 is ready to receive master write
+		ldm_arb_tready_tbs <= '1'; -- Asserted when GN4124 is ready to receive master write
 		l2p_rdy_tbs  <= '1';                    -- De-asserted to pause transdert already in progress
 		tx_error_tbs <= '0';                    -- Asserted when unexpected or malformed paket received
 		dma_ctrl_target_addr_tbs <= X"00000000";
@@ -172,7 +172,7 @@ begin
 		
 		wait for period;
 		step <= 2;
-		l_wr_rdy_tbs <= '1'; -- Asserted when GN4124 is ready to receive master write
+		ldm_arb_tready_tbs <= '1'; -- Asserted when GN4124 is ready to receive master write
 		l2p_rdy_tbs  <= '1';                    -- De-asserted to pause transdert already in progress
 		tx_error_tbs <= '0';                    -- Asserted when unexpected or malformed paket received
 		dma_ctrl_target_addr_tbs <= X"00000010";
@@ -188,7 +188,7 @@ begin
 	
 		wait for period;
 		step <= 3;
-		l_wr_rdy_tbs <= '1'; -- Asserted when GN4124 is ready to receive master write
+		ldm_arb_tready_tbs <= '1'; -- Asserted when GN4124 is ready to receive master write
 		l2p_rdy_tbs  <= '1';                    -- De-asserted to pause transdert already in progress
 		tx_error_tbs <= '0';                    -- Asserted when unexpected or malformed paket received
 		dma_ctrl_target_addr_tbs <= X"00000010";
@@ -216,11 +216,11 @@ begin
 		
 		wait for period;
 		step <= 7;
-		l_wr_rdy_tbs  <= '0'; 
+		ldm_arb_tready_tbs  <= '0'; 
 		
 		wait for period;
         step <= 8;
-		l_wr_rdy_tbs  <= '1';
+		ldm_arb_tready_tbs  <= '1';
 		
 		wait;
 		
@@ -253,7 +253,7 @@ begin
       arb_ldm_gnt_i    => arb_ldm_gnt_tbs,
 
       l2p_edb_o  => l2p_edb_s,
-      l_wr_rdy_i => l_wr_rdy_tbs,
+      ldm_arb_tready_i => ldm_arb_tready_tbs,
       l2p_rdy_i  => l2p_rdy_tbs,
       tx_error_i => tx_error_tbs,
 
