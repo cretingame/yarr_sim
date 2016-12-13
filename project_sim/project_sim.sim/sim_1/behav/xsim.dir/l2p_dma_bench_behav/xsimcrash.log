@@ -1,10 +1,9 @@
-Unable to capture context for thread 23288 in process 18788, can not generate back trace
+Exception at PC 0x00007FFE07EF7788
 Exception at PC 0x00007FFD9CBCBB93
 Printing stacktrace...
 
-Unable to capture context for thread 23288 in process 18788, can not generate back trace
-Exception at PC 0x00007FFE07EF7788
-Exception at PC 0x00007FFE07EF7788
+Unable to capture context for thread 11224 in process 16000, can not generate back trace
+Unable to capture context for thread 24196 in process 16000, can not generate back trace
 Exception at PC 0x00007FFE07EF7788
 Exception at PC 0x00007FFE07EF7788
 Exception at PC 0x00007FFE07EF7788

@@ -2,35 +2,35 @@
 # Vivado v2016.3 (64-bit)
 # SW Build 1682563 on Mon Oct 10 19:07:27 MDT 2016
 # IP Build 1681267 on Mon Oct 10 21:28:31 MDT 2016
-# Start of session at: Tue Dec 06 08:32:18 2016
-# Process ID: 6496
+# Start of session at: Mon Dec 12 15:33:46 2016
+# Process ID: 21808
 # Current directory: C:/cygwin64/home/saute/yarr_sim/project_sim/project_sim.runs/fifo_generator_0_synth_1
 # Command line: vivado.exe -log fifo_generator_0.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source fifo_generator_0.tcl
 # Log file: C:/cygwin64/home/saute/yarr_sim/project_sim/project_sim.runs/fifo_generator_0_synth_1/fifo_generator_0.vds
 # Journal file: C:/cygwin64/home/saute/yarr_sim/project_sim/project_sim.runs/fifo_generator_0_synth_1\vivado.jou
 #-----------------------------------------------------------
 source fifo_generator_0.tcl -notrace
-Starting RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 296.496 ; gain = 86.426
+Starting RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:10 . Memory (MB): peak = 295.750 ; gain = 85.648
 INFO: [Synth 8-638] synthesizing module 'fifo_generator_0' [c:/cygwin64/home/saute/yarr_sim/project_sim/project_sim.srcs/sources_1/ip/fifo_generator_0/synth/fifo_generator_0.vhd:77]
 INFO: [Synth 8-256] done synthesizing module 'fifo_generator_0' (29#1) [c:/cygwin64/home/saute/yarr_sim/project_sim/project_sim.srcs/sources_1/ip/fifo_generator_0/synth/fifo_generator_0.vhd:77]
-Finished RTL Elaboration : Time (s): cpu = 00:00:52 ; elapsed = 00:00:54 . Memory (MB): peak = 507.805 ; gain = 297.734
-Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:52 ; elapsed = 00:00:54 . Memory (MB): peak = 507.805 ; gain = 297.734
+Finished RTL Elaboration : Time (s): cpu = 00:00:52 ; elapsed = 00:00:56 . Memory (MB): peak = 508.098 ; gain = 297.996
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:52 ; elapsed = 00:00:56 . Memory (MB): peak = 508.098 ; gain = 297.996
 INFO: [Device 21-403] Loading part xc7k160tfbg676-2
-Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.021 . Memory (MB): peak = 611.590 ; gain = 0.000
-Finished Constraint Validation : Time (s): cpu = 00:01:02 ; elapsed = 00:01:05 . Memory (MB): peak = 611.590 ; gain = 401.520
-Finished Loading Part and Timing Information : Time (s): cpu = 00:01:02 ; elapsed = 00:01:05 . Memory (MB): peak = 611.590 ; gain = 401.520
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:01:02 ; elapsed = 00:01:05 . Memory (MB): peak = 611.590 ; gain = 401.520
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:01:03 ; elapsed = 00:01:06 . Memory (MB): peak = 611.590 ; gain = 401.520
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:01:04 ; elapsed = 00:01:07 . Memory (MB): peak = 611.590 ; gain = 401.520
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:14 ; elapsed = 00:01:17 . Memory (MB): peak = 611.590 ; gain = 401.520
-Finished Timing Optimization : Time (s): cpu = 00:01:14 ; elapsed = 00:01:17 . Memory (MB): peak = 611.590 ; gain = 401.520
-Finished Technology Mapping : Time (s): cpu = 00:01:14 ; elapsed = 00:01:17 . Memory (MB): peak = 631.242 ; gain = 421.172
-Finished IO Insertion : Time (s): cpu = 00:01:15 ; elapsed = 00:01:18 . Memory (MB): peak = 631.242 ; gain = 421.172
-Finished Renaming Generated Instances : Time (s): cpu = 00:01:15 ; elapsed = 00:01:18 . Memory (MB): peak = 631.242 ; gain = 421.172
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:15 ; elapsed = 00:01:18 . Memory (MB): peak = 631.242 ; gain = 421.172
-Finished Renaming Generated Ports : Time (s): cpu = 00:01:15 ; elapsed = 00:01:18 . Memory (MB): peak = 631.242 ; gain = 421.172
-Finished Handling Custom Attributes : Time (s): cpu = 00:01:15 ; elapsed = 00:01:18 . Memory (MB): peak = 631.242 ; gain = 421.172
-Finished Renaming Generated Nets : Time (s): cpu = 00:01:15 ; elapsed = 00:01:18 . Memory (MB): peak = 631.242 ; gain = 421.172
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.177 . Memory (MB): peak = 606.473 ; gain = 0.000
+Finished Constraint Validation : Time (s): cpu = 00:01:03 ; elapsed = 00:01:08 . Memory (MB): peak = 606.473 ; gain = 396.371
+Finished Loading Part and Timing Information : Time (s): cpu = 00:01:03 ; elapsed = 00:01:08 . Memory (MB): peak = 606.473 ; gain = 396.371
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:01:03 ; elapsed = 00:01:08 . Memory (MB): peak = 606.473 ; gain = 396.371
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:01:03 ; elapsed = 00:01:09 . Memory (MB): peak = 606.473 ; gain = 396.371
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:01:05 ; elapsed = 00:01:11 . Memory (MB): peak = 606.473 ; gain = 396.371
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:15 ; elapsed = 00:01:21 . Memory (MB): peak = 610.297 ; gain = 400.195
+Finished Timing Optimization : Time (s): cpu = 00:01:15 ; elapsed = 00:01:21 . Memory (MB): peak = 611.195 ; gain = 401.094
+Finished Technology Mapping : Time (s): cpu = 00:01:15 ; elapsed = 00:01:21 . Memory (MB): peak = 631.406 ; gain = 421.305
+Finished IO Insertion : Time (s): cpu = 00:01:15 ; elapsed = 00:01:22 . Memory (MB): peak = 631.406 ; gain = 421.305
+Finished Renaming Generated Instances : Time (s): cpu = 00:01:15 ; elapsed = 00:01:22 . Memory (MB): peak = 631.406 ; gain = 421.305
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:16 ; elapsed = 00:01:22 . Memory (MB): peak = 631.406 ; gain = 421.305
+Finished Renaming Generated Ports : Time (s): cpu = 00:01:16 ; elapsed = 00:01:22 . Memory (MB): peak = 631.406 ; gain = 421.305
+Finished Handling Custom Attributes : Time (s): cpu = 00:01:16 ; elapsed = 00:01:22 . Memory (MB): peak = 631.406 ; gain = 421.305
+Finished Renaming Generated Nets : Time (s): cpu = 00:01:16 ; elapsed = 00:01:22 . Memory (MB): peak = 631.406 ; gain = 421.305
 
 Report Cell Usage: 
 +------+---------+------+
@@ -44,10 +44,10 @@ Report Cell Usage:
 |6     |LUT5     |    22|
 |7     |LUT6     |    15|
 |8     |MUXCY    |    20|
-|9     |RAMB36E1 |     1|
+|9     |RAMB36E1 |     2|
 |10    |FDCE     |   151|
 |11    |FDPE     |    24|
-|12    |FDRE     |    36|
+|12    |FDRE     |    68|
 +------+---------+------+
-Finished Writing Synthesis Report : Time (s): cpu = 00:01:15 ; elapsed = 00:01:18 . Memory (MB): peak = 631.242 ; gain = 421.172
-synth_design: Time (s): cpu = 00:01:16 ; elapsed = 00:01:19 . Memory (MB): peak = 1062.453 ; gain = 847.852
+Finished Writing Synthesis Report : Time (s): cpu = 00:01:16 ; elapsed = 00:01:22 . Memory (MB): peak = 631.406 ; gain = 421.305
+synth_design: Time (s): cpu = 00:01:19 ; elapsed = 00:01:24 . Memory (MB): peak = 1064.188 ; gain = 848.785

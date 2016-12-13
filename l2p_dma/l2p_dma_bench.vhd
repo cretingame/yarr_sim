@@ -10,7 +10,7 @@ entity l2p_dma_bench is
 		constant axis_data_width_c : integer := 64;
 
 		constant wb_address_width_c : integer := 12;
-		constant wb_data_width_c : integer := 32
+		constant wb_data_width_c : integer := 64
 	);
 	--port ();
 end l2p_dma_bench;
@@ -23,10 +23,10 @@ architecture Behavioral of l2p_dma_bench is
 		signal step : integer range 1 to 10;
 		
 		-- From the DMA controller
-		signal dma_ctrl_target_addr_tbs : std_logic_vector(31 downto 0);
-		signal dma_ctrl_host_addr_h_tbs : std_logic_vector(31 downto 0);
-		signal dma_ctrl_host_addr_l_tbs : std_logic_vector(31 downto 0);
-		signal dma_ctrl_len_tbs         : std_logic_vector(31 downto 0);
+		signal dma_ctrl_target_addr_tbs : std_logic_vector(wb_data_width_c-1 downto 0);
+		signal dma_ctrl_host_addr_h_tbs : std_logic_vector(wb_data_width_c-1 downto 0);
+		signal dma_ctrl_host_addr_l_tbs : std_logic_vector(wb_data_width_c-1 downto 0);
+		signal dma_ctrl_len_tbs         : std_logic_vector(wb_data_width_c-1 downto 0);
 		signal dma_ctrl_start_l2p_tbs   : std_logic;
 		signal dma_ctrl_done_s        : std_logic;
 		signal dma_ctrl_error_s       : std_logic;
@@ -36,7 +36,7 @@ architecture Behavioral of l2p_dma_bench is
 		-- To the arbiter (L2P data)
 		signal ldm_arb_tvalid_s  : std_logic;
 		signal ldm_arb_tlast_s : std_logic;
-		signal ldm_arb_tdata_s   : std_logic_vector(31 downto 0);
+		signal ldm_arb_tdata_s   : std_logic_vector(axis_data_width_c-1 downto 0);
 		signal ldm_arb_tready_tbs : std_logic;
 		signal ldm_arb_req_s    : std_logic;
 		signal arb_ldm_gnt_tbs    : std_logic;
@@ -48,9 +48,9 @@ architecture Behavioral of l2p_dma_bench is
 		signal tx_error_tbs : std_logic;                    -- Asserted when unexpected or malformed paket received
 
 		-- DMA Interface (Pipelined Wishbone)
-		signal l2p_dma_adr_s   : std_logic_vector(31 downto 0);
-		signal l2p_dma_dat_s2m_s   : std_logic_vector(31 downto 0);
-		signal l2p_dma_dat_m2s_s   : std_logic_vector(31 downto 0);
+		signal l2p_dma_adr_s   : std_logic_vector(wb_data_width_c-1 downto 0);
+		signal l2p_dma_dat_s2m_s   : std_logic_vector(wb_data_width_c-1 downto 0);
+		signal l2p_dma_dat_m2s_s   : std_logic_vector(wb_data_width_c-1 downto 0);
 		signal l2p_dma_sel_s   : std_logic_vector(3 downto 0);
 		signal l2p_dma_cyc_s   : std_logic;
 		signal l2p_dma_stb_s   : std_logic;
@@ -60,52 +60,56 @@ architecture Behavioral of l2p_dma_bench is
 		signal p2l_dma_cyc_tbs   : std_logic; -- P2L dma WB cycle for bus arbitration
 		
 		component l2p_dma_master is
-		generic (
-			g_BYTE_SWAP : boolean := false
-		);
-		port (
-			-- GN4124 core clk and reset
-			clk_i   : in std_logic;
-			rst_n_i : in std_logic;
-
-			-- From the DMA controller
-			dma_ctrl_target_addr_i : in  std_logic_vector(31 downto 0);
-			dma_ctrl_host_addr_h_i : in  std_logic_vector(31 downto 0);
-			dma_ctrl_host_addr_l_i : in  std_logic_vector(31 downto 0);
-			dma_ctrl_len_i         : in  std_logic_vector(31 downto 0);
-			dma_ctrl_start_l2p_i   : in  std_logic;
-			dma_ctrl_done_o        : out std_logic;
-			dma_ctrl_error_o       : out std_logic;
-			dma_ctrl_byte_swap_i   : in  std_logic_vector(1 downto 0);
-			dma_ctrl_abort_i       : in  std_logic;
-
-			-- To the arbiter (L2P data)
-			ldm_arb_tvalid_o  : out std_logic;
-			ldm_arb_tlast_o : out std_logic;
-			ldm_arb_tdata_o   : out std_logic_vector(31 downto 0);
-			ldm_arb_tready_i : in  std_logic;                    -- Asserted when GN4124 is ready to receive master write
-			ldm_arb_req_o    : out std_logic;
-			arb_ldm_gnt_i    : in  std_logic;
-
-
-			-- L2P channel control
-			l2p_edb_o  : out std_logic;                    -- Asserted when transfer is aborted
-			l2p_rdy_i  : in  std_logic;                    -- De-asserted to pause transdert already in progress
-			tx_error_i : in  std_logic;                    -- Asserted when unexpected or malformed paket received
-
-			-- DMA Interface (Pipelined Wishbone)
-			l2p_dma_clk_i   : in  std_logic;
-			l2p_dma_adr_o   : out std_logic_vector(31 downto 0);
-			l2p_dma_dat_i   : in  std_logic_vector(31 downto 0);
-			l2p_dma_dat_o   : out std_logic_vector(31 downto 0);
-			l2p_dma_sel_o   : out std_logic_vector(3 downto 0);
-			l2p_dma_cyc_o   : out std_logic;
-			l2p_dma_stb_o   : out std_logic;
-			l2p_dma_we_o    : out std_logic;
-			l2p_dma_ack_i   : in  std_logic;
-			l2p_dma_stall_i : in  std_logic;
-			p2l_dma_cyc_i   : in  std_logic -- P2L dma WB cycle for bus arbitration
-		);
+        generic (
+            g_BYTE_SWAP : boolean := false;
+            axis_data_width_c : integer := 64;
+            wb_address_width_c : integer := 64;
+            wb_data_width_c : integer := 64
+        );
+        port (
+            -- GN4124 core clk and reset
+            clk_i   : in std_logic;
+            rst_n_i : in std_logic;
+    
+            -- From the DMA controller
+            dma_ctrl_target_addr_i : in  std_logic_vector(wb_data_width_c-1 downto 0);
+            dma_ctrl_host_addr_h_i : in  std_logic_vector(wb_data_width_c-1 downto 0);
+            dma_ctrl_host_addr_l_i : in  std_logic_vector(wb_data_width_c-1 downto 0);
+            dma_ctrl_len_i         : in  std_logic_vector(wb_data_width_c-1 downto 0);
+            dma_ctrl_start_l2p_i   : in  std_logic;
+            dma_ctrl_done_o        : out std_logic;
+            dma_ctrl_error_o       : out std_logic;
+            dma_ctrl_byte_swap_i   : in  std_logic_vector(1 downto 0);
+            dma_ctrl_abort_i       : in  std_logic;
+    
+            -- To the arbiter (L2P data)
+            ldm_arb_tvalid_o  : out std_logic;
+            --ldm_arb_dframe_o : out std_logic;
+            ldm_arb_tlast_o   : out std_logic;
+            ldm_arb_tdata_o   : out std_logic_vector(axis_data_width_c-1 downto 0);
+            ldm_arb_tready_i : in  std_logic;
+            ldm_arb_req_o    : out std_logic;
+            arb_ldm_gnt_i    : in  std_logic;
+    
+    
+            -- L2P channel control
+            l2p_edb_o  : out std_logic;                    -- Asserted when transfer is aborted
+            l2p_rdy_i  : in  std_logic;                    -- De-asserted to pause transdert already in progress
+            tx_error_i : in  std_logic;                    -- Asserted when unexpected or malformed paket received
+    
+            -- DMA Interface (Pipelined Wishbone)
+            l2p_dma_clk_i   : in  std_logic;
+            l2p_dma_adr_o   : out std_logic_vector(wb_data_width_c-1 downto 0);
+            l2p_dma_dat_i   : in  std_logic_vector(wb_data_width_c-1 downto 0);
+            l2p_dma_dat_o   : out std_logic_vector(wb_data_width_c-1 downto 0);
+            l2p_dma_sel_o   : out std_logic_vector(3 downto 0);
+            l2p_dma_cyc_o   : out std_logic;
+            l2p_dma_stb_o   : out std_logic;
+            l2p_dma_we_o    : out std_logic;
+            l2p_dma_ack_i   : in  std_logic;
+            l2p_dma_stall_i : in  std_logic;
+            p2l_dma_cyc_i   : in  std_logic -- P2L dma WB cycle for bus arbitration
+        );
 	end component;
 		
 	component bram_wbs is
@@ -157,10 +161,10 @@ begin
 		ldm_arb_tready_tbs <= '1'; -- Asserted when GN4124 is ready to receive master write
 		l2p_rdy_tbs  <= '1';                    -- De-asserted to pause transdert already in progress
 		tx_error_tbs <= '0';                    -- Asserted when unexpected or malformed paket received
-		dma_ctrl_target_addr_tbs <= X"00000000";
-		dma_ctrl_host_addr_h_tbs <= X"00000000";
-		dma_ctrl_host_addr_l_tbs <= X"00000000";
-		dma_ctrl_len_tbs         <= X"00000000";
+		dma_ctrl_target_addr_tbs <= X"00000000" & X"00000000";
+		dma_ctrl_host_addr_h_tbs <= X"00000000" & X"00000000";
+		dma_ctrl_host_addr_l_tbs <= X"00000000" & X"00000000";
+		dma_ctrl_len_tbs         <= X"00000000" & X"00000000";
 		dma_ctrl_start_l2p_tbs   <= '0';
 		dma_ctrl_byte_swap_tbs   <= "00";
 		dma_ctrl_abort_tbs       <= '0';
@@ -175,10 +179,10 @@ begin
 		ldm_arb_tready_tbs <= '1'; -- Asserted when GN4124 is ready to receive master write
 		l2p_rdy_tbs  <= '1';                    -- De-asserted to pause transdert already in progress
 		tx_error_tbs <= '0';                    -- Asserted when unexpected or malformed paket received
-		dma_ctrl_target_addr_tbs <= X"00000010";
-		dma_ctrl_host_addr_h_tbs <= X"00000000";
-		dma_ctrl_host_addr_l_tbs <= X"0000005A";
-		dma_ctrl_len_tbs         <= X"00000010";
+		dma_ctrl_target_addr_tbs <= X"00000000" & X"00000010";
+		dma_ctrl_host_addr_h_tbs <= X"00000000" & X"00000000";
+		dma_ctrl_host_addr_l_tbs <= X"00000000" & X"0000005A";
+		dma_ctrl_len_tbs         <= X"00000000" & X"00000020";
 		dma_ctrl_start_l2p_tbs   <= '1';
 		dma_ctrl_byte_swap_tbs   <= "00";
 		dma_ctrl_abort_tbs       <= '0';
@@ -191,10 +195,10 @@ begin
 		ldm_arb_tready_tbs <= '1'; -- Asserted when GN4124 is ready to receive master write
 		l2p_rdy_tbs  <= '1';                    -- De-asserted to pause transdert already in progress
 		tx_error_tbs <= '0';                    -- Asserted when unexpected or malformed paket received
-		dma_ctrl_target_addr_tbs <= X"00000010";
-		dma_ctrl_host_addr_h_tbs <= X"00000000";
-		dma_ctrl_host_addr_l_tbs <= X"0000005A";
-		dma_ctrl_len_tbs         <= X"00000010";
+		dma_ctrl_target_addr_tbs <= X"00000000" & X"00000010";
+		dma_ctrl_host_addr_h_tbs <= X"00000000" & X"00000000";
+		dma_ctrl_host_addr_l_tbs <= X"00000000" & X"0000005A";
+		dma_ctrl_len_tbs         <= X"00000000" & X"00000010";
 		dma_ctrl_start_l2p_tbs   <= '0';
 		dma_ctrl_byte_swap_tbs   <= "00";
 		dma_ctrl_abort_tbs       <= '0';

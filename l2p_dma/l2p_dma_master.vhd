@@ -17,7 +17,10 @@ use work.common_pkg.all;
 
 entity l2p_dma_master is
     generic (
-        g_BYTE_SWAP : boolean := false
+        g_BYTE_SWAP : boolean := false;
+		axis_data_width_c : integer := 64;
+		wb_address_width_c : integer := 64;
+		wb_data_width_c : integer := 64
     );
     port (
         -- GN4124 core clk and reset
@@ -25,10 +28,10 @@ entity l2p_dma_master is
         rst_n_i : in std_logic;
 
         -- From the DMA controller
-        dma_ctrl_target_addr_i : in  std_logic_vector(31 downto 0);
-        dma_ctrl_host_addr_h_i : in  std_logic_vector(31 downto 0);
-        dma_ctrl_host_addr_l_i : in  std_logic_vector(31 downto 0);
-        dma_ctrl_len_i         : in  std_logic_vector(31 downto 0);
+        dma_ctrl_target_addr_i : in  std_logic_vector(wb_data_width_c-1 downto 0);
+        dma_ctrl_host_addr_h_i : in  std_logic_vector(wb_data_width_c-1 downto 0);
+        dma_ctrl_host_addr_l_i : in  std_logic_vector(wb_data_width_c-1 downto 0);
+        dma_ctrl_len_i         : in  std_logic_vector(wb_data_width_c-1 downto 0);
         dma_ctrl_start_l2p_i   : in  std_logic;
         dma_ctrl_done_o        : out std_logic;
         dma_ctrl_error_o       : out std_logic;
@@ -39,8 +42,8 @@ entity l2p_dma_master is
         ldm_arb_tvalid_o  : out std_logic;
         --ldm_arb_dframe_o : out std_logic;
         ldm_arb_tlast_o   : out std_logic;
-        ldm_arb_tdata_o   : out std_logic_vector(31 downto 0);
-        ldm_arb_tready_i : in  std_logic;                    -- Asserted when GN4124 is ready to receive master write
+        ldm_arb_tdata_o   : out std_logic_vector(axis_data_width_c-1 downto 0);
+        ldm_arb_tready_i : in  std_logic;
         ldm_arb_req_o    : out std_logic;
         arb_ldm_gnt_i    : in  std_logic;
 
@@ -52,9 +55,9 @@ entity l2p_dma_master is
 
         -- DMA Interface (Pipelined Wishbone)
         l2p_dma_clk_i   : in  std_logic;
-        l2p_dma_adr_o   : out std_logic_vector(31 downto 0);
-        l2p_dma_dat_i   : in  std_logic_vector(31 downto 0);
-        l2p_dma_dat_o   : out std_logic_vector(31 downto 0);
+        l2p_dma_adr_o   : out std_logic_vector(wb_address_width_c-1 downto 0);
+        l2p_dma_dat_i   : in  std_logic_vector(wb_data_width_c-1 downto 0);
+        l2p_dma_dat_o   : out std_logic_vector(wb_data_width_c-1 downto 0);
         l2p_dma_sel_o   : out std_logic_vector(3 downto 0);
         l2p_dma_cyc_o   : out std_logic;
         l2p_dma_stb_o   : out std_logic;
@@ -74,12 +77,12 @@ architecture behavioral of l2p_dma_master is
             rst : in std_logic;
             wr_clk : in std_logic;
             rd_clk : in std_logic;
-            din : in std_logic_vector(31 downto 0);
+            din : in std_logic_vector(63 downto 0);
             wr_en : in std_logic;
             rd_en : in std_logic;
             prog_full_thresh_assert : in std_logic_vector(9 downto 0);
             prog_full_thresh_negate : in std_logic_vector(9 downto 0);
-            dout : out std_logic_vector(31 downto 0);
+            dout : out std_logic_vector(63 downto 0);
             full : out std_logic;
             empty : out std_logic;
             valid : out std_logic;
@@ -110,16 +113,16 @@ architecture behavioral of l2p_dma_master is
     signal data_fifo_empty : std_logic;
 	signal data_fifo_empty_t : std_logic;
     signal data_fifo_full  : std_logic;
-    signal data_fifo_dout  : std_logic_vector(31 downto 0);
-    signal data_fifo_din   : std_logic_vector(31 downto 0);
+    signal data_fifo_dout  : std_logic_vector(axis_data_width_c-1 downto 0);
+    signal data_fifo_din   : std_logic_vector(axis_data_width_c-1 downto 0);
     
     -- Addr FIFO
     signal addr_fifo_rd    : std_logic;
     signal addr_fifo_wr    : std_logic;
     signal addr_fifo_empty : std_logic;
     signal addr_fifo_full  : std_logic;
-    signal addr_fifo_dout  : std_logic_vector(31 downto 0);
-    signal addr_fifo_din   : std_logic_vector(31 downto 0);
+    signal addr_fifo_dout  : std_logic_vector(wb_address_width_c-1 downto 0);
+    signal addr_fifo_din   : std_logic_vector(axis_data_width_c-1 downto 0);
 
     -- L2P FSM
     type l2p_dma_state_type is (L2P_IDLE, L2P_SETUP, L2P_HEADER, L2P_ADDR_L, 
@@ -128,10 +131,10 @@ architecture behavioral of l2p_dma_master is
     signal l2p_dma_current_state : l2p_dma_state_type;
 
     -- L2P packets
-    signal s_l2p_header    : std_logic_vector(31 downto 0);
+    signal s_l2p_header    : std_logic_vector(axis_data_width_c-1 downto 0);
     signal l2p_len_cnt     : unsigned(12 downto 0);
-    signal l2p_address_h   : std_logic_vector(31 downto 0);
-    signal l2p_address_l   : std_logic_vector(31 downto 0);
+    signal l2p_address_h   : std_logic_vector(axis_data_width_c-1 downto 0); -- TODO remove
+    signal l2p_address_l   : std_logic_vector(axis_data_width_c-1 downto 0);
     signal l2p_data_cnt    : unsigned(12 downto 0);
     signal l2p_64b_address : std_logic;
     signal l2p_len_header  : unsigned(12 downto 0);
@@ -139,14 +142,14 @@ architecture behavioral of l2p_dma_master is
     signal l2p_last_packet : std_logic;
     signal l2p_lbe_header  : std_logic_vector(3 downto 0);
     
-    signal ldm_arb_data_l  : std_logic_vector(31 downto 0); 
+    signal ldm_arb_data_l  : std_logic_vector(axis_data_width_c-1 downto 0); 
     signal ldm_arb_valid   : std_logic;
     
     signal data_fifo_valid : std_logic;
     signal addr_fifo_valid : std_logic;
 
     -- Counter
-    signal target_addr_cnt : std_logic_vector(31 downto 0);
+    signal target_addr_cnt : std_logic_vector(axis_data_width_c-1 downto 0);
     signal dma_length_cnt  : unsigned(12 downto 0);
     signal l2p_timeout_cnt : unsigned(12 downto 0);
     signal wb_timeout_cnt  : unsigned(12 downto 0);
@@ -339,15 +342,15 @@ begin
 				ldm_arb_valid <= '1';
 			when L2P_DATA =>
 				--ldm_arb_data_l <= data_fifo_dout;
-				ldm_arb_data_l <= f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
+				ldm_arb_data_l <= data_fifo_dout;--f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
 				ldm_arb_tlast_o <= '0';
 				ldm_arb_valid <= data_fifo_rd;
 			when L2P_LAST_DATA =>
-				ldm_arb_data_l <= x"DEADBEEF";
+				ldm_arb_data_l <= x"DEADBEEF" & x"DEADBEEF";
 				ldm_arb_tlast_o <= '1';
 				ldm_arb_valid <= '1';
 			when others =>
-				ldm_arb_data_l <= x"DEADBEEF";
+				ldm_arb_data_l <= x"DEADBEEF" & x"DEADBEEF";
 				ldm_arb_tlast_o <= '0';
 				ldm_arb_valid <= '0';
 		end case;
@@ -361,7 +364,7 @@ begin
     -- Last Byte Enable must be "0000" when length = 1
     l2p_lbe_header <= "0000" when l2p_len_header = 1 else "1111";
     -- 64bit address flag
-    l2p_64b_address <= '0' when l2p_address_h = "00000000" else '1';
+    --l2p_64b_address <= '0' when l2p_address_h = "00000000" else '1';
 
     -- Packet header
     s_l2p_header(31 downto 29) <= "000";                   -->  Traffic Class
@@ -451,10 +454,10 @@ begin
             elsif (dma_ctrl_start_l2p_i = '1') then
                 if (l2p_dma_current_state = L2P_IDLE) then
                     -- dma target adrr is byte address, need 32bit address
-                    target_addr_cnt(31 downto 30) <= "00";
-                    target_addr_cnt(29 downto 0) <= dma_ctrl_target_addr_i(31 downto 2);
+                    target_addr_cnt(63 downto 60) <= "0000";
+                    target_addr_cnt(59 downto 0) <= dma_ctrl_target_addr_i(63 downto 4);
                     -- dma target length is in byte, need 32bit
-                    dma_length_cnt <= unsigned(dma_ctrl_len_i(14 downto 2));
+                    dma_length_cnt <= unsigned(dma_ctrl_len_i(16 downto 4));
                     dma_ctrl_error_o <= '0';
                 else
                     target_addr_cnt <= (others => '0');
@@ -550,14 +553,14 @@ begin
 	data_rec_proc : process(l2p_dma_clk_i, rst_n_i)
 	begin
 		if (rst_n_i = '0') then
-			data_fifo_din <= x"DEADBABE";
+			data_fifo_din <= x"DEADBABE" & x"DEADBABE";
 			data_fifo_wr <= '0';
 		elsif rising_edge(l2p_dma_clk_i) then
 			if (l2p_dma_cyc_t = '1') then
 				data_fifo_din <= l2p_dma_dat_i;
 				data_fifo_wr <= l2p_dma_ack_i;
 			else
-				data_fifo_din <= x"BABEDEAD";
+				data_fifo_din <= x"BABEDEAD" & x"BABEDEAD";
 				data_fifo_wr <= '0';
 			end if;
 		end if;

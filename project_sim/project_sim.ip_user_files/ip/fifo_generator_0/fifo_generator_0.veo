@@ -58,12 +58,12 @@ fifo_generator_0 your_instance_name (
   .rst(rst),                                          // input wire rst
   .wr_clk(wr_clk),                                    // input wire wr_clk
   .rd_clk(rd_clk),                                    // input wire rd_clk
-  .din(din),                                          // input wire [31 : 0] din
+  .din(din),                                          // input wire [63 : 0] din
   .wr_en(wr_en),                                      // input wire wr_en
   .rd_en(rd_en),                                      // input wire rd_en
   .prog_full_thresh_assert(prog_full_thresh_assert),  // input wire [9 : 0] prog_full_thresh_assert
   .prog_full_thresh_negate(prog_full_thresh_negate),  // input wire [9 : 0] prog_full_thresh_negate
-  .dout(dout),                                        // output wire [31 : 0] dout
+  .dout(dout),                                        // output wire [63 : 0] dout
   .full(full),                                        // output wire full
   .empty(empty),                                      // output wire empty
   .valid(valid),                                      // output wire valid
