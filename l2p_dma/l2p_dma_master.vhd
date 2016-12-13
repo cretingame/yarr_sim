@@ -267,12 +267,12 @@ begin
 
 					 end if;
 					 
-					if (data_fifo_rd = '1' and data_fifo_empty = '0' and l2p_data_cnt = 1) then
+					if (data_fifo_rd = '1' and data_fifo_empty = '0' and l2p_data_cnt = 2) then
 						--ldm_arb_data_l <= f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
 						--ldm_arb_valid <= '1';
 						l2p_dma_current_state <= L2P_LAST_DATA;					
-						data_fifo_rd <= '0'; -- Don't read too much
-					elsif (data_fifo_rd = '1' and data_fifo_empty = '0' and l2p_data_cnt > 1) then
+						--data_fifo_rd <= '0'; -- Don't read too much
+					elsif (data_fifo_rd = '1' and data_fifo_empty = '0' and l2p_data_cnt > 2) then
 						--ldm_arb_data_l <= f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
 						--ldm_arb_valid <= '1';
 					else
@@ -346,7 +346,7 @@ begin
 				ldm_arb_tlast_o <= '0';
 				ldm_arb_valid <= data_fifo_rd;
 			when L2P_LAST_DATA =>
-				ldm_arb_data_l <= x"DEADBEEF" & x"DEADBEEF";
+				ldm_arb_data_l <= data_fifo_dout;
 				ldm_arb_tlast_o <= '1';
 				ldm_arb_valid <= '1';
 			when others =>
@@ -362,24 +362,35 @@ begin
     --- Paket Generator
     ---------------------
     -- Last Byte Enable must be "0000" when length = 1
-    l2p_lbe_header <= "0000" when l2p_len_header = 1 else "1111";
+    --l2p_lbe_header <= "0000" when l2p_len_header = 1 else "1111";
     -- 64bit address flag
     --l2p_64b_address <= '0' when l2p_address_h = "00000000" else '1';
 
     -- Packet header
-    s_l2p_header(31 downto 29) <= "000";                   -->  Traffic Class
-    s_l2p_header(28)           <= '0';                     -->  Snoop
-    s_l2p_header(27 downto 25) <= "001"; -->  Header type,
+    --s_l2p_header(31 downto 29) <= "000";                   -->  Traffic Class
+    --s_l2p_header(28)           <= '0';                     -->  Snoop
+    --s_l2p_header(27 downto 25) <= "001"; -->  Header type,
                                                            --   memory write 32-bit or
                                                            --   memory write 64-bit
-    s_l2p_header(24)           <= l2p_64b_address;                                                      
-    s_l2p_header(23 downto 20) <= l2p_lbe_header;          -->  LBE (Last Byte Enable)
-    s_l2p_header(19 downto 16) <= "1111";                  -->  FBE (First Byte Enable)
-    s_l2p_header(15 downto 13) <= "000";                   -->  Reserved
-    s_l2p_header(12)           <= '0';                     -->  VC (Virtual Channel)
-    s_l2p_header(11 downto 10) <= "00";                    -->  Reserved
-    s_l2p_header(9  downto  0) <= STD_LOGIC_VECTOR(l2p_len_header(9 downto 0));  -->  Length (in 32-bit words)
+    --s_l2p_header(24)           <= l2p_64b_address;                                                      
+    --s_l2p_header(23 downto 20) <= l2p_lbe_header;          -->  LBE (Last Byte Enable)
+    --s_l2p_header(19 downto 16) <= "1111";                  -->  FBE (First Byte Enable)
+    --s_l2p_header(15 downto 13) <= "000";                   -->  Reserved
+    --s_l2p_header(12)           <= '0';                     -->  VC (Virtual Channel)
+    --s_l2p_header(11 downto 10) <= "00";                    -->  Reserved
+    --s_l2p_header(9  downto  0) <= STD_LOGIC_VECTOR(l2p_len_header(9 downto 0));  -->  Length (in 32-bit words)
                                                                                  --   0x000 => 1024 words (4096 bytes)
+    
+    s_l2p_header(63 downto 48) <= X"0000"; --H1 Requester ID
+    s_l2p_header(47 downto 40) <= X"00"; --H1 Tag 
+    s_l2p_header(39 downto 32) <= X"0f" when l2p_len_header = 1 else X"ff"; -- LBE (Last Byte Enable) & FBE (First Byte Enable)
+    s_l2p_header(31 downto 29) <= "011"; -- H0 FMT
+    s_l2p_header(28 downto 24) <= "00000"; -- H0 type Memory request
+    s_l2p_header(23 downto 16) <= X"00";   -- some unused bits
+    s_l2p_header(15 downto 10) <= "000000"; --H0 unused bits 
+    s_l2p_header(9 downto 0) <= STD_LOGIC_VECTOR(l2p_len_header(9 downto 0));  -->  Length (in 32-bit words)
+                                                                                     --   0x000 => 1024 words (4096 bytes)
+    
     p_pkt_gen : process (clk_i, rst_n_i)
     begin
         if (rst_n_i = '0') then
@@ -392,7 +403,7 @@ begin
             l2p_last_packet <= '0';
         elsif rising_edge(clk_i) then
             if (l2p_dma_current_state = L2P_IDLE) then
-                l2p_len_cnt <= unsigned(dma_ctrl_len_i(14 downto 2));
+                l2p_len_cnt <= unsigned(dma_ctrl_len_i(16 downto 4));
                 l2p_address_h <= dma_ctrl_host_addr_h_i;
                 l2p_address_l <= dma_ctrl_host_addr_l_i;
                 l2p_byte_swap <= dma_ctrl_byte_swap_i;
@@ -408,7 +419,7 @@ begin
                     l2p_last_packet <= '1';
                 else
                     l2p_data_cnt <= l2p_len_cnt;
-                    l2p_len_header <= l2p_len_cnt;
+                    l2p_len_header <= l2p_len_cnt(11 downto 0) & "0";
                     l2p_last_packet <= '1';
                 end if;
             --elsif (l2p_dma_current_state = L2P_HEADER) then
