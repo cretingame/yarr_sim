@@ -35,7 +35,7 @@ entity l2p_dma_master is
         dma_ctrl_start_l2p_i   : in  std_logic;
         dma_ctrl_done_o        : out std_logic;
         dma_ctrl_error_o       : out std_logic;
-        dma_ctrl_byte_swap_i   : in  std_logic_vector(1 downto 0);
+        dma_ctrl_byte_swap_i   : in  std_logic_vector(2 downto 0);
         dma_ctrl_abort_i       : in  std_logic;
 
         -- To the arbiter (L2P data)
@@ -138,7 +138,7 @@ architecture behavioral of l2p_dma_master is
     signal l2p_data_cnt    : unsigned(12 downto 0);
     signal l2p_64b_address : std_logic;
     signal l2p_len_header  : unsigned(12 downto 0);
-    signal l2p_byte_swap   : std_logic_vector(1 downto 0);
+    signal l2p_byte_swap   : std_logic_vector(2 downto 0);
     signal l2p_last_packet : std_logic;
     signal l2p_lbe_header  : std_logic_vector(3 downto 0);
     
@@ -342,11 +342,11 @@ begin
 				ldm_arb_valid <= '1';
 			when L2P_DATA =>
 				--ldm_arb_data_l <= data_fifo_dout;
-				ldm_arb_data_l <= data_fifo_dout;--f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
+				ldm_arb_data_l <= f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);--f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
 				ldm_arb_tlast_o <= '0';
 				ldm_arb_valid <= data_fifo_rd;
 			when L2P_LAST_DATA =>
-				ldm_arb_data_l <= data_fifo_dout;
+				ldm_arb_data_l <= f_byte_swap(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
 				ldm_arb_tlast_o <= '1';
 				ldm_arb_valid <= '1';
 			when others =>

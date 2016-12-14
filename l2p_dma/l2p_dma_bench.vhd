@@ -30,7 +30,7 @@ architecture Behavioral of l2p_dma_bench is
 		signal dma_ctrl_start_l2p_tbs   : std_logic;
 		signal dma_ctrl_done_s        : std_logic;
 		signal dma_ctrl_error_s       : std_logic;
-		signal dma_ctrl_byte_swap_tbs   : std_logic_vector(1 downto 0);
+		signal dma_ctrl_byte_swap_tbs   : std_logic_vector(2 downto 0);
 		signal dma_ctrl_abort_tbs       : std_logic;
 
 		-- To the arbiter (L2P data)
@@ -79,7 +79,7 @@ architecture Behavioral of l2p_dma_bench is
             dma_ctrl_start_l2p_i   : in  std_logic;
             dma_ctrl_done_o        : out std_logic;
             dma_ctrl_error_o       : out std_logic;
-            dma_ctrl_byte_swap_i   : in  std_logic_vector(1 downto 0);
+            dma_ctrl_byte_swap_i   : in  std_logic_vector(2 downto 0);
             dma_ctrl_abort_i       : in  std_logic;
     
             -- To the arbiter (L2P data)
@@ -166,7 +166,7 @@ begin
 		dma_ctrl_host_addr_l_tbs <= X"00000000" & X"00000000";
 		dma_ctrl_len_tbs         <= X"00000000" & X"00000000";
 		dma_ctrl_start_l2p_tbs   <= '0';
-		dma_ctrl_byte_swap_tbs   <= "00";
+		dma_ctrl_byte_swap_tbs   <= "000";
 		dma_ctrl_abort_tbs       <= '0';
 		arb_ldm_gnt_tbs    <= '1';
 		l2p_dma_stall_tbs <= '0';
@@ -184,7 +184,7 @@ begin
 		dma_ctrl_host_addr_l_tbs <= X"00000000" & X"0000005A";
 		dma_ctrl_len_tbs         <= X"00000000" & X"00000020";
 		dma_ctrl_start_l2p_tbs   <= '1';
-		dma_ctrl_byte_swap_tbs   <= "00";
+		dma_ctrl_byte_swap_tbs   <= "000";
 		dma_ctrl_abort_tbs       <= '0';
 		arb_ldm_gnt_tbs    <= '1';
 		l2p_dma_stall_tbs <= '0';
@@ -200,7 +200,7 @@ begin
 		dma_ctrl_host_addr_l_tbs <= X"00000000" & X"0000005A";
 		dma_ctrl_len_tbs         <= X"00000000" & X"00000080";
 		dma_ctrl_start_l2p_tbs   <= '0';
-		dma_ctrl_byte_swap_tbs   <= "00";
+		dma_ctrl_byte_swap_tbs   <= "000";
 		dma_ctrl_abort_tbs       <= '0';
 		arb_ldm_gnt_tbs    <= '1';
 		l2p_dma_stall_tbs <= '0';
