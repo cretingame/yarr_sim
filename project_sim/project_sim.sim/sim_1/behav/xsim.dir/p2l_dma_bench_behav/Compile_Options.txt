@@ -1,0 +1,1 @@
+-wto "065b24f1651e4cfdbcb9bd0f289efcec" --debug "typical" --relax --mt "2" -L "fifo_generator_v13_1_2" -L "xil_defaultlib" -L "unisims_ver" -L "unimacro_ver" -L "secureip" -L "xpm" --snapshot "p2l_dma_bench_behav" "xil_defaultlib.p2l_dma_bench" "xil_defaultlib.glbl" -log "elaborate.log" 

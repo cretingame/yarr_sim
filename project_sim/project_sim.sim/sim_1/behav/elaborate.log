@@ -1,6 +1,6 @@
 Vivado Simulator 2016.3
 Copyright 1986-1999, 2001-2016 Xilinx, Inc. All Rights Reserved.
-Running: C:/Xilinx/Vivado/2016.3/bin/unwrapped/win64.o/xelab.exe -wto 065b24f1651e4cfdbcb9bd0f289efcec --debug typical --relax --mt 2 -L fifo_generator_v13_1_2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot l2p_dma_bench_behav xil_defaultlib.l2p_dma_bench xil_defaultlib.glbl -log elaborate.log 
+Running: C:/Xilinx/Vivado/2016.3/bin/unwrapped/win64.o/xelab.exe -wto 065b24f1651e4cfdbcb9bd0f289efcec --debug typical --relax --mt 2 -L fifo_generator_v13_1_2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot p2l_dma_bench_behav xil_defaultlib.p2l_dma_bench xil_defaultlib.glbl -log elaborate.log 
 Using 2 slave threads.
 Starting static elaboration
 WARNING: [VRFC 10-1783] select index 2 into rrst_reg is out of bounds [/wrk/2016.3/nightly/2016_10_10_1682563/packages/customer/vivado/data/ip/xilinx/fifo_generator_v13_1/simulation/fifo_generator_vlog_beh.v:4885]
@@ -25,9 +25,9 @@ Compiling module fifo_generator_v13_1_2.fifo_generator_v13_1_2_bhv_ver_p...
 Compiling module fifo_generator_v13_1_2.fifo_generator_v13_1_2_CONV_VER(...
 Compiling module fifo_generator_v13_1_2.fifo_generator_vlog_beh(C_COMMON...
 Compiling module fifo_generator_v13_1_2.fifo_generator_v13_1_2(C_DATA_CO...
-Compiling module xil_defaultlib.fifo_generator_0
-Compiling architecture l2p_fifo_a of entity xil_defaultlib.l2p_fifo [l2p_fifo_default]
-Compiling architecture behavioral of entity xil_defaultlib.l2p_dma_master [l2p_dma_master_default]
-Compiling architecture behavioral of entity xil_defaultlib.bram_wbs [\bram_wbs(addr_width=12,data_wid...]
-Compiling architecture behavioral of entity xil_defaultlib.l2p_dma_bench
-Built simulation snapshot l2p_dma_bench_behav
+Compiling module xil_defaultlib.fifo_64x512
+Compiling architecture syn of entity xil_defaultlib.generic_async_fifo [\generic_async_fifo(g_data_width...]
+Compiling architecture behaviour of entity xil_defaultlib.p2l_dma_master [p2l_dma_master_default]
+Compiling architecture behavioral of entity xil_defaultlib.bram_wbs [\bram_wbs(addr_width=12)\]
+Compiling architecture behavioral of entity xil_defaultlib.p2l_dma_bench
+Built simulation snapshot p2l_dma_bench_behav

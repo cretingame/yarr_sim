@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2016.3 (64-bit)
+# SW Build 1682563 on Mon Oct 10 19:07:27 MDT 2016
+# IP Build 1681267 on Mon Oct 10 21:28:31 MDT 2016
+# Start of session at: Wed Dec 14 11:11:06 2016
+# Process ID: 12484
+# Current directory: C:/cygwin64/home/saute/yarr_sim/project_sim/project_sim.runs/fifo_32x512_synth_1
+# Command line: vivado.exe -log fifo_32x512.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source fifo_32x512.tcl
+# Log file: C:/cygwin64/home/saute/yarr_sim/project_sim/project_sim.runs/fifo_32x512_synth_1/fifo_32x512.vds
+# Journal file: C:/cygwin64/home/saute/yarr_sim/project_sim/project_sim.runs/fifo_32x512_synth_1\vivado.jou
+#-----------------------------------------------------------
+source fifo_32x512.tcl -notrace

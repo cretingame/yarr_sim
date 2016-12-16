@@ -496,7 +496,7 @@ begin
         target_addr_cnt              <= target_addr_cnt + 1;
         -- write target address and data to the sync fifo
         to_wb_fifo_wr                <= '1';
-        to_wb_fifo_din(31 downto 0)  <= f_byte_swap(g_BYTE_SWAP, pd_pdm_data_i, to_wb_fifo_byte_swap);
+        to_wb_fifo_din(31 downto 0)  <= pd_pdm_data_i; --f_byte_swap(g_BYTE_SWAP, pd_pdm_data_i, to_wb_fifo_byte_swap);
         to_wb_fifo_din(61 downto 32) <= std_logic_vector(target_addr_cnt);
       else
         dma_busy_error <= '0';

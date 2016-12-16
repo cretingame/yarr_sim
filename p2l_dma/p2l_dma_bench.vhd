@@ -214,37 +214,118 @@ begin
 	stimuli_p: process
 	begin
 		step <= 1;
-
+        dma_ctrl_target_addr_tbs <= (others => '0');
+        dma_ctrl_host_addr_h_tbs <= (others => '0');
+        dma_ctrl_host_addr_l_tbs <= (others => '0');
+        dma_ctrl_len_tbs         <= (others => '0');
+        dma_ctrl_start_p2l_tbs   <= '0';
+        dma_ctrl_start_next_tbs  <= '0';
+        dma_ctrl_byte_swap_tbs   <= (others => '0');
+        dma_ctrl_abort_tbs       <= '0';
+        
+        ---------------------------------------------------------
+        -- From P2L Decoder (receive the read completion)
+        --
+        -- Header
+        pd_pdm_hdr_start_tbs   <= '0';                     -- Header strobe
+        pd_pdm_hdr_length_tbs  <= (others => '0');   -- Packet length in 32-bit words multiples
+        pd_pdm_hdr_cid_tbs     <= (others => '0');   -- Completion ID
+        pd_pdm_master_cpld_tbs <= '0';                      -- Master read completion with data
+        pd_pdm_master_cpln_tbs <= '0';                      -- Master read completion without data
+        --
+        -- Data
+        pd_pdm_data_valid_tbs  <= '0';                      -- Indicates Data is valid
+        pd_pdm_data_last_tbs   <= '0';                      -- Indicates end of the packet
+        pd_pdm_data_tbs        <= (others => '0');  -- Data
+        pd_pdm_be_tbs          <= (others => '0');   -- Byte Enable for data
+        
+        arb_pdm_gnt_tbs    <= '0';
+        p2l_dma_stall_tbs <= '0';
+        l2p_dma_cyc_tbs <= '0';
 		
 		wait for period;
 		
+        dma_ctrl_target_addr_tbs <= X"00000010";
+        dma_ctrl_host_addr_h_tbs <= X"00000000";
+        dma_ctrl_host_addr_l_tbs <= X"0000005A";
+        dma_ctrl_len_tbs         <= X"00000010";
+        dma_ctrl_start_p2l_tbs   <= '0';
+        dma_ctrl_start_next_tbs  <= '0';
+        dma_ctrl_byte_swap_tbs   <= (others => '0');
+        dma_ctrl_abort_tbs       <= '0';
+        
+        ---------------------------------------------------------
+        -- From P2L Decoder (receive the read completion)
+        --
+        -- Header
+        pd_pdm_hdr_start_tbs   <= '0';                     -- Header strobe
+        pd_pdm_hdr_length_tbs  <= "00" & X"01";   -- Packet length in 32-bit words multiples
+        pd_pdm_hdr_cid_tbs     <= (others => '0');   -- Completion ID
+        pd_pdm_master_cpld_tbs <= '1';                      -- Master read completion with data
+        pd_pdm_master_cpln_tbs <= '0';                      -- Master read completion without data
+        --
+        -- Data
+        pd_pdm_data_valid_tbs  <= '0';                      -- Indicates Data is valid
+        pd_pdm_data_last_tbs   <= '0';                      -- Indicates end of the packet
+        pd_pdm_data_tbs        <= (others => '0');  -- Data
+        pd_pdm_be_tbs          <= (others => '0');   -- Byte Enable for data
+        
+        arb_pdm_gnt_tbs    <= '1';
+        p2l_dma_stall_tbs <= '0';
+        l2p_dma_cyc_tbs <= '0';		
 		wait for period;
 		step <= 2;
-
+        
+        dma_ctrl_start_p2l_tbs   <= '1';
 	
 		wait for period;
 		step <= 3;
 
+		dma_ctrl_start_p2l_tbs   <= '0';
 		
+		pd_pdm_data_valid_tbs  <= '1';                      -- Indicates Data is valid
+        pd_pdm_data_last_tbs   <= '0';                      -- Indicates end of the packet
+        pd_pdm_data_tbs        <= X"DEADBEEF";  -- Header
+        pd_pdm_be_tbs          <= X"F";   -- Byte Enable for data
 		
 		wait for period;
 		step <= 4;
 		
+		pd_pdm_data_tbs        <= X"00000004";  -- Adresse
 		
 		wait for period;
 		step <= 5;
 		
+		pd_pdm_data_tbs        <= X"BEEFCACA";  -- Data
 		
 		wait for period;
 		step <= 6;
 		
+		
+		pd_pdm_data_tbs        <= X"DEADBABE";  -- Data
+		
 		wait for period;
 		step <= 7;
-
+        
+        pd_pdm_data_tbs        <= X"DEADDEAD";  -- Data
 		
 		wait for period;
         step <= 8;
+        
+        pd_pdm_data_tbs        <= X"DEADBEEF";  -- Data
+        
+        wait for period;
+        step <= 9;
+        
+        pd_pdm_data_last_tbs   <= '1';
+        pd_pdm_data_tbs        <= X"DEADCACA";  -- Data
+        
+        wait for period;
+        step <= 10;
 
+        
+        pd_pdm_data_valid_tbs  <= '0';                      -- Indicates Data is valid
+        pd_pdm_data_last_tbs   <= '0';
 		
 		wait;
 		
@@ -264,7 +345,7 @@ begin
 		  ---------------------------------------------------------
 		  -- GN4124 core clock and reset
 		  clk_i   => clk_tbs,
-		  rst_n_i => rst_tbs,
+		  rst_n_i => rst_n_tbs,
 
 		  ---------------------------------------------------------
 		  -- From the DMA controller
