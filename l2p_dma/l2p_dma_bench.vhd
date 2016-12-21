@@ -37,6 +37,7 @@ architecture Behavioral of l2p_dma_bench is
 		signal ldm_arb_tvalid_s  : std_logic;
 		signal ldm_arb_tlast_s : std_logic;
 		signal ldm_arb_tdata_s   : std_logic_vector(axis_data_width_c-1 downto 0);
+		signal ldm_arb_tkeep_s   : std_logic_vector(axis_data_width_c/8-1 downto 0);
 		signal ldm_arb_tready_tbs : std_logic;
 		signal ldm_arb_req_s    : std_logic;
 		signal arb_ldm_gnt_tbs    : std_logic;
@@ -45,6 +46,7 @@ architecture Behavioral of l2p_dma_bench is
 		-- L2P channel control
 		signal l2p_edb_s  : std_logic;                    -- Asserted when transfer is aborted
 		signal l2p_rdy_tbs  : std_logic;                    -- De-asserted to pause transdert already in progress
+		signal l2p_64b_address_tbs : std_logic;
 		signal tx_error_tbs : std_logic;                    -- Asserted when unexpected or malformed paket received
 
 		-- DMA Interface (Pipelined Wishbone)
@@ -87,6 +89,7 @@ architecture Behavioral of l2p_dma_bench is
             --ldm_arb_dframe_o : out std_logic;
             ldm_arb_tlast_o   : out std_logic;
             ldm_arb_tdata_o   : out std_logic_vector(axis_data_width_c-1 downto 0);
+            ldm_arb_tkeep_o   : out std_logic_vector(axis_data_width_c/8-1 downto 0);
             ldm_arb_tready_i : in  std_logic;
             ldm_arb_req_o    : out std_logic;
             arb_ldm_gnt_i    : in  std_logic;
@@ -95,6 +98,7 @@ architecture Behavioral of l2p_dma_bench is
             -- L2P channel control
             l2p_edb_o  : out std_logic;                    -- Asserted when transfer is aborted
             l2p_rdy_i  : in  std_logic;                    -- De-asserted to pause transdert already in progress
+            l2p_64b_address_i : in std_logic;
             tx_error_i : in  std_logic;                    -- Asserted when unexpected or malformed paket received
     
             -- DMA Interface (Pipelined Wishbone)
@@ -160,6 +164,7 @@ begin
 		step <= 1;
 		ldm_arb_tready_tbs <= '1'; -- Asserted when GN4124 is ready to receive master write
 		l2p_rdy_tbs  <= '1';                    -- De-asserted to pause transdert already in progress
+		l2p_64b_address_tbs <= '0';
 		tx_error_tbs <= '0';                    -- Asserted when unexpected or malformed paket received
 		dma_ctrl_target_addr_tbs <= X"00000000" & X"00000000";
 		dma_ctrl_host_addr_h_tbs <= X"00000000" & X"00000000";
@@ -220,11 +225,11 @@ begin
 		
 		wait for period;
 		step <= 7;
-		ldm_arb_tready_tbs  <= '0'; 
+		--ldm_arb_tready_tbs  <= '0'; 
 		
 		wait for period;
         step <= 8;
-		ldm_arb_tready_tbs  <= '1';
+		--ldm_arb_tready_tbs  <= '1';
 		
 		wait;
 		
@@ -253,12 +258,14 @@ begin
       ldm_arb_tvalid_o  => ldm_arb_tvalid_s,
       ldm_arb_tlast_o => ldm_arb_tlast_s,
       ldm_arb_tdata_o   => ldm_arb_tdata_s,
+      ldm_arb_tkeep_o   => ldm_arb_tkeep_s,
       ldm_arb_req_o    => ldm_arb_req_s,
       arb_ldm_gnt_i    => arb_ldm_gnt_tbs,
 
       l2p_edb_o  => l2p_edb_s,
       ldm_arb_tready_i => ldm_arb_tready_tbs,
       l2p_rdy_i  => l2p_rdy_tbs,
+      l2p_64b_address_i => l2p_64b_address_tbs,
       tx_error_i => tx_error_tbs,
 
       l2p_dma_clk_i   => clk_tbs,

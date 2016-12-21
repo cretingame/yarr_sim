@@ -13,15 +13,21 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="889374947fs"></ZoomEndTime>
-      <Cursor1Time time="3000000000fs"></Cursor1Time>
+      <ZoomStartTime time="1904000000fs"></ZoomStartTime>
+      <ZoomEndTime time="4107168856fs"></ZoomEndTime>
+      <Cursor1Time time="20000000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="197"></NameColumnWidth>
       <ValueColumnWidth column_width="122"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="46" />
+   <WVObjectSize size="30" />
+   <wvobject fp_name="/l2p_dma_bench/dut1/l2p_64b_address_i" type="logic">
+      <obj_property name="ElementShortName">l2p_64b_address_i</obj_property>
+      <obj_property name="ObjectShortName">l2p_64b_address_i</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
    <wvobject fp_name="/l2p_dma_bench/clk_tbs" type="logic">
       <obj_property name="ElementShortName">clk_tbs</obj_property>
       <obj_property name="ObjectShortName">clk_tbs</obj_property>
@@ -75,8 +81,8 @@
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/l2p_dma_bench/dma_ctrl_byte_swap_tbs" type="array">
-      <obj_property name="ElementShortName">dma_ctrl_byte_swap_tbs[1:0]</obj_property>
-      <obj_property name="ObjectShortName">dma_ctrl_byte_swap_tbs[1:0]</obj_property>
+      <obj_property name="ElementShortName">dma_ctrl_byte_swap_tbs[2:0]</obj_property>
+      <obj_property name="ObjectShortName">dma_ctrl_byte_swap_tbs[2:0]</obj_property>
       <obj_property name="CustomSignalColor">#FF0000</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
@@ -116,9 +122,17 @@
       <obj_property name="CustomSignalColor">#00FFFF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
+   <wvobject fp_name="/l2p_dma_bench/ldm_arb_tkeep_s" type="array">
+      <obj_property name="ElementShortName">ldm_arb_tkeep_s[7:0]</obj_property>
+      <obj_property name="ObjectShortName">ldm_arb_tkeep_s[7:0]</obj_property>
+   </wvobject>
    <wvobject fp_name="/l2p_dma_bench/dut1/l2p_data_cnt" type="array">
       <obj_property name="ElementShortName">l2p_data_cnt[12:0]</obj_property>
       <obj_property name="ObjectShortName">l2p_data_cnt[12:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/l2p_dma_bench/dut1/l2p_len_cnt" type="array">
+      <obj_property name="ElementShortName">l2p_len_cnt[12:0]</obj_property>
+      <obj_property name="ObjectShortName">l2p_len_cnt[12:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/l2p_dma_bench/ldm_arb_req_s" type="logic">
       <obj_property name="ElementShortName">ldm_arb_req_s</obj_property>
@@ -144,134 +158,170 @@
       <obj_property name="ElementShortName">tx_error_tbs</obj_property>
       <obj_property name="ObjectShortName">tx_error_tbs</obj_property>
    </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/l2p_dma_adr_s" type="array">
-      <obj_property name="ElementShortName">l2p_dma_adr_s[63:0]</obj_property>
-      <obj_property name="ObjectShortName">l2p_dma_adr_s[63:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FFA500</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/l2p_dma_dat_s2m_s" type="array">
-      <obj_property name="ElementShortName">l2p_dma_dat_s2m_s[63:0]</obj_property>
-      <obj_property name="ObjectShortName">l2p_dma_dat_s2m_s[63:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FFA500</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/l2p_dma_dat_m2s_s" type="array">
-      <obj_property name="ElementShortName">l2p_dma_dat_m2s_s[63:0]</obj_property>
-      <obj_property name="ObjectShortName">l2p_dma_dat_m2s_s[63:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FFA500</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/l2p_dma_sel_s" type="array">
-      <obj_property name="ElementShortName">l2p_dma_sel_s[3:0]</obj_property>
-      <obj_property name="ObjectShortName">l2p_dma_sel_s[3:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FFA500</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/l2p_dma_cyc_s" type="logic">
-      <obj_property name="ElementShortName">l2p_dma_cyc_s</obj_property>
-      <obj_property name="ObjectShortName">l2p_dma_cyc_s</obj_property>
-      <obj_property name="CustomSignalColor">#FFA500</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/l2p_dma_stb_s" type="logic">
-      <obj_property name="ElementShortName">l2p_dma_stb_s</obj_property>
-      <obj_property name="ObjectShortName">l2p_dma_stb_s</obj_property>
-      <obj_property name="CustomSignalColor">#FFA500</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/l2p_dma_we_s" type="logic">
-      <obj_property name="ElementShortName">l2p_dma_we_s</obj_property>
-      <obj_property name="ObjectShortName">l2p_dma_we_s</obj_property>
-      <obj_property name="CustomSignalColor">#FFA500</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/l2p_dma_ack_s" type="logic">
-      <obj_property name="ElementShortName">l2p_dma_ack_s</obj_property>
-      <obj_property name="ObjectShortName">l2p_dma_ack_s</obj_property>
-      <obj_property name="CustomSignalColor">#FFA500</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/l2p_dma_stall_tbs" type="logic">
-      <obj_property name="ElementShortName">l2p_dma_stall_tbs</obj_property>
-      <obj_property name="ObjectShortName">l2p_dma_stall_tbs</obj_property>
-      <obj_property name="CustomSignalColor">#FFA500</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/p2l_dma_cyc_tbs" type="logic">
-      <obj_property name="ElementShortName">p2l_dma_cyc_tbs</obj_property>
-      <obj_property name="ObjectShortName">p2l_dma_cyc_tbs</obj_property>
-      <obj_property name="CustomSignalColor">#FFA500</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
+   <wvobject fp_name="group700" type="group">
+      <obj_property name="label">dma wishbone</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/l2p_dma_bench/l2p_dma_adr_s" type="array">
+         <obj_property name="ElementShortName">l2p_dma_adr_s[63:0]</obj_property>
+         <obj_property name="ObjectShortName">l2p_dma_adr_s[63:0]</obj_property>
+         <obj_property name="CustomSignalColor">#FFA500</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/l2p_dma_dat_s2m_s" type="array">
+         <obj_property name="ElementShortName">l2p_dma_dat_s2m_s[63:0]</obj_property>
+         <obj_property name="ObjectShortName">l2p_dma_dat_s2m_s[63:0]</obj_property>
+         <obj_property name="CustomSignalColor">#FFA500</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/l2p_dma_dat_m2s_s" type="array">
+         <obj_property name="ElementShortName">l2p_dma_dat_m2s_s[63:0]</obj_property>
+         <obj_property name="ObjectShortName">l2p_dma_dat_m2s_s[63:0]</obj_property>
+         <obj_property name="CustomSignalColor">#FFA500</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/l2p_dma_sel_s" type="array">
+         <obj_property name="ElementShortName">l2p_dma_sel_s[3:0]</obj_property>
+         <obj_property name="ObjectShortName">l2p_dma_sel_s[3:0]</obj_property>
+         <obj_property name="CustomSignalColor">#FFA500</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/l2p_dma_cyc_s" type="logic">
+         <obj_property name="ElementShortName">l2p_dma_cyc_s</obj_property>
+         <obj_property name="ObjectShortName">l2p_dma_cyc_s</obj_property>
+         <obj_property name="CustomSignalColor">#FFA500</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/l2p_dma_stb_s" type="logic">
+         <obj_property name="ElementShortName">l2p_dma_stb_s</obj_property>
+         <obj_property name="ObjectShortName">l2p_dma_stb_s</obj_property>
+         <obj_property name="CustomSignalColor">#FFA500</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/l2p_dma_we_s" type="logic">
+         <obj_property name="ElementShortName">l2p_dma_we_s</obj_property>
+         <obj_property name="ObjectShortName">l2p_dma_we_s</obj_property>
+         <obj_property name="CustomSignalColor">#FFA500</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/l2p_dma_ack_s" type="logic">
+         <obj_property name="ElementShortName">l2p_dma_ack_s</obj_property>
+         <obj_property name="ObjectShortName">l2p_dma_ack_s</obj_property>
+         <obj_property name="CustomSignalColor">#FFA500</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/l2p_dma_stall_tbs" type="logic">
+         <obj_property name="ElementShortName">l2p_dma_stall_tbs</obj_property>
+         <obj_property name="ObjectShortName">l2p_dma_stall_tbs</obj_property>
+         <obj_property name="CustomSignalColor">#FFA500</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/p2l_dma_cyc_tbs" type="logic">
+         <obj_property name="ElementShortName">p2l_dma_cyc_tbs</obj_property>
+         <obj_property name="ObjectShortName">p2l_dma_cyc_tbs</obj_property>
+         <obj_property name="CustomSignalColor">#FFA500</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
    </wvobject>
    <wvobject fp_name="/l2p_dma_bench/dut1/l2p_dma_current_state" type="other">
       <obj_property name="ElementShortName">l2p_dma_current_state</obj_property>
       <obj_property name="ObjectShortName">l2p_dma_current_state</obj_property>
    </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/rst" type="logic">
-      <obj_property name="ElementShortName">rst</obj_property>
-      <obj_property name="ObjectShortName">rst</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/wr_clk" type="logic">
-      <obj_property name="ElementShortName">wr_clk</obj_property>
-      <obj_property name="ObjectShortName">wr_clk</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/rd_clk" type="logic">
-      <obj_property name="ElementShortName">rd_clk</obj_property>
-      <obj_property name="ObjectShortName">rd_clk</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/din" type="array">
-      <obj_property name="ElementShortName">din[63:0]</obj_property>
-      <obj_property name="ObjectShortName">din[63:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/wr_en" type="logic">
-      <obj_property name="ElementShortName">wr_en</obj_property>
-      <obj_property name="ObjectShortName">wr_en</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/rd_en" type="logic">
-      <obj_property name="ElementShortName">rd_en</obj_property>
-      <obj_property name="ObjectShortName">rd_en</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/dout" type="array">
-      <obj_property name="ElementShortName">dout[63:0]</obj_property>
-      <obj_property name="ObjectShortName">dout[63:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/full" type="logic">
-      <obj_property name="ElementShortName">full</obj_property>
-      <obj_property name="ObjectShortName">full</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/empty" type="logic">
-      <obj_property name="ElementShortName">empty</obj_property>
-      <obj_property name="ObjectShortName">empty</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/valid" type="logic">
-      <obj_property name="ElementShortName">valid</obj_property>
-      <obj_property name="ObjectShortName">valid</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/prog_full" type="logic">
-      <obj_property name="ElementShortName">prog_full</obj_property>
-      <obj_property name="ObjectShortName">prog_full</obj_property>
-      <obj_property name="CustomSignalColor">#FF00FF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
+   <wvobject fp_name="group701" type="group">
+      <obj_property name="label">fifo</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/rst" type="logic">
+         <obj_property name="ElementShortName">rst</obj_property>
+         <obj_property name="ObjectShortName">rst</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/wr_clk" type="logic">
+         <obj_property name="ElementShortName">wr_clk</obj_property>
+         <obj_property name="ObjectShortName">wr_clk</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/rd_clk" type="logic">
+         <obj_property name="ElementShortName">rd_clk</obj_property>
+         <obj_property name="ObjectShortName">rd_clk</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/din" type="array">
+         <obj_property name="ElementShortName">din[63:0]</obj_property>
+         <obj_property name="ObjectShortName">din[63:0]</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/wr_en" type="logic">
+         <obj_property name="ElementShortName">wr_en</obj_property>
+         <obj_property name="ObjectShortName">wr_en</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/rd_en" type="logic">
+         <obj_property name="ElementShortName">rd_en</obj_property>
+         <obj_property name="ObjectShortName">rd_en</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/dout" type="array">
+         <obj_property name="ElementShortName">dout[63:0]</obj_property>
+         <obj_property name="ObjectShortName">dout[63:0]</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/dut1/data_fifo_dout_1" type="array">
+         <obj_property name="ElementShortName">data_fifo_dout_1[63:0]</obj_property>
+         <obj_property name="ObjectShortName">data_fifo_dout_1[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/full" type="logic">
+         <obj_property name="ElementShortName">full</obj_property>
+         <obj_property name="ObjectShortName">full</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/empty" type="logic">
+         <obj_property name="ElementShortName">empty</obj_property>
+         <obj_property name="ObjectShortName">empty</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/valid" type="logic">
+         <obj_property name="ElementShortName">valid</obj_property>
+         <obj_property name="ObjectShortName">valid</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/dut1/cmp_data_fifo/U0/prog_full" type="logic">
+         <obj_property name="ElementShortName">prog_full</obj_property>
+         <obj_property name="ObjectShortName">prog_full</obj_property>
+         <obj_property name="CustomSignalColor">#FF00FF</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/dut1/addr_fifo_rd" type="logic">
+         <obj_property name="ElementShortName">addr_fifo_rd</obj_property>
+         <obj_property name="ObjectShortName">addr_fifo_rd</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/dut1/addr_fifo_wr" type="logic">
+         <obj_property name="ElementShortName">addr_fifo_wr</obj_property>
+         <obj_property name="ObjectShortName">addr_fifo_wr</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/dut1/addr_fifo_empty" type="logic">
+         <obj_property name="ElementShortName">addr_fifo_empty</obj_property>
+         <obj_property name="ObjectShortName">addr_fifo_empty</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/dut1/addr_fifo_full" type="logic">
+         <obj_property name="ElementShortName">addr_fifo_full</obj_property>
+         <obj_property name="ObjectShortName">addr_fifo_full</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/dut1/addr_fifo_dout" type="array">
+         <obj_property name="ElementShortName">addr_fifo_dout[63:0]</obj_property>
+         <obj_property name="ObjectShortName">addr_fifo_dout[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/l2p_dma_bench/dut1/addr_fifo_din" type="array">
+         <obj_property name="ElementShortName">addr_fifo_din[63:0]</obj_property>
+         <obj_property name="ObjectShortName">addr_fifo_din[63:0]</obj_property>
+      </wvobject>
    </wvobject>
 </wave_config>
