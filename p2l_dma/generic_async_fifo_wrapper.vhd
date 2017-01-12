@@ -121,6 +121,40 @@ architecture syn of generic_async_fifo is
       prog_full               : out std_logic);
   end component fifo_64x512;
 
+  component fifo_92x512
+    port (
+      rst                     : in  std_logic;
+      wr_clk                  : in  std_logic;
+      rd_clk                  : in  std_logic;
+      din                     : in  std_logic_vector(91 downto 0);
+      wr_en                   : in  std_logic;
+      rd_en                   : in  std_logic;
+      prog_full_thresh_assert : in  std_logic_vector(8 downto 0);
+      prog_full_thresh_negate : in  std_logic_vector(8 downto 0);
+      dout                    : out std_logic_vector(91 downto 0);
+      full                    : out std_logic;
+      empty                   : out std_logic;
+      valid                   : out std_logic;
+      prog_full               : out std_logic);
+  end component fifo_92x512;  
+  
+  component fifo_128x512
+    port (
+      rst                     : in  std_logic;
+      wr_clk                  : in  std_logic;
+      rd_clk                  : in  std_logic;
+      din                     : in  std_logic_vector(127 downto 0);
+      wr_en                   : in  std_logic;
+      rd_en                   : in  std_logic;
+      prog_full_thresh_assert : in  std_logic_vector(8 downto 0);
+      prog_full_thresh_negate : in  std_logic_vector(8 downto 0);
+      dout                    : out std_logic_vector(127 downto 0);
+      full                    : out std_logic;
+      empty                   : out std_logic;
+      valid                   : out std_logic;
+      prog_full               : out std_logic);
+  end component fifo_128x512;  
+
 
   signal rst : std_logic;
 
@@ -175,5 +209,40 @@ begin
         prog_full               => wr_almost_full_o);
   end generate gen_fifo_64bit;
 
+  gen_fifo_92bit : if g_data_width = 92 generate
+    cmp_fifo_92x512 : fifo_92x512
+      port map (
+        rst                     => rst,
+        wr_clk                  => clk_wr_i,
+        rd_clk                  => clk_rd_i,
+        din                     => d_i,
+        wr_en                   => we_i,
+        rd_en                   => rd_i,
+        prog_full_thresh_assert => std_logic_vector(to_unsigned(g_almost_full_threshold, 9)),
+        prog_full_thresh_negate => std_logic_vector(to_unsigned(g_almost_full_threshold, 9)),
+        dout                    => q_o,
+        full                    => wr_full_o,
+        empty                   => rd_empty_o,
+        valid                   => open,
+        prog_full               => wr_almost_full_o);
+  end generate gen_fifo_92bit;
+
+  gen_fifo_128bit : if g_data_width = 128 generate
+    cmp_fifo_128x512 : fifo_128x512
+      port map (
+        rst                     => rst,
+        wr_clk                  => clk_wr_i,
+        rd_clk                  => clk_rd_i,
+        din                     => d_i,
+        wr_en                   => we_i,
+        rd_en                   => rd_i,
+        prog_full_thresh_assert => std_logic_vector(to_unsigned(g_almost_full_threshold, 9)),
+        prog_full_thresh_negate => std_logic_vector(to_unsigned(g_almost_full_threshold, 9)),
+        dout                    => q_o,
+        full                    => wr_full_o,
+        empty                   => rd_empty_o,
+        valid                   => open,
+        prog_full               => wr_almost_full_o);
+  end generate gen_fifo_128bit;
 
 end syn;

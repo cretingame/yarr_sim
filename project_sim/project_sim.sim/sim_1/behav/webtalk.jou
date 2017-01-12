@@ -1,9 +1,9 @@
 #-----------------------------------------------------------
-# Webtalk v2016.3 (64-bit)
-# SW Build 1682563 on Mon Oct 10 19:07:27 MDT 2016
-# IP Build 1681267 on Mon Oct 10 21:28:31 MDT 2016
-# Start of session at: Wed Dec 21 15:17:13 2016
-# Process ID: 14692
+# Webtalk v2016.4 (64-bit)
+# SW Build 1733598 on Wed Dec 14 22:35:39 MST 2016
+# IP Build 1731160 on Wed Dec 14 23:47:21 MST 2016
+# Start of session at: Thu Jan 12 14:39:33 2017
+# Process ID: 14828
 # Current directory: C:/cygwin64/home/saute/yarr_sim/project_sim/project_sim.sim/sim_1/behav
 # Command line: wbtcv.exe -mode batch -source C:/cygwin64/home/saute/yarr_sim/project_sim/project_sim.sim/sim_1/behav/xsim.dir/l2p_dma_bench_behav/webtalk/xsim_webtalk.tcl -notrace
 # Log file: C:/cygwin64/home/saute/yarr_sim/project_sim/project_sim.sim/sim_1/behav/webtalk.log

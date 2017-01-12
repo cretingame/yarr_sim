@@ -10,7 +10,7 @@ entity p2l_dma_bench is
 		constant axis_data_width_c : integer := 64;
 
 		constant wb_address_width_c : integer := 12;
-		constant wb_data_width_c : integer := 32
+		constant wb_data_width_c : integer := 64
 	);
 	--port ();
 end p2l_dma_bench;
@@ -20,35 +20,35 @@ architecture Behavioral of p2l_dma_bench is
 		signal rst_tbs : STD_LOGIC;
 		signal rst_n_tbs : STD_LOGIC;
 		-- Test bench specific signals
-		signal step : integer range 1 to 10;
+		signal step : integer;
 		
 		-- From the DMA controller
-		signal dma_ctrl_target_addr_tbs : std_logic_vector(wb_data_width_c-1 downto 0);
-		signal dma_ctrl_host_addr_h_tbs : std_logic_vector(wb_data_width_c-1 downto 0);
-		signal dma_ctrl_host_addr_l_tbs : std_logic_vector(wb_data_width_c-1 downto 0);
-		signal dma_ctrl_len_tbs         : std_logic_vector(wb_data_width_c-1 downto 0);
+		signal dma_ctrl_target_addr_tbs : std_logic_vector(32-1 downto 0);
+		signal dma_ctrl_host_addr_h_tbs : std_logic_vector(32-1 downto 0);
+		signal dma_ctrl_host_addr_l_tbs : std_logic_vector(32-1 downto 0);
+		signal dma_ctrl_len_tbs         : std_logic_vector(32-1 downto 0);
 		signal dma_ctrl_start_p2l_tbs   : std_logic;
 		signal dma_ctrl_start_next_tbs   : std_logic;
 		signal dma_ctrl_done_s        : std_logic;
 		signal dma_ctrl_error_s       : std_logic;
-		signal dma_ctrl_byte_swap_tbs   : std_logic_vector(1 downto 0);
+		signal dma_ctrl_byte_swap_tbs   : std_logic_vector(2 downto 0);
 		signal dma_ctrl_abort_tbs       : std_logic;
 
 		---------------------------------------------------------
 		-- From P2L Decoder (receive the read completion)
 		--
 		-- Header
-		signal pd_pdm_hdr_start_tbs   : std_logic;                      -- Header strobe
-		signal pd_pdm_hdr_length_tbs  : std_logic_vector(9 downto 0);   -- Packet length in 32-bit words multiples
-		signal pd_pdm_hdr_cid_tbs     : std_logic_vector(1 downto 0);   -- Completion ID
+		--signal pd_pdm_hdr_start_tbs   : std_logic;                      -- Header strobe
+		--signal pd_pdm_hdr_length_tbs  : std_logic_vector(9 downto 0);   -- Packet length in 32-bit words multiples
+		--signal pd_pdm_hdr_cid_tbs     : std_logic_vector(1 downto 0);   -- Completion ID
 		signal pd_pdm_master_cpld_tbs : std_logic;                      -- Master read completion with data
 		signal pd_pdm_master_cpln_tbs : std_logic;                      -- Master read completion without data
 		--
 		-- Data
 		signal pd_pdm_data_valid_tbs  : std_logic;                      -- Indicates Data is valid
 		signal pd_pdm_data_last_tbs   : std_logic;                      -- Indicates end of the packet
-		signal pd_pdm_data_tbs        : std_logic_vector(31 downto 0);  -- Data
-		signal pd_pdm_be_tbs          : std_logic_vector(3 downto 0);   -- Byte Enable for data
+		signal pd_pdm_data_tbs        : std_logic_vector(wb_data_width_c-1 downto 0);  -- Data
+		signal pd_pdm_be_tbs          : std_logic_vector(7 downto 0);   -- Byte Enable for data
 
 		---------------------------------------------------------
 		-- P2L control
@@ -57,17 +57,17 @@ architecture Behavioral of p2l_dma_bench is
 
 		---------------------------------------------------------
 		-- To the P2L Interface (send the DMA Master Read request)
-		signal pdm_arb_valid_s  : std_logic;  -- Read completion signals
-		signal pdm_arb_dframe_s : std_logic;  -- Toward the arbiter
-		signal pdm_arb_data_s   : std_logic_vector(31 downto 0);
+		signal pdm_arb_tvalid_s  : std_logic;  -- Read completion signals
+		signal pdm_arb_tlast_s : std_logic;  -- Toward the arbiter
+		signal pdm_arb_tdata_s   : std_logic_vector(wb_data_width_c-1 downto 0);
 		signal pdm_arb_req_s    : std_logic;
 		signal arb_pdm_gnt_tbs    : std_logic;
 
 		-- DMA Interface (Pipelined Wishbone)
-		signal p2l_dma_adr_s   : std_logic_vector(wb_data_width_c-1 downto 0);
+		signal p2l_dma_adr_s   : std_logic_vector(32-1 downto 0);
 		signal p2l_dma_dat_s2m_s   : std_logic_vector(wb_data_width_c-1 downto 0);
 		signal p2l_dma_dat_m2s_s   : std_logic_vector(wb_data_width_c-1 downto 0);
-		signal p2l_dma_sel_s   : std_logic_vector(3 downto 0);
+		signal p2l_dma_sel_s   : std_logic_vector(7 downto 0);
 		signal p2l_dma_cyc_s   : std_logic;
 		signal p2l_dma_stb_s   : std_logic;
 		signal p2l_dma_we_s    : std_logic;
@@ -108,24 +108,24 @@ architecture Behavioral of p2l_dma_bench is
 		  dma_ctrl_start_next_i   : in  std_logic;
 		  dma_ctrl_done_o         : out std_logic;
 		  dma_ctrl_error_o        : out std_logic;
-		  dma_ctrl_byte_swap_i    : in  std_logic_vector(1 downto 0);
+		  dma_ctrl_byte_swap_i    : in  std_logic_vector(2 downto 0);
 		  dma_ctrl_abort_i        : in  std_logic;
 
 		  ---------------------------------------------------------
 		  -- From P2L Decoder (receive the read completion)
 		  --
 		  -- Header
-		  pd_pdm_hdr_start_i   : in std_logic;                      -- Header strobe
-		  pd_pdm_hdr_length_i  : in std_logic_vector(9 downto 0);   -- Packet length in 32-bit words multiples
-		  pd_pdm_hdr_cid_i     : in std_logic_vector(1 downto 0);   -- Completion ID
+		  --pd_pdm_hdr_start_i   : in std_logic;                      -- Header strobe
+		  --pd_pdm_hdr_length_i  : in std_logic_vector(9 downto 0);   -- Packet length in 32-bit words multiples
+		  --pd_pdm_hdr_cid_i     : in std_logic_vector(1 downto 0);   -- Completion ID
 		  pd_pdm_master_cpld_i : in std_logic;                      -- Master read completion with data
 		  pd_pdm_master_cpln_i : in std_logic;                      -- Master read completion without data
 		  --
 		  -- Data
 		  pd_pdm_data_valid_i  : in std_logic;                      -- Indicates Data is valid
 		  pd_pdm_data_last_i   : in std_logic;                      -- Indicates end of the packet
-		  pd_pdm_data_i        : in std_logic_vector(31 downto 0);  -- Data
-		  pd_pdm_be_i          : in std_logic_vector(3 downto 0);   -- Byte Enable for data
+		  pd_pdm_data_i        : in std_logic_vector(63 downto 0);  -- Data
+		  pd_pdm_be_i          : in std_logic_vector(7 downto 0);   -- Byte Enable for data
 
 		  ---------------------------------------------------------
 		  -- P2L control
@@ -134,9 +134,9 @@ architecture Behavioral of p2l_dma_bench is
 
 		  ---------------------------------------------------------
 		  -- To the P2L Interface (send the DMA Master Read request)
-		  pdm_arb_valid_o  : out std_logic;  -- Read completion signals
-		  pdm_arb_dframe_o : out std_logic;  -- Toward the arbiter
-		  pdm_arb_data_o   : out std_logic_vector(31 downto 0);
+		  pdm_arb_tvalid_o  : out std_logic;  -- Read completion signals
+		  pdm_arb_tlast_o : out std_logic;  -- Toward the arbiter
+		  pdm_arb_tdata_o   : out std_logic_vector(63 downto 0);
 		  pdm_arb_req_o    : out std_logic;
 		  arb_pdm_gnt_i    : in  std_logic;
 
@@ -144,9 +144,9 @@ architecture Behavioral of p2l_dma_bench is
 		  -- DMA Interface (Pipelined Wishbone)
 		  p2l_dma_clk_i   : in  std_logic;                      -- Bus clock
 		  p2l_dma_adr_o   : out std_logic_vector(31 downto 0);  -- Adress
-		  p2l_dma_dat_i   : in  std_logic_vector(31 downto 0);  -- Data in
-		  p2l_dma_dat_o   : out std_logic_vector(31 downto 0);  -- Data out
-		  p2l_dma_sel_o   : out std_logic_vector(3 downto 0);   -- Byte select
+		  p2l_dma_dat_i   : in  std_logic_vector(63 downto 0);  -- Data in
+		  p2l_dma_dat_o   : out std_logic_vector(63 downto 0);  -- Data out
+		  p2l_dma_sel_o   : out std_logic_vector(7 downto 0);   -- Byte select
 		  p2l_dma_cyc_o   : out std_logic;                      -- Read or write cycle
 		  p2l_dma_stb_o   : out std_logic;                      -- Read or write strobe
 		  p2l_dma_we_o    : out std_logic;                      -- Write
@@ -227,9 +227,9 @@ begin
         -- From P2L Decoder (receive the read completion)
         --
         -- Header
-        pd_pdm_hdr_start_tbs   <= '0';                     -- Header strobe
-        pd_pdm_hdr_length_tbs  <= (others => '0');   -- Packet length in 32-bit words multiples
-        pd_pdm_hdr_cid_tbs     <= (others => '0');   -- Completion ID
+        --pd_pdm_hdr_start_tbs   <= '0';                     -- Header strobe
+        --pd_pdm_hdr_length_tbs  <= (others => '0');   -- Packet length in 32-bit words multiples
+        --pd_pdm_hdr_cid_tbs     <= (others => '0');   -- Completion ID
         pd_pdm_master_cpld_tbs <= '0';                      -- Master read completion with data
         pd_pdm_master_cpln_tbs <= '0';                      -- Master read completion without data
         --
@@ -248,7 +248,7 @@ begin
         dma_ctrl_target_addr_tbs <= X"00000010";
         dma_ctrl_host_addr_h_tbs <= X"00000000";
         dma_ctrl_host_addr_l_tbs <= X"0000005A";
-        dma_ctrl_len_tbs         <= X"00000010";
+        dma_ctrl_len_tbs         <= X"00000040";
         dma_ctrl_start_p2l_tbs   <= '0';
         dma_ctrl_start_next_tbs  <= '0';
         dma_ctrl_byte_swap_tbs   <= (others => '0');
@@ -258,9 +258,9 @@ begin
         -- From P2L Decoder (receive the read completion)
         --
         -- Header
-        pd_pdm_hdr_start_tbs   <= '0';                     -- Header strobe
-        pd_pdm_hdr_length_tbs  <= "00" & X"01";   -- Packet length in 32-bit words multiples
-        pd_pdm_hdr_cid_tbs     <= (others => '0');   -- Completion ID
+        --pd_pdm_hdr_start_tbs   <= '0';                     -- Header strobe
+        --pd_pdm_hdr_length_tbs  <= "00" & X"01";   -- Packet length in 32-bit words multiples
+        --pd_pdm_hdr_cid_tbs     <= (others => '0');   -- Completion ID
         pd_pdm_master_cpld_tbs <= '1';                      -- Master read completion with data
         pd_pdm_master_cpln_tbs <= '0';                      -- Master read completion without data
         --
@@ -279,49 +279,60 @@ begin
         dma_ctrl_start_p2l_tbs   <= '1';
 	
 		wait for period;
+		dma_ctrl_start_p2l_tbs   <= '0';
+		wait for period;
+		wait for period;
+		wait for period;
+		wait for period;
+		
 		step <= 3;
 
 		dma_ctrl_start_p2l_tbs   <= '0';
 		
 		pd_pdm_data_valid_tbs  <= '1';                      -- Indicates Data is valid
         pd_pdm_data_last_tbs   <= '0';                      -- Indicates end of the packet
-        pd_pdm_data_tbs        <= X"DEADBEEF";  -- Header
-        pd_pdm_be_tbs          <= X"F";   -- Byte Enable for data
+        pd_pdm_data_tbs        <= X"DEADBEEF00000000";  -- Header
+        pd_pdm_be_tbs          <= X"FF";   -- Byte Enable for data
 		
 		wait for period;
 		step <= 4;
 		
-		pd_pdm_data_tbs        <= X"00000004";  -- Adresse
+		pd_pdm_data_tbs        <= X"DEADBABE00000001";  -- Adresse
 		
 		wait for period;
 		step <= 5;
 		
-		pd_pdm_data_tbs        <= X"BEEFCACA";  -- Data
+		pd_pdm_data_tbs        <= X"BABECACA00000002";  -- Data
 		
 		wait for period;
-		step <= 6;
+		--step <= 6;
 		
 		
-		pd_pdm_data_tbs        <= X"DEADBABE";  -- Data
+		--pd_pdm_data_tbs        <= X"DEADBABE";  -- Data
 		
-		wait for period;
-		step <= 7;
+		--wait for period;
+		--step <= 7;
         
-        pd_pdm_data_tbs        <= X"DEADDEAD";  -- Data
+        --pd_pdm_data_tbs        <= X"DEADDEAD";  -- Data
 		
-		wait for period;
-        step <= 8;
+		--wait for period;
+        --step <= 8;
         
-        pd_pdm_data_tbs        <= X"DEADBEEF";  -- Data
+        --pd_pdm_data_tbs        <= X"DEADBEEF";  -- Data
         
-        wait for period;
-        step <= 9;
+        --wait for period;
+        --step <= 9;
+		
+		--pd_pdm_data_tbs        <= X"CACABEEF";  -- Data
+        
+        --wait for period;
+        step <= 10;
         
         pd_pdm_data_last_tbs   <= '1';
-        pd_pdm_data_tbs        <= X"DEADCACA";  -- Data
+        pd_pdm_data_tbs        <= X"DEADC4C400000003";  -- Data
         
         wait for period;
-        step <= 10;
+        step <= 11;
 
         
         pd_pdm_data_valid_tbs  <= '0';                      -- Indicates Data is valid
@@ -364,9 +375,9 @@ begin
 		  -- From P2L Decoder (receive the read completion)
 		  --
 		  -- Header
-		  pd_pdm_hdr_start_i   =>   pd_pdm_hdr_start_tbs, -- Header strobe
-		  pd_pdm_hdr_length_i  =>   pd_pdm_hdr_length_tbs,-- Packet length in 32-bit words multiples
-		  pd_pdm_hdr_cid_i     =>   pd_pdm_hdr_cid_tbs,-- Completion ID
+		  --pd_pdm_hdr_start_i   =>   pd_pdm_hdr_start_tbs, -- Header strobe
+		  --pd_pdm_hdr_length_i  =>   pd_pdm_hdr_length_tbs,-- Packet length in 32-bit words multiples
+		  --pd_pdm_hdr_cid_i     =>   pd_pdm_hdr_cid_tbs,-- Completion ID
 		  pd_pdm_master_cpld_i =>   pd_pdm_master_cpld_tbs, -- Master read completion with data
 		  pd_pdm_master_cpln_i =>   pd_pdm_master_cpln_tbs, -- Master read completion without data
 		  --
@@ -383,9 +394,9 @@ begin
 
 		  ---------------------------------------------------------
 		  -- To the P2L Interface (send the DMA Master Read request)
-		  pdm_arb_valid_o  => pdm_arb_valid_s, -- Read completion signals
-		  pdm_arb_dframe_o => pdm_arb_dframe_s, -- Toward the arbiter
-		  pdm_arb_data_o   => pdm_arb_data_s,
+		  pdm_arb_tvalid_o  => pdm_arb_tvalid_s, -- Read completion signals
+		  pdm_arb_tlast_o => pdm_arb_tlast_s, -- Toward the arbiter
+		  pdm_arb_tdata_o   => pdm_arb_tdata_s,
 		  pdm_arb_req_o    => pdm_arb_req_s,
 		  arb_pdm_gnt_i    => arb_pdm_gnt_tbs,
 

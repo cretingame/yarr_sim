@@ -1,4 +1,4 @@
-// (c) Copyright 1995-2016 Xilinx, Inc. All rights reserved.
+// (c) Copyright 1995-2017 Xilinx, Inc. All rights reserved.
 // 
 // This file contains confidential and proprietary information
 // of Xilinx, Inc. and is protected under U.S. and
@@ -48,7 +48,7 @@
 
 
 // IP VLNV: xilinx.com:ip:fifo_generator:13.1
-// IP Revision: 2
+// IP Revision: 3
 
 `timescale 1ns/1ps
 
@@ -91,7 +91,7 @@ output wire empty;
 output wire valid;
 output wire prog_full;
 
-  fifo_generator_v13_1_2 #(
+  fifo_generator_v13_1_3 #(
     .C_COMMON_CLOCK(0),
     .C_SELECT_XPM(0),
     .C_COUNT_TYPE(0),
@@ -131,8 +131,8 @@ output wire prog_full;
     .C_PROG_EMPTY_THRESH_ASSERT_VAL(4),
     .C_PROG_EMPTY_THRESH_NEGATE_VAL(5),
     .C_PROG_EMPTY_TYPE(0),
-    .C_PROG_FULL_THRESH_ASSERT_VAL(509),
-    .C_PROG_FULL_THRESH_NEGATE_VAL(508),
+    .C_PROG_FULL_THRESH_ASSERT_VAL(511),
+    .C_PROG_FULL_THRESH_NEGATE_VAL(510),
     .C_PROG_FULL_TYPE(4),
     .C_RD_DATA_COUNT_WIDTH(9),
     .C_RD_DEPTH(512),

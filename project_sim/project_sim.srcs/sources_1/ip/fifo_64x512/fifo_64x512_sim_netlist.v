@@ -1,10 +1,10 @@
 // Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
-// Tool Version: Vivado v.2016.3 (win64) Build 1682563 Mon Oct 10 19:07:27 MDT 2016
-// Date        : Wed Dec 14 11:05:43 2016
+// Tool Version: Vivado v.2016.4 (win64) Build 1733598 Wed Dec 14 22:35:39 MST 2016
+// Date        : Wed Jan 11 16:00:11 2017
 // Host        : W530_Dux running 64-bit major release  (build 9200)
-// Command     : write_verilog -force -mode funcsim -rename_top fifo_64x512 -prefix
-//               fifo_64x512_ fifo_64x512_sim_netlist.v
+// Command     : write_verilog -force -mode funcsim
+//               C:/cygwin64/home/saute/yarr_sim/project_sim/project_sim.srcs/sources_1/ip/fifo_64x512/fifo_64x512_sim_netlist.v
 // Design      : fifo_64x512
 // Purpose     : This verilog netlist is a functional simulation representation of the design and should not be modified
 //               or synthesized. This netlist cannot be used for SDF annotated simulation.
@@ -12,7 +12,7 @@
 // --------------------------------------------------------------------------------
 `timescale 1 ps / 1 ps
 
-(* CHECK_LICENSE_TYPE = "fifo_64x512,fifo_generator_v13_1_2,{}" *) (* downgradeipidentifiedwarnings = "yes" *) (* x_core_info = "fifo_generator_v13_1_2,Vivado 2016.3" *) 
+(* CHECK_LICENSE_TYPE = "fifo_64x512,fifo_generator_v13_1_3,{}" *) (* downgradeipidentifiedwarnings = "yes" *) (* x_core_info = "fifo_generator_v13_1_3,Vivado 2016.4" *) 
 (* NotValidForBitStream *)
 module fifo_64x512
    (rst,
@@ -312,14 +312,14 @@ module fifo_64x512
   (* C_PROG_EMPTY_TYPE_WACH = "0" *) 
   (* C_PROG_EMPTY_TYPE_WDCH = "0" *) 
   (* C_PROG_EMPTY_TYPE_WRCH = "0" *) 
-  (* C_PROG_FULL_THRESH_ASSERT_VAL = "509" *) 
+  (* C_PROG_FULL_THRESH_ASSERT_VAL = "511" *) 
   (* C_PROG_FULL_THRESH_ASSERT_VAL_AXIS = "1023" *) 
   (* C_PROG_FULL_THRESH_ASSERT_VAL_RACH = "1023" *) 
   (* C_PROG_FULL_THRESH_ASSERT_VAL_RDCH = "1023" *) 
   (* C_PROG_FULL_THRESH_ASSERT_VAL_WACH = "1023" *) 
   (* C_PROG_FULL_THRESH_ASSERT_VAL_WDCH = "1023" *) 
   (* C_PROG_FULL_THRESH_ASSERT_VAL_WRCH = "1023" *) 
-  (* C_PROG_FULL_THRESH_NEGATE_VAL = "508" *) 
+  (* C_PROG_FULL_THRESH_NEGATE_VAL = "510" *) 
   (* C_PROG_FULL_TYPE = "4" *) 
   (* C_PROG_FULL_TYPE_AXIS = "0" *) 
   (* C_PROG_FULL_TYPE_RACH = "0" *) 
@@ -379,7 +379,7 @@ module fifo_64x512
   (* C_WR_PNTR_WIDTH_WDCH = "10" *) 
   (* C_WR_PNTR_WIDTH_WRCH = "4" *) 
   (* C_WR_RESPONSE_LATENCY = "1" *) 
-  fifo_64x512_fifo_generator_v13_1_2 U0
+  fifo_64x512_fifo_generator_v13_1_3 U0
        (.almost_empty(NLW_U0_almost_empty_UNCONNECTED),
         .almost_full(NLW_U0_almost_full_UNCONNECTED),
         .axi_ar_data_count(NLW_U0_axi_ar_data_count_UNCONNECTED[4:0]),
@@ -613,6 +613,7 @@ module fifo_64x512
         .wr_rst_busy(NLW_U0_wr_rst_busy_UNCONNECTED));
 endmodule
 
+(* ORIG_REF_NAME = "blk_mem_gen_generic_cstr" *) 
 module fifo_64x512_blk_mem_gen_generic_cstr
    (D,
     rd_clk,
@@ -655,6 +656,7 @@ module fifo_64x512_blk_mem_gen_generic_cstr
         .wr_clk(wr_clk));
 endmodule
 
+(* ORIG_REF_NAME = "blk_mem_gen_prim_width" *) 
 module fifo_64x512_blk_mem_gen_prim_width
    (D,
     rd_clk,
@@ -697,6 +699,7 @@ module fifo_64x512_blk_mem_gen_prim_width
         .wr_clk(wr_clk));
 endmodule
 
+(* ORIG_REF_NAME = "blk_mem_gen_prim_wrapper" *) 
 module fifo_64x512_blk_mem_gen_prim_wrapper
    (D,
     rd_clk,
@@ -954,6 +957,7 @@ module fifo_64x512_blk_mem_gen_prim_wrapper
         .WEBWE({E,E,E,E,E,E,E,E}));
 endmodule
 
+(* ORIG_REF_NAME = "blk_mem_gen_top" *) 
 module fifo_64x512_blk_mem_gen_top
    (D,
     rd_clk,
@@ -996,7 +1000,8 @@ module fifo_64x512_blk_mem_gen_top
         .wr_clk(wr_clk));
 endmodule
 
-module fifo_64x512_blk_mem_gen_v8_3_4
+(* ORIG_REF_NAME = "blk_mem_gen_v8_3_5" *) 
+module fifo_64x512_blk_mem_gen_v8_3_5
    (D,
     rd_clk,
     wr_clk,
@@ -1026,7 +1031,7 @@ module fifo_64x512_blk_mem_gen_v8_3_4
   wire tmp_ram_rd_en;
   wire wr_clk;
 
-  fifo_64x512_blk_mem_gen_v8_3_4_synth inst_blk_mem_gen
+  fifo_64x512_blk_mem_gen_v8_3_5_synth inst_blk_mem_gen
        (.D(D),
         .E(E),
         .Q(Q),
@@ -1038,7 +1043,8 @@ module fifo_64x512_blk_mem_gen_v8_3_4
         .wr_clk(wr_clk));
 endmodule
 
-module fifo_64x512_blk_mem_gen_v8_3_4_synth
+(* ORIG_REF_NAME = "blk_mem_gen_v8_3_5_synth" *) 
+module fifo_64x512_blk_mem_gen_v8_3_5_synth
    (D,
     rd_clk,
     wr_clk,
@@ -1080,6 +1086,7 @@ module fifo_64x512_blk_mem_gen_v8_3_4_synth
         .wr_clk(wr_clk));
 endmodule
 
+(* ORIG_REF_NAME = "clk_x_pntrs" *) 
 module fifo_64x512_clk_x_pntrs
    (ram_full_fb_i_reg,
     RD_PNTR_WR,
@@ -1654,6 +1661,7 @@ module fifo_64x512_clk_x_pntrs
         .Q(wr_pntr_gc[8]));
 endmodule
 
+(* ORIG_REF_NAME = "compare" *) 
 module fifo_64x512_compare
    (comp1,
     \gic0.gc1.count_d2_reg[1] ,
@@ -1880,6 +1888,7 @@ module fifo_64x512_compare_5
         .S({\NLW_gmux.gm[4].gms.ms_CARRY4_S_UNCONNECTED [3:1],\gc0.count_reg[8] }));
 endmodule
 
+(* ORIG_REF_NAME = "fifo_generator_ramfifo" *) 
 module fifo_64x512_fifo_generator_ramfifo
    (empty,
     valid,
@@ -2002,6 +2011,7 @@ module fifo_64x512_fifo_generator_ramfifo
         .wr_clk(wr_clk));
 endmodule
 
+(* ORIG_REF_NAME = "fifo_generator_top" *) 
 module fifo_64x512_fifo_generator_top
    (empty,
     valid,
@@ -2105,9 +2115,9 @@ endmodule
 (* C_PROG_EMPTY_THRESH_ASSERT_VAL_WRCH = "1022" *) (* C_PROG_EMPTY_THRESH_NEGATE_VAL = "5" *) (* C_PROG_EMPTY_TYPE = "0" *) 
 (* C_PROG_EMPTY_TYPE_AXIS = "0" *) (* C_PROG_EMPTY_TYPE_RACH = "0" *) (* C_PROG_EMPTY_TYPE_RDCH = "0" *) 
 (* C_PROG_EMPTY_TYPE_WACH = "0" *) (* C_PROG_EMPTY_TYPE_WDCH = "0" *) (* C_PROG_EMPTY_TYPE_WRCH = "0" *) 
-(* C_PROG_FULL_THRESH_ASSERT_VAL = "509" *) (* C_PROG_FULL_THRESH_ASSERT_VAL_AXIS = "1023" *) (* C_PROG_FULL_THRESH_ASSERT_VAL_RACH = "1023" *) 
+(* C_PROG_FULL_THRESH_ASSERT_VAL = "511" *) (* C_PROG_FULL_THRESH_ASSERT_VAL_AXIS = "1023" *) (* C_PROG_FULL_THRESH_ASSERT_VAL_RACH = "1023" *) 
 (* C_PROG_FULL_THRESH_ASSERT_VAL_RDCH = "1023" *) (* C_PROG_FULL_THRESH_ASSERT_VAL_WACH = "1023" *) (* C_PROG_FULL_THRESH_ASSERT_VAL_WDCH = "1023" *) 
-(* C_PROG_FULL_THRESH_ASSERT_VAL_WRCH = "1023" *) (* C_PROG_FULL_THRESH_NEGATE_VAL = "508" *) (* C_PROG_FULL_TYPE = "4" *) 
+(* C_PROG_FULL_THRESH_ASSERT_VAL_WRCH = "1023" *) (* C_PROG_FULL_THRESH_NEGATE_VAL = "510" *) (* C_PROG_FULL_TYPE = "4" *) 
 (* C_PROG_FULL_TYPE_AXIS = "0" *) (* C_PROG_FULL_TYPE_RACH = "0" *) (* C_PROG_FULL_TYPE_RDCH = "0" *) 
 (* C_PROG_FULL_TYPE_WACH = "0" *) (* C_PROG_FULL_TYPE_WDCH = "0" *) (* C_PROG_FULL_TYPE_WRCH = "0" *) 
 (* C_RACH_TYPE = "0" *) (* C_RDCH_TYPE = "0" *) (* C_RD_DATA_COUNT_WIDTH = "9" *) 
@@ -2127,8 +2137,8 @@ endmodule
 (* C_WR_DEPTH_WRCH = "16" *) (* C_WR_FREQ = "1" *) (* C_WR_PNTR_WIDTH = "9" *) 
 (* C_WR_PNTR_WIDTH_AXIS = "10" *) (* C_WR_PNTR_WIDTH_RACH = "4" *) (* C_WR_PNTR_WIDTH_RDCH = "10" *) 
 (* C_WR_PNTR_WIDTH_WACH = "4" *) (* C_WR_PNTR_WIDTH_WDCH = "10" *) (* C_WR_PNTR_WIDTH_WRCH = "4" *) 
-(* C_WR_RESPONSE_LATENCY = "1" *) 
-module fifo_64x512_fifo_generator_v13_1_2
+(* C_WR_RESPONSE_LATENCY = "1" *) (* ORIG_REF_NAME = "fifo_generator_v13_1_3" *) 
+module fifo_64x512_fifo_generator_v13_1_3
    (backup,
     backup_marker,
     clk,
@@ -3132,7 +3142,7 @@ module fifo_64x512_fifo_generator_v13_1_2
        (.G(\<const0> ));
   VCC VCC
        (.P(\<const1> ));
-  fifo_64x512_fifo_generator_v13_1_2_synth inst_fifo_gen
+  fifo_64x512_fifo_generator_v13_1_3_synth inst_fifo_gen
        (.din(din),
         .dout(dout),
         .empty(empty),
@@ -3148,7 +3158,8 @@ module fifo_64x512_fifo_generator_v13_1_2
         .wr_en(wr_en));
 endmodule
 
-module fifo_64x512_fifo_generator_v13_1_2_synth
+(* ORIG_REF_NAME = "fifo_generator_v13_1_3_synth" *) 
+module fifo_64x512_fifo_generator_v13_1_3_synth
    (empty,
     valid,
     full,
@@ -3206,6 +3217,7 @@ module fifo_64x512_fifo_generator_v13_1_2_synth
         .wr_en(wr_en));
 endmodule
 
+(* ORIG_REF_NAME = "memory" *) 
 module fifo_64x512_memory
    (dout,
     rd_clk,
@@ -3240,7 +3252,7 @@ module fifo_64x512_memory
   wire tmp_ram_rd_en;
   wire wr_clk;
 
-  fifo_64x512_blk_mem_gen_v8_3_4 \gbm.gbmg.gbmga.ngecc.bmg 
+  fifo_64x512_blk_mem_gen_v8_3_5 \gbm.gbmg.gbmga.ngecc.bmg 
        (.D(doutb),
         .E(E),
         .Q(Q),
@@ -3764,6 +3776,7 @@ module fifo_64x512_memory
         .R(SR));
 endmodule
 
+(* ORIG_REF_NAME = "rd_bin_cntr" *) 
 module fifo_64x512_rd_bin_cntr
    (ram_empty_fb_i_reg,
     Q,
@@ -4034,6 +4047,7 @@ module fifo_64x512_rd_bin_cntr
         .O(ram_empty_fb_i_reg_0));
 endmodule
 
+(* ORIG_REF_NAME = "rd_fwft" *) 
 module fifo_64x512_rd_fwft
    (out,
     empty,
@@ -4232,6 +4246,7 @@ module fifo_64x512_rd_fwft
         .Q(user_valid));
 endmodule
 
+(* ORIG_REF_NAME = "rd_logic" *) 
 module fifo_64x512_rd_logic
    (empty,
     valid,
@@ -4309,6 +4324,7 @@ module fifo_64x512_rd_logic
         .rd_clk(rd_clk));
 endmodule
 
+(* ORIG_REF_NAME = "rd_status_flags_as" *) 
 module fifo_64x512_rd_status_flags_as
    (out,
     v1_reg,
@@ -4379,6 +4395,7 @@ module fifo_64x512_rd_status_flags_as
         .Q(ram_empty_i));
 endmodule
 
+(* ORIG_REF_NAME = "reset_blk_ramfifo" *) 
 module fifo_64x512_reset_blk_ramfifo
    (out,
     \gc0.count_reg[1] ,
@@ -4559,6 +4576,7 @@ module fifo_64x512_reset_blk_ramfifo
         .Q(wr_rst_reg[2]));
 endmodule
 
+(* ORIG_REF_NAME = "synchronizer_ff" *) 
 module fifo_64x512_synchronizer_ff
    (out,
     \ngwrdrst.grst.g7serrst.rd_rst_asreg_reg ,
@@ -5320,6 +5338,7 @@ module fifo_64x512_synchronizer_ff__parameterized3
         .O(\gnxpm_cdc.rd_pntr_bin_reg[7] [7]));
 endmodule
 
+(* ORIG_REF_NAME = "wr_bin_cntr" *) 
 module fifo_64x512_wr_bin_cntr
    (\gdiff.diff_pntr_pad_reg[8] ,
     Q,
@@ -5875,6 +5894,7 @@ module fifo_64x512_wr_bin_cntr
         .O(S[0]));
 endmodule
 
+(* ORIG_REF_NAME = "wr_logic" *) 
 module fifo_64x512_wr_logic
    (full,
     prog_full,
@@ -5989,6 +6009,7 @@ module fifo_64x512_wr_logic
         .wr_clk(wr_clk));
 endmodule
 
+(* ORIG_REF_NAME = "wr_pf_as" *) 
 module fifo_64x512_wr_pf_as
    (prog_full,
     wr_clk,
@@ -6429,6 +6450,7 @@ module fifo_64x512_wr_pf_as
         .S({1'b0,1'b0,1'b0,\gic0.gc1.count_d2_reg[8] }));
 endmodule
 
+(* ORIG_REF_NAME = "wr_status_flags_as" *) 
 module fifo_64x512_wr_status_flags_as
    (full,
     out,
