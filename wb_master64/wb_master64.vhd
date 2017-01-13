@@ -27,6 +27,10 @@ entity wb_master64 is
 		m_axis_tx_tvalid_o : out STD_LOGIC;
 		m_axis_tx_ready_i : in STD_LOGIC;
 		m_axis_tx_req_o    : out  std_logic;
+		-- L2P DMA
+		pd_pdm_data_valid_o  : out std_logic;                      -- Indicates Data is valid
+        pd_pdm_data_last_o   : out std_logic;                      -- Indicates end of the packet
+        pd_pdm_data_o        : out std_logic_vector(63 downto 0);  -- Data
 		-- Wishbone master
 		wb_adr_o : out STD_LOGIC_VECTOR (wb_address_width_c - 1 downto 0);
 		wb_dat_o : out STD_LOGIC_VECTOR (wb_data_width_c - 1 downto 0);
@@ -49,7 +53,7 @@ architecture Behavioral of wb_master64 is
 	constant tlp_type_Mr_c : STD_LOGIC_VECTOR (5 - 1 downto 0):= "00000";
 	constant tlp_type_Cpl_c : STD_LOGIC_VECTOR (5 - 1 downto 0):= "01010";
 	
-	type state_t is (idle, hd0_rx, hd1_rx, wb_write, ignore, wb_read, hd0_tx, hd1_tx, lastdata_rx, data_tx);
+	type state_t is (idle, hd0_rx, hd1_rx, wb_write, ignore, wb_read, hd0_tx, hd1_tx, lastdata_rx, data_tx, l2p_data_rx);
 	signal state_s : state_t;
 	--signal wb_adr_s : STD_LOGIC_VECTOR (wb_address_width_c - 1 downto 0);
 	signal wb_dat_o_s : STD_LOGIC_VECTOR (wb_data_width_c - 1 downto 0);
@@ -65,12 +69,15 @@ architecture Behavioral of wb_master64 is
 	signal tlp_prefix : bool_t;
 	signal address_s : STD_LOGIC_VECTOR(wb_address_width_c-1 downto 0); 
 	signal data_s : STD_LOGIC_VECTOR(64-1 downto 0);
+	
 	signal s_axis_rx_tdata_s : STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
 	signal s_axis_rx_tkeep_s : STD_LOGIC_VECTOR (axis_data_width_c/8 - 1 downto 0);
 	signal s_axis_rx_tuser_s : STD_LOGIC_VECTOR (21 downto 0);
 	signal m_axis_tx_tdata_s : STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
 	signal wb_dat_i_s : STD_LOGIC_VECTOR (wb_data_width_c - 1 downto 0);
 	signal s_axis_rx_tlast_s : STD_LOGIC;
+	signal s_axis_rx_tdata_0_s : STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
+	signal s_axis_rx_tdata_1_s : STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
 begin
 
 
@@ -93,7 +100,9 @@ begin
 						--end if;
 					end if;
 				when hd1_rx =>
-					if s_axis_rx_tlast_s = '1' then
+					if tlp_type_s = CplD then
+						state_s <= l2p_data_rx;
+					elsif s_axis_rx_tlast_s = '1' then --if there is no data (previous tlast)
 						if header_type_s = H3DW then
 							state_s <= wb_write;
 						elsif header_type_s = H4DW and tlp_type_s = MRd then
@@ -142,6 +151,10 @@ begin
 					state_s <= wb_write;
 				when data_tx =>
 					state_s <= idle;
+				when l2p_data_rx =>
+					if s_axis_rx_tlast_s = '1' then
+						state_s <= idle;
+					end if;
 			end case;
 		end if;		
 	end process state_p;
@@ -307,7 +320,37 @@ begin
 		end case;
 	end process wb_output_p;
 	
-	axis_output_p:process (state_s,header_type_s,tlp_type_s)
+	p2l_data_delay_p : process(clk_i)
+	begin
+		if (clk_i'event and clk_i = '1') then
+			if (s_axis_rx_tvalid_i = '1') then
+				s_axis_rx_tdata_0_s <= s_axis_rx_tdata_i;
+				s_axis_rx_tdata_1_s <= s_axis_rx_tdata_0_s;
+			end if;
+		end if;
+	end process p2l_data_delay_p;
+	
+	pd_pdm_data_o <= s_axis_rx_tdata_0_s(31 downto 0) & s_axis_rx_tdata_1_s(63 downto 32);
+	
+	p2l_output_p:process (state_s,s_axis_rx_tvalid_i,s_axis_rx_tlast_i,s_axis_rx_tdata_i)
+	begin
+		case state_s is
+			when idle =>
+				pd_pdm_data_valid_o <= '0';
+				pd_pdm_data_last_o <= '0';
+				--pd_pdm_data_o <= (others => '0');
+			when l2p_data_rx =>
+				pd_pdm_data_valid_o <= s_axis_rx_tvalid_i;
+				pd_pdm_data_last_o <= s_axis_rx_tlast_i;
+				--pd_pdm_data_o <= s_axis_rx_tdata_0_s(31 downto 0) & s_axis_rx_tdata_1_s(63 downto 32);
+			when others =>
+				pd_pdm_data_valid_o <= '0';
+				pd_pdm_data_last_o <= '0';
+				--pd_pdm_data_o <= (others => '0');
+		end case;
+	end process p2l_output_p;
+	
+	axis_output_p:process (state_s,header_type_s,tlp_type_s,s_axis_rx_tlast_s,payload_length_s,data_s,address_s)
 	begin
 		case state_s is
 				when idle =>
@@ -391,7 +434,13 @@ begin
 					m_axis_tx_tvalid_o <= '1';
 					m_axis_tx_tlast_o <= '1';
 					m_axis_tx_tdata_o <= data_s; -- TODO: endianness
-					m_axis_tx_req_o <= '1';				
+					m_axis_tx_req_o <= '1';
+				when l2p_data_rx =>
+					s_axis_rx_ready_o <= '1';
+					m_axis_tx_tvalid_o <= '0';
+					m_axis_tx_tlast_o <= '0';
+					m_axis_tx_tdata_o <= (others => '0');
+					m_axis_tx_req_o <= '0';
 			end case;
 	end process axis_output_p;
 	

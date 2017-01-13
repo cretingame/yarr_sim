@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="928000001fs"></ZoomEndTime>
-      <Cursor1Time time="866000000fs"></Cursor1Time>
+      <ZoomStartTime time="2954269999fs"></ZoomStartTime>
+      <ZoomEndTime time="3902183440fs"></ZoomEndTime>
+      <Cursor1Time time="11000000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="187"></NameColumnWidth>
-      <ValueColumnWidth column_width="124"></ValueColumnWidth>
+      <ValueColumnWidth column_width="114"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="24" />
+   <WVObjectSize size="29" />
    <wvobject fp_name="/wb_master64_bench/step" type="other">
       <obj_property name="ElementShortName">step</obj_property>
       <obj_property name="ObjectShortName">step</obj_property>
@@ -104,6 +104,24 @@
       <obj_property name="CustomSignalColor">#00FFFF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
+   <wvobject fp_name="/wb_master64_bench/pd_pdm_data_valid_s" type="logic">
+      <obj_property name="ElementShortName">pd_pdm_data_valid_s</obj_property>
+      <obj_property name="ObjectShortName">pd_pdm_data_valid_s</obj_property>
+      <obj_property name="CustomSignalColor">#FF0080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/wb_master64_bench/pd_pdm_data_last_s" type="logic">
+      <obj_property name="ElementShortName">pd_pdm_data_last_s</obj_property>
+      <obj_property name="ObjectShortName">pd_pdm_data_last_s</obj_property>
+      <obj_property name="CustomSignalColor">#FF0080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/wb_master64_bench/pd_pdm_data_s" type="array">
+      <obj_property name="ElementShortName">pd_pdm_data_s[63:0]</obj_property>
+      <obj_property name="ObjectShortName">pd_pdm_data_s[63:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF0080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
    <wvobject fp_name="/wb_master64_bench/wb_adr_s" type="array">
       <obj_property name="ElementShortName">wb_adr_s[63:0]</obj_property>
       <obj_property name="ObjectShortName">wb_adr_s[63:0]</obj_property>
@@ -149,6 +167,14 @@
    <wvobject fp_name="/wb_master64_bench/dut1/state_s" type="other">
       <obj_property name="ElementShortName">state_s</obj_property>
       <obj_property name="ObjectShortName">state_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/wb_master64_bench/dut1/tlp_type_s" type="other">
+      <obj_property name="ElementShortName">tlp_type_s</obj_property>
+      <obj_property name="ObjectShortName">tlp_type_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/wb_master64_bench/dut1/header_type_s" type="other">
+      <obj_property name="ElementShortName">header_type_s</obj_property>
+      <obj_property name="ObjectShortName">header_type_s</obj_property>
    </wvobject>
    <wvobject fp_name="/wb_master64_bench/dut2/RAM" type="array">
       <obj_property name="ElementShortName">RAM[63:0][63:0]</obj_property>

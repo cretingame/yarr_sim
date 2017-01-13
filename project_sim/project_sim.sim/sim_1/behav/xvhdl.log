@@ -10,10 +10,6 @@ INFO: [VRFC 10-307] analyzing entity l2p_fifo
 INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/common/common_pkg.vhd" into library xil_defaultlib
 INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/l2p_dma/l2p_dma_master.vhd" into library xil_defaultlib
 INFO: [VRFC 10-307] analyzing entity l2p_dma_master
-INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/wb_master/axis_rx.vhd" into library xil_defaultlib
-INFO: [VRFC 10-307] analyzing entity axis_rx
-INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/wb_master/top_bench.vhd" into library xil_defaultlib
-INFO: [VRFC 10-307] analyzing entity top_bench
 INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/l2p_dma/l2p_dma_bench.vhd" into library xil_defaultlib
 INFO: [VRFC 10-307] analyzing entity l2p_dma_bench
 INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/l2p_arbiter/l2p_arbiter.vhd" into library xil_defaultlib
@@ -24,3 +20,9 @@ INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/p2l_dma
 INFO: [VRFC 10-307] analyzing entity p2l_dma_bench
 INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/p2l_dma/generic_async_fifo_wrapper.vhd" into library xil_defaultlib
 INFO: [VRFC 10-307] analyzing entity generic_async_fifo
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/top/top_bench.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity top_bench
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/top/app.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity app
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/top/simple_counter.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity simple_counter

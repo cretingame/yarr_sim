@@ -33,6 +33,10 @@ architecture Behavioral of wb_master64_bench is
 		signal m_axis_tx_tlast_s : STD_LOGIC;
 		signal m_axis_tx_tvalid_s : STD_LOGIC;
 		signal m_axis_tx_ready_tbs : STD_LOGIC;
+		-- L2P DMA
+		signal pd_pdm_data_valid_s  : std_logic;                      -- Indicates Data is valid
+        signal pd_pdm_data_last_s   : std_logic;                      -- Indicates end of the packet
+        signal pd_pdm_data_s        : std_logic_vector(63 downto 0);  -- Data
 		-- Wishbone Master
 		signal wb_adr_s : STD_LOGIC_VECTOR (wb_address_width_c - 1 downto 0);
 		signal wb_dat_o_s : STD_LOGIC_VECTOR (wb_data_width_c - 1 downto 0);
@@ -67,25 +71,31 @@ architecture Behavioral of wb_master64_bench is
 				rx_data_0(39 downto 32) := X"ff";
 			end if;
 			
-			if tlp_type_i = MRd then
-				if header_type_i = H3DW then
-					rx_data_0(31 downto 29) := "000"; -- H0 FMT
-				else
-					rx_data_0(31 downto 29) := "001"; -- H0 FMT
-				end if;
-				
-			elsif tlp_type_i = MWr then
-				if header_type_i = H3DW then
+			case tlp_type_i is
+				when MRd =>
+					if header_type_i = H3DW then
+						rx_data_0(31 downto 29) := "000"; -- H0 FMT
+					else
+						rx_data_0(31 downto 29) := "001"; -- H0 FMT
+					end if;
+					rx_data_0(28 downto 24) := "00000"; -- H0 type Memory request
+				when MWr =>
+					if header_type_i = H3DW then
+						rx_data_0(31 downto 29) := "010"; -- H0 FMT
+					else
+						rx_data_0(31 downto 29) := "011"; -- H0 FMT
+					end if;
+					rx_data_0(28 downto 24) := "00000"; -- H0 type Memory request
+				when CplD =>
 					rx_data_0(31 downto 29) := "010"; -- H0 FMT
-				else
-					rx_data_0(31 downto 29) := "011"; -- H0 FMT
-				end if;
-			else
+					rx_data_0(28 downto 24) := "01010"; -- H0 type Memory request
+				when others =>
+				
+				
+			end case;
 			
-			end if;
 			
 			
-			rx_data_0(28 downto 24) := "00000"; -- H0 type Memory request
 			
 			rx_data_0(23 downto 16) := X"00";   -- some unused bits
 			rx_data_0(15 downto 10) := "000000"; --H0 unused bits 
@@ -125,6 +135,10 @@ architecture Behavioral of wb_master64_bench is
 			m_axis_tx_tlast_o : out STD_LOGIC;
 			m_axis_tx_tvalid_o : out STD_LOGIC;
 			m_axis_tx_ready_i : in STD_LOGIC;
+			-- L2P DMA
+			pd_pdm_data_valid_o  : out std_logic;                      -- Indicates Data is valid
+			pd_pdm_data_last_o   : out std_logic;                      -- Indicates end of the packet
+			pd_pdm_data_o        : out std_logic_vector(63 downto 0);  -- Data
 			-- Wishbone master
 			wb_adr_o : out STD_LOGIC_VECTOR (wb_address_width_c - 1 downto 0);
 			wb_dat_o : out STD_LOGIC_VECTOR (wb_data_width_c - 1 downto 0);
@@ -338,7 +352,41 @@ begin
 		s_axis_rx_tvalid_tbs <= '0';
 		m_axis_tx_ready_tbs <= '1';
 		wait for period;
+		wait for period;
+		wait for period;
+		wait for period;
+		wait for period;
+		wait for period;
 		step <= 17;
+		axis_data_p (CplD,H3DW,X"0000000000000010",X"BEEF5A5A" & X"BEEF0001","00" & X"04",data_0,data_1,data_2);
+		s_axis_rx_tdata_tbs <= data_0;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60004";
+		s_axis_rx_tvalid_tbs <= '1';
+		m_axis_tx_ready_tbs <= '1';
+		wait for period;
+		step <= 18;
+		s_axis_rx_tdata_tbs <= data_1;
+		wait for period;
+		s_axis_rx_tdata_tbs <=  X"BEEF0002" & X"DEAD0001";
+		wait for period;
+		s_axis_rx_tdata_tbs <=  X"CACA0003" & X"DEAD0002";
+		s_axis_rx_tkeep_tbs <= X"0F";
+		s_axis_rx_tlast_tbs <= '1';
+		
+		
+		
+		step <= 18;
+		
+		wait for period;
+		step <= 19;
+		s_axis_rx_tdata_tbs <= X"000F000000A00001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
+		m_axis_tx_ready_tbs <= '1';
 		wait;
 		
 	end process stimuli_p;
@@ -361,6 +409,10 @@ begin
 		m_axis_tx_tlast_o => m_axis_tx_tlast_s,
 		m_axis_tx_tvalid_o => m_axis_tx_tvalid_s,
 		m_axis_tx_ready_i => m_axis_tx_ready_tbs,
+		-- L2P DMA
+		pd_pdm_data_valid_o => pd_pdm_data_valid_s,
+        pd_pdm_data_last_o => pd_pdm_data_last_s,
+        pd_pdm_data_o => pd_pdm_data_s,
 		-- Wishbone Master
 		wb_adr_o => wb_adr_s,
 		wb_dat_o => wb_dat_o_s,

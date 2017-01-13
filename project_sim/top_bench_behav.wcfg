@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="top_bench_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="top_bench" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="9253917379fs"></ZoomStartTime>
+      <ZoomEndTime time="10149216525fs"></ZoomEndTime>
+      <Cursor1Time time="10000000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="200"></NameColumnWidth>
+      <ValueColumnWidth column_width="156"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="31" />
+   <wvobject fp_name="/top_bench/clk_tbs" type="logic">
+      <obj_property name="ElementShortName">clk_tbs</obj_property>
+      <obj_property name="ObjectShortName">clk_tbs</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/rst_tbs" type="logic">
+      <obj_property name="ElementShortName">rst_tbs</obj_property>
+      <obj_property name="ObjectShortName">rst_tbs</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/usr_sw_tbs" type="array">
+      <obj_property name="ElementShortName">usr_sw_tbs[2:0]</obj_property>
+      <obj_property name="ObjectShortName">usr_sw_tbs[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/usr_led_s" type="array">
+      <obj_property name="ElementShortName">usr_led_s[3:0]</obj_property>
+      <obj_property name="ObjectShortName">usr_led_s[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/front_led_s" type="array">
+      <obj_property name="ElementShortName">front_led_s[3:0]</obj_property>
+      <obj_property name="ObjectShortName">front_led_s[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/s_axis_rx_tdata_tbs" type="array">
+      <obj_property name="ElementShortName">s_axis_rx_tdata_tbs[63:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axis_rx_tdata_tbs[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/s_axis_rx_tkeep_tbs" type="array">
+      <obj_property name="ElementShortName">s_axis_rx_tkeep_tbs[7:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axis_rx_tkeep_tbs[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/s_axis_rx_tlast_tbs" type="logic">
+      <obj_property name="ElementShortName">s_axis_rx_tlast_tbs</obj_property>
+      <obj_property name="ObjectShortName">s_axis_rx_tlast_tbs</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/s_axis_rx_tready_s" type="logic">
+      <obj_property name="ElementShortName">s_axis_rx_tready_s</obj_property>
+      <obj_property name="ObjectShortName">s_axis_rx_tready_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/s_axis_rx_tuser_tbs" type="array">
+      <obj_property name="ElementShortName">s_axis_rx_tuser_tbs[21:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axis_rx_tuser_tbs[21:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/s_axis_rx_tvalid_tbs" type="logic">
+      <obj_property name="ElementShortName">s_axis_rx_tvalid_tbs</obj_property>
+      <obj_property name="ObjectShortName">s_axis_rx_tvalid_tbs</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/m_axis_tx_tdata_s" type="array">
+      <obj_property name="ElementShortName">m_axis_tx_tdata_s[63:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axis_tx_tdata_s[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/m_axis_tx_tkeep_s" type="array">
+      <obj_property name="ElementShortName">m_axis_tx_tkeep_s[7:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axis_tx_tkeep_s[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/m_axis_tx_tuser_s" type="array">
+      <obj_property name="ElementShortName">m_axis_tx_tuser_s[3:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axis_tx_tuser_s[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/m_axis_tx_tlast_s" type="logic">
+      <obj_property name="ElementShortName">m_axis_tx_tlast_s</obj_property>
+      <obj_property name="ObjectShortName">m_axis_tx_tlast_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/m_axis_tx_tvalid_s" type="logic">
+      <obj_property name="ElementShortName">m_axis_tx_tvalid_s</obj_property>
+      <obj_property name="ObjectShortName">m_axis_tx_tvalid_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/m_axis_tx_tready_tbs" type="logic">
+      <obj_property name="ElementShortName">m_axis_tx_tready_tbs</obj_property>
+      <obj_property name="ObjectShortName">m_axis_tx_tready_tbs</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/user_lnk_up_s" type="logic">
+      <obj_property name="ElementShortName">user_lnk_up_s</obj_property>
+      <obj_property name="ObjectShortName">user_lnk_up_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/user_app_rdy_s" type="logic">
+      <obj_property name="ElementShortName">user_app_rdy_s</obj_property>
+      <obj_property name="ObjectShortName">user_app_rdy_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/cfg_interrupt_s" type="logic">
+      <obj_property name="ElementShortName">cfg_interrupt_s</obj_property>
+      <obj_property name="ObjectShortName">cfg_interrupt_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/cfg_interrupt_rdy_s" type="logic">
+      <obj_property name="ElementShortName">cfg_interrupt_rdy_s</obj_property>
+      <obj_property name="ObjectShortName">cfg_interrupt_rdy_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/cfg_interrupt_assert_s" type="logic">
+      <obj_property name="ElementShortName">cfg_interrupt_assert_s</obj_property>
+      <obj_property name="ObjectShortName">cfg_interrupt_assert_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/cfg_interrupt_di_s" type="array">
+      <obj_property name="ElementShortName">cfg_interrupt_di_s[7:0]</obj_property>
+      <obj_property name="ObjectShortName">cfg_interrupt_di_s[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/cfg_interrupt_do_s" type="array">
+      <obj_property name="ElementShortName">cfg_interrupt_do_s[7:0]</obj_property>
+      <obj_property name="ObjectShortName">cfg_interrupt_do_s[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/cfg_interrupt_mmenable_s" type="array">
+      <obj_property name="ElementShortName">cfg_interrupt_mmenable_s[2:0]</obj_property>
+      <obj_property name="ObjectShortName">cfg_interrupt_mmenable_s[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/cfg_interrupt_msienable_s" type="logic">
+      <obj_property name="ElementShortName">cfg_interrupt_msienable_s</obj_property>
+      <obj_property name="ObjectShortName">cfg_interrupt_msienable_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/cfg_interrupt_msixenable_s" type="logic">
+      <obj_property name="ElementShortName">cfg_interrupt_msixenable_s</obj_property>
+      <obj_property name="ObjectShortName">cfg_interrupt_msixenable_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/cfg_interrupt_msixfm_s" type="logic">
+      <obj_property name="ElementShortName">cfg_interrupt_msixfm_s</obj_property>
+      <obj_property name="ObjectShortName">cfg_interrupt_msixfm_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/cfg_interrupt_stat_s" type="logic">
+      <obj_property name="ElementShortName">cfg_interrupt_stat_s</obj_property>
+      <obj_property name="ObjectShortName">cfg_interrupt_stat_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/cfg_pciecap_interrupt_msgnum_s" type="array">
+      <obj_property name="ElementShortName">cfg_pciecap_interrupt_msgnum_s[4:0]</obj_property>
+      <obj_property name="ObjectShortName">cfg_pciecap_interrupt_msgnum_s[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/step" type="other">
+      <obj_property name="ElementShortName">step</obj_property>
+      <obj_property name="ObjectShortName">step</obj_property>
+   </wvobject>
+</wave_config>
