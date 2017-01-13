@@ -241,7 +241,7 @@ begin
 		wait for period;
 		step <= 6;
 		axis_data_p (MRd,H3DW,X"0000000000000000",X"00000000" & X"BEEF5A5A","00" & X"00",data_0,data_1,data_2);
-		s_axis_rx_tdata_tbs <= X"0000000f" & X"00000001";
+		s_axis_rx_tdata_tbs <= data_0;
 		--s_axis_rx_tdata_tbs <= X"0000000f" & X"00000001";
 		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '0';

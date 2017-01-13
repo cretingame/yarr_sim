@@ -122,8 +122,8 @@ begin
 					if wb_ack_i = '1' then
 						if wb_we_s = '1' then
 							state_s <= idle;
-						elsif wb_we_s = '0' then
-							state_s <= wb_read;
+						--elsif wb_we_s = '0' then
+							--state_s <= wb_read;
 						else
 							state_s <= hd0_tx;
 						end if;
