@@ -55,7 +55,76 @@ architecture Behavioral of top_bench is
     signal cfg_pciecap_interrupt_msgnum_s : STD_LOGIC_VECTOR(4 DOWNTO 0);
 	
 	-- Test bench specific signals
-	signal step : integer range 1 to 10;
+	signal step : integer;
+	
+	type tlp_type_t is (MRd,MRdLk,MWr,IORd,IOWr,CfgRd0,CfgWr0,CfgRd1,CfgWr1,TCfgRd,TCfgWr,Msg,MsgD,Cpl,CplD,CplLk,CplDLk,LPrfx,unknown);
+	type header_t is (H3DW,H4DW);
+	
+	procedure axis_data_p (
+		tlp_type_i : in tlp_type_t;
+		header_type_i : in header_t;
+		address_i : in STD_LOGIC_VECTOR(64-1 downto 0); 
+		data_i : in STD_LOGIC_VECTOR(64-1 downto 0);
+		length_i : in STD_LOGIC_VECTOR(10-1 downto 0); 
+		rx_data_0 : out STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
+		rx_data_1 : out STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
+		rx_data_2 : out STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0)
+		) is
+	begin
+		rx_data_0(63 downto 48) := X"0000"; --H1 Requester ID
+		rx_data_0(47 downto 40) := X"00"; --H1 Tag 
+		
+		if length_i = "00" & X"01" then
+			rx_data_0(39 downto 32) := X"0f"; --H1 Tag and Last DW BE and 1st DW BE see ch. 2.2.5 pcie spec
+		else
+			rx_data_0(39 downto 32) := X"ff";
+		end if;
+		
+		case tlp_type_i is
+			when MRd =>
+				if header_type_i = H3DW then
+					rx_data_0(31 downto 29) := "000"; -- H0 FMT
+				else
+					rx_data_0(31 downto 29) := "001"; -- H0 FMT
+				end if;
+				rx_data_0(28 downto 24) := "00000"; -- H0 type Memory request
+			when MWr =>
+				if header_type_i = H3DW then
+					rx_data_0(31 downto 29) := "010"; -- H0 FMT
+				else
+					rx_data_0(31 downto 29) := "011"; -- H0 FMT
+				end if;
+				rx_data_0(28 downto 24) := "00000"; -- H0 type Memory request
+			when CplD =>
+				rx_data_0(31 downto 29) := "010"; -- H0 FMT
+				rx_data_0(28 downto 24) := "01010"; -- H0 type Memory request
+			when others =>
+			
+			
+		end case;
+		
+		
+		
+		
+		rx_data_0(23 downto 16) := X"00";   -- some unused bits
+		rx_data_0(15 downto 10) := "000000"; --H0 unused bits 
+		rx_data_0(9 downto 0) := length_i;  --H0 length H & length L
+		
+		if header_type_i = H3DW then
+			rx_data_1(63 downto 32) := data_i(31 downto 0); --D0 Data
+			rx_data_1(31 downto 0)	:= address_i(31 downto 0);  --H2 Adress	
+			rx_data_2 := (others => '0');
+		else
+			rx_data_1(63 downto 32) := address_i(31 downto 0); --H3 Adress L (Last 4 bit must always pull at zero, byte to 8 byte)
+			rx_data_1(31 downto 0)	:= address_i(63 downto 32);  --H2 Adress H
+			rx_data_2 := data_i;
+		end if;
+		
+
+		
+
+		
+	end axis_data_p;
 	
 	component app is
 		Generic(
@@ -120,6 +189,9 @@ begin
 	end process reset_p;
 	
 	stimuli_p: process
+		variable data_0 : STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
+		variable data_1 : STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
+		variable data_2 : STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
 	begin
 		step <= 1;
 		s_axis_rx_tdata_tbs <= (others => '0');
@@ -128,30 +200,34 @@ begin
 		s_axis_rx_tuser_tbs <= (others => '0');
 		s_axis_rx_tvalid_tbs <= '0';
 		m_axis_tx_tready_tbs <= '1';
-		--wb_ack_s <= '0';
 		wait for period;
 		
 		wait for period;
 		step <= 2;
-		s_axis_rx_tdata_tbs <= X"0000" & --H1 Requester ID
-							   X"00" & X"0f" & --H1 Tag and Last DW BE and 1st DW BE
-							   "010" & "00000" & X"00" &  -- H0 FMT & type & some unused bits -- X"4000" &
-							   "000000" & "00" & X"01";  --H0 unused bits & length H & length L
+		axis_data_p (MWr,H3DW,
+		X"0000000000000000",
+		X"00000000" & X"BEEF5A5A",
+		"00" & X"01",
+		data_0,
+		data_1,
+		data_2);
+		s_axis_rx_tdata_tbs <= data_0;
 		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '0';
 		s_axis_rx_tuser_tbs <= "11" & X"e4004";
 		s_axis_rx_tvalid_tbs <= '1';
-		m_axis_tx_tready_tbs <= '1';
-		--wb_ack_s <= '0';
+		m_axis_tx_tready_tbs <= '1';	
+
 		wait for period;
 		step <= 3;
-		s_axis_rx_tdata_tbs <= X"a5a5a5a5f7d08000";
-		s_axis_rx_tkeep_tbs <= X"0F";
+		s_axis_rx_tdata_tbs <= data_1;
+		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '1';
 		s_axis_rx_tuser_tbs <= "10" & X"e4004";
 		s_axis_rx_tvalid_tbs <= '1';
 		m_axis_tx_tready_tbs <= '1';
-		--wb_ack_s <= '0';
+		
+		
 		wait for period;
 		step <= 4;
 		s_axis_rx_tdata_tbs <= X"0000000000000001";
@@ -169,13 +245,12 @@ begin
 		s_axis_rx_tuser_tbs <= "11" & X"60000";
 		s_axis_rx_tvalid_tbs <= '0';
 		m_axis_tx_tready_tbs <= '1';
-		--wb_ack_s <= '1';
 		wait for period;
 		wait for period;
 		wait for period;
 		step <= 6;
-		--wait until s_axis_rx_ready_o = '1';
-		s_axis_rx_tdata_tbs <= X"0000000f00000001";
+		axis_data_p (MRd,H3DW,X"0000000000000000",X"00000000" & X"BEEF5A5A","00" & X"00",data_0,data_1,data_2);
+		s_axis_rx_tdata_tbs <= data_0;
 		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '0';
 		s_axis_rx_tuser_tbs <= "00" & X"e4004";
@@ -183,12 +258,91 @@ begin
 		m_axis_tx_tready_tbs <= '1';
 		wait for period;
 		step <= 7;
-		--wait until s_axis_rx_ready_o = '1';
-		s_axis_rx_tdata_tbs <= X"592eaa50f7d08000";
+		
+		s_axis_rx_tdata_tbs <= data_1;
 		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '1';
 		s_axis_rx_tuser_tbs <= "11" & X"60004";
 		s_axis_rx_tvalid_tbs <= '1';
+		m_axis_tx_tready_tbs <= '1';
+		wait for period;
+		s_axis_rx_tdata_tbs <= X"0000000000A00001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
+		m_axis_tx_tready_tbs <= '1';
+		wait for period;
+		wait for period;
+		step <= 8;
+		wait for period;
+		wait for period;
+		m_axis_tx_tready_tbs <= '0';
+		wait for period;
+		m_axis_tx_tready_tbs <= '1';
+		step <= 9;
+		wait for period;
+		wait for period;
+		wait for period;
+		step <= 10;
+		axis_data_p (MWr,H4DW,X"0000000000000010",X"CACA5A5A" & X"BEEF5A5A","00" & X"02",data_0,data_1,data_2);
+		s_axis_rx_tdata_tbs <= data_0;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60004";
+		s_axis_rx_tvalid_tbs <= '1';
+		m_axis_tx_tready_tbs <= '1';
+		wait for period;
+		step <= 11;
+		s_axis_rx_tdata_tbs <= data_1;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60004";
+		s_axis_rx_tvalid_tbs <= '1';
+		m_axis_tx_tready_tbs <= '1';
+		wait for period;
+		step <= 12;
+		s_axis_rx_tdata_tbs <= data_2;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '1';
+		s_axis_rx_tuser_tbs <= "11" & X"60004";
+		s_axis_rx_tvalid_tbs <= '1';
+		m_axis_tx_tready_tbs <= '1';
+		wait for period;
+		step <= 12;
+		s_axis_rx_tdata_tbs <= X"0000000000A00001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
+		m_axis_tx_tready_tbs <= '1';
+		wait for period;
+		step <= 13;
+		wait for period;
+		wait for period;
+		step <= 14;
+		axis_data_p (MRd,H4DW,X"0000000000000010",X"BEEF5A5A" & X"CACA5A5A","00" & X"00",data_0,data_1,data_2);
+		s_axis_rx_tdata_tbs <= data_0;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60004";
+		s_axis_rx_tvalid_tbs <= '1';
+		m_axis_tx_tready_tbs <= '1';
+		wait for period;
+		step <= 15;
+		s_axis_rx_tdata_tbs <= data_1;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '1';
+		s_axis_rx_tuser_tbs <= "11" & X"60004";
+		s_axis_rx_tvalid_tbs <= '1';
+		m_axis_tx_tready_tbs <= '1';
+		wait for period;
+		step <= 16;
+		s_axis_rx_tdata_tbs <= X"0000000000A00001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
 		m_axis_tx_tready_tbs <= '1';
 		wait for period;
 		wait for period;
@@ -196,6 +350,38 @@ begin
 		wait for period;
 		wait for period;
 		wait for period;
+		step <= 17;
+		axis_data_p (CplD,H3DW,X"0000000000000010",X"BEEF5A5A" & X"BEEF0001","00" & X"04",data_0,data_1,data_2);
+		s_axis_rx_tdata_tbs <= data_0;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60004";
+		s_axis_rx_tvalid_tbs <= '1';
+		m_axis_tx_tready_tbs <= '1';
+		wait for period;
+		step <= 18;
+		s_axis_rx_tdata_tbs <= data_1;
+		wait for period;
+		s_axis_rx_tdata_tbs <=  X"BEEF0002" & X"DEAD0001";
+		wait for period;
+		s_axis_rx_tdata_tbs <=  X"CACA0003" & X"DEAD0002";
+		s_axis_rx_tkeep_tbs <= X"0F";
+		s_axis_rx_tlast_tbs <= '1';
+		
+		
+		
+		step <= 18;
+		
+		wait for period;
+		step <= 19;
+		s_axis_rx_tdata_tbs <= X"000F000000A00001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
+		m_axis_tx_tready_tbs <= '1';
+
+		wait;
 		
 		
 	end process stimuli_p;

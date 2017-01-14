@@ -1,7 +1,0 @@
-Running: xsim.dir/p2l_dma_bench_behav/xsimk.exe -simmode gui -wdb p2l_dma_bench_behav.wdb -simrunnum 0 -socket 49705
-Design successfully loaded
-Design Loading Memory Usage: 9656 KB (Peak: 9656 KB)
-Design Loading CPU Usage: 31 ms
-Simulation completed
-Simulation Memory Usage: 11076 KB (Peak: 11076 KB)
-Simulation CPU Usage: 296 ms
