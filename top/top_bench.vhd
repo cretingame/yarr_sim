@@ -288,12 +288,12 @@ begin
 		
 		wait for 6*period;
 		
-		--DMALENR = 0x40
+		--DMALENR = 0x20
 		wait for period;
 		step <= 30;
 		axis_data_p (MWr,H3DW,
 		X"0000000000000014",
-		X"00000000" & X"00000040",
+		X"00000000" & X"00000020",
 		"00" & X"01",
 		data_0,
 		data_1,
@@ -328,12 +328,12 @@ begin
 		
 		wait for 6*period;
 		
-		--DMAATTRIBR = 0x3 last item and P2L
+		--DMAATTRIBR = 0x2 last item and P2L
 		wait for period;
 		step <= 40;
 		axis_data_p (MWr,H3DW,
 		X"0000000000000020",
-		X"00000000" & X"00000003",
+		X"00000000" & X"00000002",
 		"00" & X"01",
 		data_0,
 		data_1,
@@ -406,7 +406,118 @@ begin
 		s_axis_rx_tvalid_tbs <= '0';
 		wait for period;
 		
-		wait for 6*period;		
+		wait for 14*period;		
+		
+		step <= 50;
+		axis_data_p (CplD,H3DW,X"0000000000000010",X"BEEF5A5A" & X"BEEF0001","00" & X"04",data_0,data_1,data_2);
+		s_axis_rx_tdata_tbs <= data_0;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60004";
+		s_axis_rx_tvalid_tbs <= '1';
+		m_axis_tx_tready_tbs <= '1';
+		wait for period;
+		
+		step <= 51;
+		s_axis_rx_tdata_tbs <= data_1;
+		wait for period;
+		step <= 52;
+		s_axis_rx_tdata_tbs <=  X"BEEF0002" & X"DEAD0001";
+		wait for period;
+		step <= 53;
+		s_axis_rx_tdata_tbs <=  X"CACA0003" & X"DEAD0002";
+		s_axis_rx_tkeep_tbs <= X"0F";
+		s_axis_rx_tlast_tbs <= '1';
+		wait for period;
+		step <= 54;
+		s_axis_rx_tdata_tbs <= X"0000000000000001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
+		wait for period;
+		
+		wait for 6*period;
+		
+		--DMAATTRIBR = 0x0 last item and L2P
+		wait for period;
+		step <= 60;
+		axis_data_p (MWr,H3DW,
+		X"0000000000000020",
+		X"00000000" & X"00000000",
+		"00" & X"01",
+		data_0,
+		data_1,
+		data_2);
+		s_axis_rx_tdata_tbs <= data_0;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"e4004";
+		s_axis_rx_tvalid_tbs <= '1';	
+		wait for period;
+		step <= 61;
+		s_axis_rx_tdata_tbs <= data_1;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '1';
+		s_axis_rx_tuser_tbs <= "10" & X"e4004";
+		s_axis_rx_tvalid_tbs <= '1';
+		wait for period;
+		step <= 62;
+		s_axis_rx_tdata_tbs <= X"0000000000000001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
+		wait for period;
+		step <= 63;
+		s_axis_rx_tdata_tbs <= X"0000000000000001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
+		wait for period;
+		
+		wait for 6*period;
+		
+		--DMACTRLR = 0x1 to start the transfert
+		wait for period;
+		step <= 70;
+		axis_data_p (MWr,H3DW,
+		X"0000000000000000",
+		X"00000000" & X"00000001",
+		"00" & X"01",
+		data_0,
+		data_1,
+		data_2);
+		s_axis_rx_tdata_tbs <= data_0;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"e4004";
+		s_axis_rx_tvalid_tbs <= '1';	
+		wait for period;
+		step <= 71;
+		s_axis_rx_tdata_tbs <= data_1;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '1';
+		s_axis_rx_tuser_tbs <= "10" & X"e4004";
+		s_axis_rx_tvalid_tbs <= '1';
+		wait for period;
+		step <= 72;
+		s_axis_rx_tdata_tbs <= X"0000000000000001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
+		wait for period;
+		step <= 73;
+		s_axis_rx_tdata_tbs <= X"0000000000000001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
+		wait for period;
+		
+		wait for 6*period;
 		
 		--- Read DMACSTARTR
 		-- step <= 60;

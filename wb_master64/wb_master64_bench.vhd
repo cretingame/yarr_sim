@@ -363,24 +363,24 @@ begin
 		-- wait for period;
 		-- wait for period;
 		-- wait for period;
-		-- wait for period;
-		-- step <= 17;
-		-- axis_data_p (CplD,H3DW,X"0000000000000010",X"BEEF5A5A" & X"BEEF0001","00" & X"04",data_0,data_1,data_2);
-		-- s_axis_rx_tdata_tbs <= data_0;
-		-- s_axis_rx_tkeep_tbs <= X"FF";
-		-- s_axis_rx_tlast_tbs <= '0';
-		-- s_axis_rx_tuser_tbs <= "11" & X"60004";
-		-- s_axis_rx_tvalid_tbs <= '1';
-		-- m_axis_tx_ready_tbs <= '1';
-		-- wait for period;
-		-- step <= 18;
-		-- s_axis_rx_tdata_tbs <= data_1;
-		-- wait for period;
-		-- s_axis_rx_tdata_tbs <=  X"BEEF0002" & X"DEAD0001";
-		-- wait for period;
-		-- s_axis_rx_tdata_tbs <=  X"CACA0003" & X"DEAD0002";
-		-- s_axis_rx_tkeep_tbs <= X"0F";
-		-- s_axis_rx_tlast_tbs <= '1';
+	    wait for period;
+		step <= 17;
+		axis_data_p (CplD,H3DW,X"0000000000000010",X"BEEF5A5A" & X"BEEF0001","00" & X"04",data_0,data_1,data_2);
+		s_axis_rx_tdata_tbs <= data_0;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60004";
+		s_axis_rx_tvalid_tbs <= '1';
+		m_axis_tx_ready_tbs <= '1';
+		wait for period;
+		step <= 18;
+		s_axis_rx_tdata_tbs <= data_1;
+		wait for period;
+		s_axis_rx_tdata_tbs <=  X"BEEF0002" & X"DEAD0001";
+		wait for period;
+		s_axis_rx_tdata_tbs <=  X"CACA0003" & X"DEAD0002";
+		s_axis_rx_tkeep_tbs <= X"0F";
+		s_axis_rx_tlast_tbs <= '1';
 		
 		
 		

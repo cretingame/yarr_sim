@@ -36,9 +36,9 @@ INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/top/top
 INFO: [VRFC 10-307] analyzing entity top_bench
 INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/top/app.vhd" into library xil_defaultlib
 INFO: [VRFC 10-307] analyzing entity app
-WARNING: [VRFC 10-280] actual for formal port rst_n_i is neither a static name nor a globally static expression [C:/cygwin64/home/saute/yarr_sim/top/app.vhd:588]
-WARNING: [VRFC 10-280] actual for formal port rst_n_i is neither a static name nor a globally static expression [C:/cygwin64/home/saute/yarr_sim/top/app.vhd:667]
-WARNING: [VRFC 10-280] actual for formal port rst_n_i is neither a static name nor a globally static expression [C:/cygwin64/home/saute/yarr_sim/top/app.vhd:767]
+WARNING: [VRFC 10-280] actual for formal port rst_n_i is neither a static name nor a globally static expression [C:/cygwin64/home/saute/yarr_sim/top/app.vhd:603]
+WARNING: [VRFC 10-280] actual for formal port rst_n_i is neither a static name nor a globally static expression [C:/cygwin64/home/saute/yarr_sim/top/app.vhd:686]
+WARNING: [VRFC 10-280] actual for formal port rst_n_i is neither a static name nor a globally static expression [C:/cygwin64/home/saute/yarr_sim/top/app.vhd:788]
 INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/top/simple_counter.vhd" into library xil_defaultlib
 INFO: [VRFC 10-307] analyzing entity simple_counter
 INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/top/dma_controller.vhd" into library xil_defaultlib

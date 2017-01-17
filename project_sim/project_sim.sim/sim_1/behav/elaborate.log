@@ -32,7 +32,6 @@ Compiling module fifo_generator_v13_1_3.fifo_generator_v13_1_3(C_DATA_CO...
 Compiling module xil_defaultlib.fifo_92x512
 Compiling architecture syn of entity xil_defaultlib.generic_async_fifo [\generic_async_fifo(g_data_width...]
 Compiling architecture behaviour of entity xil_defaultlib.p2l_dma_master [p2l_dma_master_default]
-Compiling architecture behavioral of entity xil_defaultlib.bram_wbs [\bram_wbs(addr_width=8)\]
 Compiling module fifo_generator_v13_1_3.fifo_generator_v13_1_3_sync_stag...
 Compiling module fifo_generator_v13_1_3.fifo_generator_v13_1_3_bhv_ver_a...
 Compiling module fifo_generator_v13_1_3.fifo_generator_v13_1_3_bhv_ver_p...
@@ -43,6 +42,7 @@ Compiling module xil_defaultlib.fifo_generator_0
 Compiling architecture l2p_fifo_a of entity xil_defaultlib.l2p_fifo [l2p_fifo_default]
 Compiling architecture behavioral of entity xil_defaultlib.l2p_dma_master [l2p_dma_master_default]
 Compiling architecture rtl of entity xil_defaultlib.l2p_arbiter [l2p_arbiter_default]
+Compiling architecture behavioral of entity xil_defaultlib.bram_wbs [\bram_wbs(addr_width=8)\]
 Compiling architecture behavioral of entity xil_defaultlib.app [app_default]
 Compiling architecture behavioral of entity xil_defaultlib.top_bench
 Built simulation snapshot top_bench_behav

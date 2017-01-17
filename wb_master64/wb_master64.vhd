@@ -75,6 +75,7 @@ architecture Behavioral of wb_master64 is
 	signal s_axis_rx_tuser_s : STD_LOGIC_VECTOR (21 downto 0);
 	signal m_axis_tx_tdata_s : STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
 	signal wb_dat_i_s : STD_LOGIC_VECTOR (wb_data_width_c - 1 downto 0);
+	signal s_axis_rx_tvalid_s : STD_LOGIC;
 	signal s_axis_rx_tlast_s : STD_LOGIC;
 	signal s_axis_rx_tdata_0_s : STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
 	signal s_axis_rx_tdata_1_s : STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
@@ -165,6 +166,7 @@ begin
 			s_axis_rx_tdata_s <= s_axis_rx_tdata_i;
 			s_axis_rx_tkeep_s <= s_axis_rx_tkeep_i;
 			s_axis_rx_tuser_s <= s_axis_rx_tuser_i;
+			s_axis_rx_tvalid_s <= s_axis_rx_tvalid_i;
 			s_axis_rx_tlast_s <= s_axis_rx_tlast_i;
 			wb_dat_i_s <= wb_dat_i;
 		end if;
@@ -336,23 +338,40 @@ begin
 	
 	pd_pdm_data_o <= s_axis_rx_tdata_0_s(31 downto 0) & s_axis_rx_tdata_1_s(63 downto 32);
 	
-	p2l_output_p:process (state_s,s_axis_rx_tvalid_i,s_axis_rx_tlast_i,s_axis_rx_tdata_i)
-	begin
-		case state_s is
-			when idle =>
-				pd_pdm_data_valid_o <= '0';
-				pd_pdm_data_last_o <= '0';
-				--pd_pdm_data_o <= (others => '0');
-			when l2p_data_rx =>
-				pd_pdm_data_valid_o <= s_axis_rx_tvalid_i;
-				pd_pdm_data_last_o <= s_axis_rx_tlast_i;
-				--pd_pdm_data_o <= s_axis_rx_tdata_0_s(31 downto 0) & s_axis_rx_tdata_1_s(63 downto 32);
-			when others =>
-				pd_pdm_data_valid_o <= '0';
-				pd_pdm_data_last_o <= '0';
-				--pd_pdm_data_o <= (others => '0');
-		end case;
-	end process p2l_output_p;
+	pd_pdm_data_valid_o <= s_axis_rx_tvalid_s when state_s = l2p_data_rx else '0';
+	pd_pdm_data_last_o <= s_axis_rx_tlast_s when state_s = l2p_data_rx else '0';
+	
+	-- p2l_output_p:process (clk_i)
+	-- begin
+		-- if (clk_i'event and clk_i = '1') then
+			-- case state_s is
+				-- when idle =>
+					-- pd_pdm_data_valid_o <= '0';
+					-- pd_pdm_data_last_o <= '0';
+				-- when l2p_data_rx =>
+					-- pd_pdm_data_valid_o <= s_axis_rx_tvalid_i;
+					-- pd_pdm_data_last_o <= s_axis_rx_tlast_i;
+				-- when others =>
+					-- pd_pdm_data_valid_o <= '0';
+					-- pd_pdm_data_last_o <= '0';
+			-- end case;
+		-- end if;
+	-- end process p2l_output_p;
+	
+	-- p2l_output_p:process (state_s,s_axis_rx_tvalid_i,s_axis_rx_tlast_i,s_axis_rx_tdata_i)
+	-- begin
+		-- case state_s is
+			-- when idle =>
+				-- pd_pdm_data_valid_o <= '0';
+				-- pd_pdm_data_last_o <= '0';
+			-- when l2p_data_rx =>
+				-- pd_pdm_data_valid_o <= s_axis_rx_tvalid_i;
+				-- pd_pdm_data_last_o <= s_axis_rx_tlast_i;
+			-- when others =>
+				-- pd_pdm_data_valid_o <= '0';
+				-- pd_pdm_data_last_o <= '0';
+		-- end case;
+	-- end process p2l_output_p;
 	
 	axis_output_p:process (state_s,header_type_s,tlp_type_s,s_axis_rx_tlast_s,payload_length_s,data_s,address_s)
 	begin

@@ -262,6 +262,8 @@ architecture Behavioral of app is
 		  );
 	end component;
     
+	
+	
 	component p2l_dma_master is
 	  generic (
 		-- Enable byte swap module (if false, no swap)
@@ -461,7 +463,11 @@ architecture Behavioral of app is
 	signal dma_ctrl_abort_s        : std_logic;
 	signal dma_ctrl_done_s         : std_logic;
 	signal dma_ctrl_error_s        : std_logic;
-
+	signal dma_ctrl_l2p_done_s         : std_logic;
+	signal dma_ctrl_l2p_error_s        : std_logic;
+	signal dma_ctrl_p2l_done_s         : std_logic;
+	signal dma_ctrl_p2l_error_s        : std_logic;
+	
 	---------------------------------------------------------
 	-- From P2L DMA master
 	signal next_item_carrier_addr_s : std_logic_vector(31 downto 0);
@@ -472,6 +478,7 @@ architecture Behavioral of app is
 	signal next_item_next_h_s       : std_logic_vector(31 downto 0);
 	signal next_item_attrib_s       : std_logic_vector(31 downto 0);
 	signal next_item_valid_s        : std_logic;
+	
 	
 	---------------------------------------------------------
 	-- To the P2L Interface (send the DMA Master Read request)
@@ -492,7 +499,6 @@ architecture Behavioral of app is
 	signal p2l_dma_we_s    :  std_logic;                      -- Write
 	signal p2l_dma_ack_s   :  std_logic;                      -- Acknowledge
 	signal p2l_dma_stall_s :  std_logic;                      -- for pipelined Wishbone
-	--signal l2p_dma_cyc_s   :  std_logic;                      -- L2P dma wb cycle (for bus arbitration)
 	signal l2p_dma_adr_s   :  std_logic_vector(64-1 downto 0);
 	signal l2p_dma_dat_s2m_s   :  std_logic_vector(64-1 downto 0);
 	signal l2p_dma_dat_m2s_s   :  std_logic_vector(64-1 downto 0);
@@ -502,6 +508,15 @@ architecture Behavioral of app is
 	signal l2p_dma_we_s    :  std_logic;
 	signal l2p_dma_ack_s   :  std_logic;
 	signal l2p_dma_stall_s :  std_logic;
+	signal dma_adr_s   :  std_logic_vector(31 downto 0);  -- Adress
+	signal dma_dat_s2m_s   :  std_logic_vector(63 downto 0);  -- Data in
+	signal dma_dat_m2s_s   :  std_logic_vector(63 downto 0);  -- Data out
+	signal dma_sel_s   :  std_logic_vector(7 downto 0);   -- Byte select
+	signal dma_cyc_s   :  std_logic;                      -- Read or write cycle
+	signal dma_stb_s   :  std_logic;                      -- Read or write strobe
+	signal dma_we_s    :  std_logic;                      -- Write
+	signal dma_ack_s   :  std_logic;                      -- Acknowledge
+	signal dma_stall_s :  std_logic;                      -- for pipelined Wishbone	
 	
 	---------------------------------------------------------
 	-- From L2P DMA master (ldm) to arbiter (arb)
@@ -629,7 +644,9 @@ begin
 		  wb_ack_o => wb_ack_s                       -- Acknowledge
 		  );
 
-	
+	  -- Status signals from DMA masters
+	dma_ctrl_done_s  <= dma_ctrl_l2p_done_s or dma_ctrl_p2l_done_s;
+	dma_ctrl_error_s <= dma_ctrl_l2p_error_s or dma_ctrl_p2l_error_s;
     
 	-- ram_csr:bram_wbs
 	-- generic map (
@@ -654,6 +671,8 @@ begin
 		-- wb_ack_o    => wb_ack_s
 	-- );
 	
+	--p2l_dma_stall_s <= '0';
+	
 	p2l_dma:p2l_dma_master
 	  generic map (
 		-- Enable byte swap module (if false, no swap)
@@ -674,8 +693,8 @@ begin
 		  dma_ctrl_len_i          => dma_ctrl_len_s,
 		  dma_ctrl_start_p2l_i    => dma_ctrl_start_p2l_s,
 		  dma_ctrl_start_next_i   => dma_ctrl_start_next_s,
-		  dma_ctrl_done_o         => dma_ctrl_done_s,
-		  dma_ctrl_error_o        => dma_ctrl_error_s,
+		  dma_ctrl_done_o         => dma_ctrl_p2l_done_s,
+		  dma_ctrl_error_o        => dma_ctrl_p2l_error_s,
 		  dma_ctrl_byte_swap_i    => "111",
 		  dma_ctrl_abort_i        => dma_ctrl_abort_s,
 
@@ -734,33 +753,35 @@ begin
 		  next_item_valid_o        => next_item_valid_s
 		  );
 		  
-	p2l_ram:bram_wbs
-	generic map (
-		ADDR_WIDTH => wb_address_width_c,
-		DATA_WIDTH => 64 
-	)
-	port map (
-		-- SYS CON
-		clk			=> clk_i,
-		rst			=> rst_i,
+	-- p2l_ram:bram_wbs
+	-- generic map (
+		-- ADDR_WIDTH => wb_address_width_c,
+		-- DATA_WIDTH => 64 
+	-- )
+	-- port map (
+		-- -- SYS CON
+		-- clk			=> clk_i,
+		-- rst			=> rst_i,
 		
-		-- Wishbone Slave in
-		wb_adr_i	=> p2l_dma_adr_s(wb_address_width_c - 1 downto 0),
-		wb_dat_i	=> p2l_dma_dat_m2s_s,
-		wb_we_i		=> p2l_dma_we_s,
-		wb_stb_i	=> p2l_dma_stb_s,
-		wb_cyc_i	=> p2l_dma_cyc_s,
-		wb_lock_i	=> p2l_dma_stb_s,
+		-- -- Wishbone Slave in
+		-- wb_adr_i	=> p2l_dma_adr_s(wb_address_width_c - 1 downto 0),
+		-- wb_dat_i	=> p2l_dma_dat_m2s_s,
+		-- wb_we_i		=> p2l_dma_we_s,
+		-- wb_stb_i	=> p2l_dma_stb_s,
+		-- wb_cyc_i	=> p2l_dma_cyc_s,
+		-- wb_lock_i	=> p2l_dma_stb_s,
 		
-		-- Wishbone Slave out
-		wb_dat_o	=> p2l_dma_dat_s2m_s,
-		wb_ack_o	=> p2l_dma_ack_s
-	);
+		-- -- Wishbone Slave out
+		-- wb_dat_o	=> p2l_dma_dat_s2m_s,
+		-- wb_ack_o	=> p2l_dma_ack_s
+	-- );
 		  
 	-----------------------------------------------------------------------------
 	-- L2P DMA master
 	-----------------------------------------------------------------------------
-	dut1 : l2p_dma_master
+	--l2p_dma_stall_s <= '0';
+	
+	l2p_dma : l2p_dma_master
 	port map
 	(
 		clk_i   => clk_i,
@@ -771,8 +792,8 @@ begin
 		dma_ctrl_host_addr_l_i => dma_ctrl_host_addr_l_s,
 		dma_ctrl_len_i         => dma_ctrl_len_s,
 		dma_ctrl_start_l2p_i   => dma_ctrl_start_l2p_s,
-		dma_ctrl_done_o        => dma_ctrl_done_s,
-		dma_ctrl_error_o       => dma_ctrl_error_s,
+		dma_ctrl_done_o        => dma_ctrl_l2p_done_s,
+		dma_ctrl_error_o       => dma_ctrl_l2p_error_s,
 		dma_ctrl_byte_swap_i   => "000", --TODO
 		dma_ctrl_abort_i       => dma_ctrl_abort_s,
 
@@ -803,28 +824,28 @@ begin
 	);
 	
 
-	l2p_ram:bram_wbs
-	generic map (
-		ADDR_WIDTH => wb_address_width_c,
-		DATA_WIDTH => 64 
-	)
-	port map (
-		-- SYS CON
-		clk			=> clk_i,
-		rst			=> rst_i,
+	-- l2p_ram:bram_wbs
+	-- generic map (
+		-- ADDR_WIDTH => wb_address_width_c,
+		-- DATA_WIDTH => 64 
+	-- )
+	-- port map (
+		--SYS CON
+		-- clk			=> clk_i,
+		-- rst			=> rst_i,
 		
-		-- Wishbone Slave in
-		wb_adr_i	=> l2p_dma_adr_s(wb_address_width_c - 1 downto 0),
-		wb_dat_i	=> l2p_dma_dat_m2s_s,
-		wb_we_i		=> l2p_dma_we_s,
-		wb_stb_i	=> l2p_dma_stb_s,
-		wb_cyc_i	=> l2p_dma_cyc_s,
-		wb_lock_i	=> l2p_dma_stb_s,
+		--Wishbone Slave in
+		-- wb_adr_i	=> l2p_dma_adr_s(wb_address_width_c - 1 downto 0),
+		-- wb_dat_i	=> l2p_dma_dat_m2s_s,
+		-- wb_we_i		=> l2p_dma_we_s,
+		-- wb_stb_i	=> l2p_dma_stb_s,
+		-- wb_cyc_i	=> l2p_dma_cyc_s,
+		-- wb_lock_i	=> l2p_dma_stb_s,
 		
-		-- Wishbone Slave out
-		wb_dat_o	=> l2p_dma_dat_s2m_s,
-		wb_ack_o	=> l2p_dma_ack_s
-	);
+		--Wishbone Slave out
+		-- wb_dat_o	=> l2p_dma_dat_s2m_s,
+		-- wb_ack_o	=> l2p_dma_ack_s
+	-- );
 	
 	arbiter:l2p_arbiter
 	generic map(
@@ -876,6 +897,65 @@ begin
 		
 		eop_do => eop_s
 	);
+  
+  	dma_ram:bram_wbs
+	generic map (
+		ADDR_WIDTH => wb_address_width_c,
+		DATA_WIDTH => 64 
+	)
+	port map (
+		-- SYS CON
+		clk			=> clk_i,
+		rst			=> rst_i,
+		
+		-- Wishbone Slave in
+		wb_adr_i	=> dma_adr_s(wb_address_width_c - 1 downto 0),
+		wb_dat_i	=> dma_dat_m2s_s,
+		wb_we_i		=> dma_we_s,
+		wb_stb_i	=> dma_stb_s,
+		wb_cyc_i	=> dma_cyc_s,
+		wb_lock_i	=> dma_stb_s,
+		
+		-- Wishbone Slave out
+		wb_dat_o	=> dma_dat_s2m_s,
+		wb_ack_o	=> dma_ack_s
+	);
+  
+  dma_mux: process(
+  l2p_dma_adr_s,l2p_dma_dat_m2s_s,l2p_dma_sel_s,l2p_dma_cyc_s,l2p_dma_stb_s,l2p_dma_we_s,
+  p2l_dma_adr_s,p2l_dma_dat_m2s_s,p2l_dma_sel_s,p2l_dma_cyc_s,p2l_dma_stb_s,p2l_dma_we_s)
+  begin
+	if l2p_dma_cyc_s = '1' then
+		dma_adr_s      <= l2p_dma_adr_s(31 downto 0); --TODO
+		dma_dat_m2s_s  <= l2p_dma_dat_m2s_s;
+		dma_sel_s      <= l2p_dma_sel_s & l2p_dma_sel_s;
+		dma_cyc_s      <= l2p_dma_cyc_s;
+		dma_stb_s      <= l2p_dma_stb_s;
+		dma_we_s       <= l2p_dma_we_s;
+	elsif p2l_dma_cyc_s = '1' then
+		dma_adr_s      <= p2l_dma_adr_s;
+		dma_dat_m2s_s  <= p2l_dma_dat_m2s_s;
+		dma_sel_s      <= p2l_dma_sel_s;
+		dma_cyc_s      <= p2l_dma_cyc_s;
+		dma_stb_s      <= p2l_dma_stb_s;
+		dma_we_s       <= p2l_dma_we_s;
+	else
+		dma_adr_s      <= (others => '0');
+		dma_dat_m2s_s  <= (others => '0');
+		dma_sel_s      <= (others => '0');
+		dma_cyc_s      <= '0';
+		dma_stb_s      <= '0';
+		dma_we_s       <= '0';
+	end if;
+  end process dma_mux;
+  
+  l2p_dma_dat_s2m_s <= dma_dat_s2m_s;
+  p2l_dma_dat_s2m_s <= dma_dat_s2m_s;
+  l2p_dma_ack_s     <= dma_ack_s;
+  p2l_dma_ack_s     <= dma_ack_s;
+  l2p_dma_stall_s   <= dma_stall_s;
+  p2l_dma_stall_s   <= dma_stall_s;
+  dma_stall_s <= '0';
   
   front_led_o <= count_s(28 downto 25);
   usr_led_o <= '1' & usr_sw_i;
