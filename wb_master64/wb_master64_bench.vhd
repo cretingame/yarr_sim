@@ -11,7 +11,7 @@ entity wb_master64_bench is
 		constant axis_rx_tkeep_width_c : integer := 64/8;
 		constant axis_rx_tuser_width_c : integer := 22;
 		constant wb_address_width_c : integer := 64;
-		constant wb_data_width_c : integer := 64
+		constant wb_data_width_c : integer := 32
 	);
 	--port ();
 end wb_master64_bench;
@@ -118,6 +118,12 @@ architecture Behavioral of wb_master64_bench is
 		end axis_data_p;
 		
 		Component wb_master64 is
+		Generic (
+			axis_data_width_c : integer := 64;
+			wb_address_width_c : integer := 64;
+			wb_data_width_c : integer := 32;
+			address_mask_c : STD_LOGIC_VECTOR(64-1 downto 0) := X"00000000" & X"000000FF" -- depends on pcie memory size
+		);
 		Port (
 			clk_i : in STD_LOGIC;
 			rst_i : in STD_LOGIC;
@@ -127,14 +133,15 @@ architecture Behavioral of wb_master64_bench is
 			s_axis_rx_tuser_i : in STD_LOGIC_VECTOR (21 downto 0);
 			s_axis_rx_tlast_i : in STD_LOGIC;
 			s_axis_rx_tvalid_i : in STD_LOGIC;
-			s_axis_rx_ready_o : out STD_LOGIC;
+			s_axis_rx_tready_o : out STD_LOGIC;
 			-- Master AXI-Stream
-			m_axis_tx_tdata_o : out STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
-			m_axis_tx_tkeep_o : out STD_LOGIC_VECTOR (axis_data_width_c/8 - 1 downto 0);
-			m_axis_tx_tuser_o : out STD_LOGIC_VECTOR (3 downto 0);
-			m_axis_tx_tlast_o : out STD_LOGIC;
-			m_axis_tx_tvalid_o : out STD_LOGIC;
-			m_axis_tx_ready_i : in STD_LOGIC;
+			wbm_arb_tdata_o : out STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
+			wbm_arb_tkeep_o : out STD_LOGIC_VECTOR (axis_data_width_c/8 - 1 downto 0);
+			wbm_arb_tuser_o : out STD_LOGIC_VECTOR (3 downto 0);
+			wbm_arb_tlast_o : out STD_LOGIC;
+			wbm_arb_tvalid_o : out STD_LOGIC;
+			wbm_arb_tready_i : in STD_LOGIC;
+			wbm_arb_req_o    : out  std_logic;
 			-- L2P DMA
 			pd_pdm_data_valid_o  : out std_logic;                      -- Indicates Data is valid
 			pd_pdm_data_last_o   : out std_logic;                      -- Indicates end of the packet
@@ -289,95 +296,95 @@ begin
 		m_axis_tx_ready_tbs <= '1';
 		step <= 9;
 		wait for period;
-		wait for period;
-		wait for period;
-		step <= 10;
-		axis_data_p (MWr,H4DW,X"0000000000000010",X"CACA5A5A" & X"BEEF5A5A","00" & X"02",data_0,data_1,data_2);
-		s_axis_rx_tdata_tbs <= data_0;
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '0';
-		s_axis_rx_tuser_tbs <= "11" & X"60004";
-		s_axis_rx_tvalid_tbs <= '1';
-		m_axis_tx_ready_tbs <= '1';
-		wait for period;
-		step <= 11;
-		s_axis_rx_tdata_tbs <= data_1;
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '0';
-		s_axis_rx_tuser_tbs <= "11" & X"60004";
-		s_axis_rx_tvalid_tbs <= '1';
-		m_axis_tx_ready_tbs <= '1';
-		wait for period;
-		step <= 12;
-		s_axis_rx_tdata_tbs <= data_2;
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '1';
-		s_axis_rx_tuser_tbs <= "11" & X"60004";
-		s_axis_rx_tvalid_tbs <= '1';
-		m_axis_tx_ready_tbs <= '1';
-		wait for period;
-		step <= 12;
-		s_axis_rx_tdata_tbs <= X"0000000000A00001";
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '0';
-		s_axis_rx_tuser_tbs <= "11" & X"60000";
-		s_axis_rx_tvalid_tbs <= '0';
-		m_axis_tx_ready_tbs <= '1';
-		wait for period;
-		step <= 13;
-		wait for period;
-		wait for period;
-		step <= 14;
-		axis_data_p (MRd,H4DW,X"0000000000000010",X"BEEF5A5A" & X"CACA5A5A","00" & X"00",data_0,data_1,data_2);
-		s_axis_rx_tdata_tbs <= data_0;
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '0';
-		s_axis_rx_tuser_tbs <= "11" & X"60004";
-		s_axis_rx_tvalid_tbs <= '1';
-		m_axis_tx_ready_tbs <= '1';
-		wait for period;
-		step <= 15;
-		s_axis_rx_tdata_tbs <= data_1;
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '1';
-		s_axis_rx_tuser_tbs <= "11" & X"60004";
-		s_axis_rx_tvalid_tbs <= '1';
-		m_axis_tx_ready_tbs <= '1';
-		wait for period;
-		step <= 16;
-		s_axis_rx_tdata_tbs <= X"0000000000A00001";
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '0';
-		s_axis_rx_tuser_tbs <= "11" & X"60000";
-		s_axis_rx_tvalid_tbs <= '0';
-		m_axis_tx_ready_tbs <= '1';
-		wait for period;
-		wait for period;
-		wait for period;
-		wait for period;
-		wait for period;
-		wait for period;
-		step <= 17;
-		axis_data_p (CplD,H3DW,X"0000000000000010",X"BEEF5A5A" & X"BEEF0001","00" & X"04",data_0,data_1,data_2);
-		s_axis_rx_tdata_tbs <= data_0;
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '0';
-		s_axis_rx_tuser_tbs <= "11" & X"60004";
-		s_axis_rx_tvalid_tbs <= '1';
-		m_axis_tx_ready_tbs <= '1';
-		wait for period;
-		step <= 18;
-		s_axis_rx_tdata_tbs <= data_1;
-		wait for period;
-		s_axis_rx_tdata_tbs <=  X"BEEF0002" & X"DEAD0001";
-		wait for period;
-		s_axis_rx_tdata_tbs <=  X"CACA0003" & X"DEAD0002";
-		s_axis_rx_tkeep_tbs <= X"0F";
-		s_axis_rx_tlast_tbs <= '1';
+		-- wait for period;
+		-- wait for period;
+		-- step <= 10;
+		-- axis_data_p (MWr,H4DW,X"0000000000000010",X"CACA5A5A" & X"BEEF5A5A","00" & X"02",data_0,data_1,data_2);
+		-- s_axis_rx_tdata_tbs <= data_0;
+		-- s_axis_rx_tkeep_tbs <= X"FF";
+		-- s_axis_rx_tlast_tbs <= '0';
+		-- s_axis_rx_tuser_tbs <= "11" & X"60004";
+		-- s_axis_rx_tvalid_tbs <= '1';
+		-- m_axis_tx_ready_tbs <= '1';
+		-- wait for period;
+		-- step <= 11;
+		-- s_axis_rx_tdata_tbs <= data_1;
+		-- s_axis_rx_tkeep_tbs <= X"FF";
+		-- s_axis_rx_tlast_tbs <= '0';
+		-- s_axis_rx_tuser_tbs <= "11" & X"60004";
+		-- s_axis_rx_tvalid_tbs <= '1';
+		-- m_axis_tx_ready_tbs <= '1';
+		-- wait for period;
+		-- step <= 12;
+		-- s_axis_rx_tdata_tbs <= data_2;
+		-- s_axis_rx_tkeep_tbs <= X"FF";
+		-- s_axis_rx_tlast_tbs <= '1';
+		-- s_axis_rx_tuser_tbs <= "11" & X"60004";
+		-- s_axis_rx_tvalid_tbs <= '1';
+		-- m_axis_tx_ready_tbs <= '1';
+		-- wait for period;
+		-- step <= 12;
+		-- s_axis_rx_tdata_tbs <= X"0000000000A00001";
+		-- s_axis_rx_tkeep_tbs <= X"FF";
+		-- s_axis_rx_tlast_tbs <= '0';
+		-- s_axis_rx_tuser_tbs <= "11" & X"60000";
+		-- s_axis_rx_tvalid_tbs <= '0';
+		-- m_axis_tx_ready_tbs <= '1';
+		-- wait for period;
+		-- step <= 13;
+		-- wait for period;
+		-- wait for period;
+		-- step <= 14;
+		-- axis_data_p (MRd,H4DW,X"0000000000000010",X"BEEF5A5A" & X"CACA5A5A","00" & X"00",data_0,data_1,data_2);
+		-- s_axis_rx_tdata_tbs <= data_0;
+		-- s_axis_rx_tkeep_tbs <= X"FF";
+		-- s_axis_rx_tlast_tbs <= '0';
+		-- s_axis_rx_tuser_tbs <= "11" & X"60004";
+		-- s_axis_rx_tvalid_tbs <= '1';
+		-- m_axis_tx_ready_tbs <= '1';
+		-- wait for period;
+		-- step <= 15;
+		-- s_axis_rx_tdata_tbs <= data_1;
+		-- s_axis_rx_tkeep_tbs <= X"FF";
+		-- s_axis_rx_tlast_tbs <= '1';
+		-- s_axis_rx_tuser_tbs <= "11" & X"60004";
+		-- s_axis_rx_tvalid_tbs <= '1';
+		-- m_axis_tx_ready_tbs <= '1';
+		-- wait for period;
+		-- step <= 16;
+		-- s_axis_rx_tdata_tbs <= X"0000000000A00001";
+		-- s_axis_rx_tkeep_tbs <= X"FF";
+		-- s_axis_rx_tlast_tbs <= '0';
+		-- s_axis_rx_tuser_tbs <= "11" & X"60000";
+		-- s_axis_rx_tvalid_tbs <= '0';
+		-- m_axis_tx_ready_tbs <= '1';
+		-- wait for period;
+		-- wait for period;
+		-- wait for period;
+		-- wait for period;
+		-- wait for period;
+		-- wait for period;
+		-- step <= 17;
+		-- axis_data_p (CplD,H3DW,X"0000000000000010",X"BEEF5A5A" & X"BEEF0001","00" & X"04",data_0,data_1,data_2);
+		-- s_axis_rx_tdata_tbs <= data_0;
+		-- s_axis_rx_tkeep_tbs <= X"FF";
+		-- s_axis_rx_tlast_tbs <= '0';
+		-- s_axis_rx_tuser_tbs <= "11" & X"60004";
+		-- s_axis_rx_tvalid_tbs <= '1';
+		-- m_axis_tx_ready_tbs <= '1';
+		-- wait for period;
+		-- step <= 18;
+		-- s_axis_rx_tdata_tbs <= data_1;
+		-- wait for period;
+		-- s_axis_rx_tdata_tbs <=  X"BEEF0002" & X"DEAD0001";
+		-- wait for period;
+		-- s_axis_rx_tdata_tbs <=  X"CACA0003" & X"DEAD0002";
+		-- s_axis_rx_tkeep_tbs <= X"0F";
+		-- s_axis_rx_tlast_tbs <= '1';
 		
 		
 		
-		step <= 18;
+		-- step <= 18;
 		
 		wait for period;
 		step <= 19;
@@ -392,6 +399,12 @@ begin
 	end process stimuli_p;
 	
 	dut1:wb_master64
+	Generic map(
+		axis_data_width_c => 64,
+		wb_address_width_c => 64,
+		wb_data_width_c => 32,
+		address_mask_c => X"00000000" & X"000000FF" -- depends on pcie memory size
+	)
 	port map(
 		clk_i => clk_tbs,
 		rst_i => rst_tbs,
@@ -399,16 +412,16 @@ begin
 		s_axis_rx_tdata_i => s_axis_rx_tdata_tbs,
 		s_axis_rx_tkeep_i => s_axis_rx_tkeep_tbs,
 		s_axis_rx_tlast_i => s_axis_rx_tlast_tbs,
-		s_axis_rx_ready_o => s_axis_rx_ready_s,
+		s_axis_rx_tready_o => s_axis_rx_ready_s,
 		s_axis_rx_tuser_i => s_axis_rx_tuser_tbs,
 		s_axis_rx_tvalid_i => s_axis_rx_tvalid_tbs,
 		-- Master AXI-Stream
-		m_axis_tx_tdata_o => m_axis_tx_tdata_s,
-		m_axis_tx_tkeep_o => m_axis_tx_tkeep_s,
-		m_axis_tx_tuser_o => m_axis_tx_tuser_s,
-		m_axis_tx_tlast_o => m_axis_tx_tlast_s,
-		m_axis_tx_tvalid_o => m_axis_tx_tvalid_s,
-		m_axis_tx_ready_i => m_axis_tx_ready_tbs,
+		wbm_arb_tdata_o => m_axis_tx_tdata_s,
+		wbm_arb_tkeep_o => m_axis_tx_tkeep_s,
+		wbm_arb_tuser_o => m_axis_tx_tuser_s,
+		wbm_arb_tlast_o => m_axis_tx_tlast_s,
+		wbm_arb_tvalid_o => m_axis_tx_tvalid_s,
+		wbm_arb_tready_i => m_axis_tx_ready_tbs,
 		-- L2P DMA
 		pd_pdm_data_valid_o => pd_pdm_data_valid_s,
         pd_pdm_data_last_o => pd_pdm_data_last_s,

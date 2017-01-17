@@ -171,7 +171,7 @@ architecture Behavioral of p2l_dma_bench is
 	component bram_wbs is
 	generic (
 		constant ADDR_WIDTH : integer := 16;
-		constant DATA_WIDTH : integer := 32 
+		constant DATA_WIDTH : integer := 64 
 	);
 	port (
 		-- SYS CON

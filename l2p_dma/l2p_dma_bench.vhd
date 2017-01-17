@@ -23,10 +23,10 @@ architecture Behavioral of l2p_dma_bench is
 		signal step : integer range 1 to 10;
 		
 		-- From the DMA controller
-		signal dma_ctrl_target_addr_tbs : std_logic_vector(wb_data_width_c-1 downto 0);
-		signal dma_ctrl_host_addr_h_tbs : std_logic_vector(wb_data_width_c-1 downto 0);
-		signal dma_ctrl_host_addr_l_tbs : std_logic_vector(wb_data_width_c-1 downto 0);
-		signal dma_ctrl_len_tbs         : std_logic_vector(wb_data_width_c-1 downto 0);
+		signal dma_ctrl_target_addr_tbs : std_logic_vector(32-1 downto 0);
+		signal dma_ctrl_host_addr_h_tbs : std_logic_vector(32-1 downto 0);
+		signal dma_ctrl_host_addr_l_tbs : std_logic_vector(32-1 downto 0);
+		signal dma_ctrl_len_tbs         : std_logic_vector(32-1 downto 0);
 		signal dma_ctrl_start_l2p_tbs   : std_logic;
 		signal dma_ctrl_done_s        : std_logic;
 		signal dma_ctrl_error_s       : std_logic;
@@ -74,10 +74,10 @@ architecture Behavioral of l2p_dma_bench is
             rst_n_i : in std_logic;
     
             -- From the DMA controller
-            dma_ctrl_target_addr_i : in  std_logic_vector(wb_data_width_c-1 downto 0);
-            dma_ctrl_host_addr_h_i : in  std_logic_vector(wb_data_width_c-1 downto 0);
-            dma_ctrl_host_addr_l_i : in  std_logic_vector(wb_data_width_c-1 downto 0);
-            dma_ctrl_len_i         : in  std_logic_vector(wb_data_width_c-1 downto 0);
+            dma_ctrl_target_addr_i : in  std_logic_vector(32-1 downto 0);
+            dma_ctrl_host_addr_h_i : in  std_logic_vector(32-1 downto 0);
+            dma_ctrl_host_addr_l_i : in  std_logic_vector(32-1 downto 0);
+            dma_ctrl_len_i         : in  std_logic_vector(32-1 downto 0);
             dma_ctrl_start_l2p_i   : in  std_logic;
             dma_ctrl_done_o        : out std_logic;
             dma_ctrl_error_o       : out std_logic;
@@ -166,10 +166,10 @@ begin
 		l2p_rdy_tbs  <= '1';                    -- De-asserted to pause transdert already in progress
 		l2p_64b_address_tbs <= '0';
 		tx_error_tbs <= '0';                    -- Asserted when unexpected or malformed paket received
-		dma_ctrl_target_addr_tbs <= X"00000000" & X"00000000";
-		dma_ctrl_host_addr_h_tbs <= X"00000000" & X"00000000";
-		dma_ctrl_host_addr_l_tbs <= X"00000000" & X"00000000";
-		dma_ctrl_len_tbs         <= X"00000000" & X"00000000";
+		dma_ctrl_target_addr_tbs <= X"00000000";
+		dma_ctrl_host_addr_h_tbs <= X"00000000";
+		dma_ctrl_host_addr_l_tbs <= X"00000000";
+		dma_ctrl_len_tbs         <= X"00000000";
 		dma_ctrl_start_l2p_tbs   <= '0';
 		dma_ctrl_byte_swap_tbs   <= "000";
 		dma_ctrl_abort_tbs       <= '0';
@@ -184,10 +184,10 @@ begin
 		ldm_arb_tready_tbs <= '1'; -- Asserted when GN4124 is ready to receive master write
 		l2p_rdy_tbs  <= '1';                    -- De-asserted to pause transdert already in progress
 		tx_error_tbs <= '0';                    -- Asserted when unexpected or malformed paket received
-		dma_ctrl_target_addr_tbs <= X"00000000" & X"00000010";
-		dma_ctrl_host_addr_h_tbs <= X"00000000" & X"00000000";
-		dma_ctrl_host_addr_l_tbs <= X"00000000" & X"0000005A";
-		dma_ctrl_len_tbs         <= X"00000000" & X"00000020";
+		dma_ctrl_target_addr_tbs <= X"00000010";
+		dma_ctrl_host_addr_h_tbs <= X"00000000";
+		dma_ctrl_host_addr_l_tbs <= X"0000005A";
+		dma_ctrl_len_tbs         <= X"00000020";
 		dma_ctrl_start_l2p_tbs   <= '1';
 		dma_ctrl_byte_swap_tbs   <= "000";
 		dma_ctrl_abort_tbs       <= '0';
@@ -200,10 +200,10 @@ begin
 		ldm_arb_tready_tbs <= '1'; -- Asserted when GN4124 is ready to receive master write
 		l2p_rdy_tbs  <= '1';                    -- De-asserted to pause transdert already in progress
 		tx_error_tbs <= '0';                    -- Asserted when unexpected or malformed paket received
-		dma_ctrl_target_addr_tbs <= X"00000000" & X"00000010";
-		dma_ctrl_host_addr_h_tbs <= X"00000000" & X"00000000";
-		dma_ctrl_host_addr_l_tbs <= X"00000000" & X"0000005A";
-		dma_ctrl_len_tbs         <= X"00000000" & X"00000080";
+		dma_ctrl_target_addr_tbs <= X"00000010";
+		dma_ctrl_host_addr_h_tbs <= X"00000000";
+		dma_ctrl_host_addr_l_tbs <= X"0000005A";
+		dma_ctrl_len_tbs         <= X"00000080";
 		dma_ctrl_start_l2p_tbs   <= '0';
 		dma_ctrl_byte_swap_tbs   <= "000";
 		dma_ctrl_abort_tbs       <= '0';

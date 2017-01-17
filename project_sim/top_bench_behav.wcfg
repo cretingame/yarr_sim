@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="3013800000fs"></ZoomStartTime>
-      <ZoomEndTime time="3741745604fs"></ZoomEndTime>
-      <Cursor1Time time="3518027000fs"></Cursor1Time>
+      <ZoomStartTime time="744200000fs"></ZoomStartTime>
+      <ZoomEndTime time="2730323192fs"></ZoomEndTime>
+      <Cursor1Time time="10000000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="200"></NameColumnWidth>
-      <ValueColumnWidth column_width="152"></ValueColumnWidth>
+      <ValueColumnWidth column_width="150"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="16" />
+   <WVObjectSize size="26" />
    <wvobject fp_name="/top_bench/clk_tbs" type="logic">
       <obj_property name="ElementShortName">clk_tbs</obj_property>
       <obj_property name="ObjectShortName">clk_tbs</obj_property>
@@ -31,50 +31,74 @@
    <wvobject fp_name="/top_bench/s_axis_rx_tdata_tbs" type="array">
       <obj_property name="ElementShortName">s_axis_rx_tdata_tbs[63:0]</obj_property>
       <obj_property name="ObjectShortName">s_axis_rx_tdata_tbs[63:0]</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/top_bench/s_axis_rx_tkeep_tbs" type="array">
       <obj_property name="ElementShortName">s_axis_rx_tkeep_tbs[7:0]</obj_property>
       <obj_property name="ObjectShortName">s_axis_rx_tkeep_tbs[7:0]</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/top_bench/s_axis_rx_tlast_tbs" type="logic">
       <obj_property name="ElementShortName">s_axis_rx_tlast_tbs</obj_property>
       <obj_property name="ObjectShortName">s_axis_rx_tlast_tbs</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/top_bench/s_axis_rx_tready_s" type="logic">
       <obj_property name="ElementShortName">s_axis_rx_tready_s</obj_property>
       <obj_property name="ObjectShortName">s_axis_rx_tready_s</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/top_bench/s_axis_rx_tuser_tbs" type="array">
       <obj_property name="ElementShortName">s_axis_rx_tuser_tbs[21:0]</obj_property>
       <obj_property name="ObjectShortName">s_axis_rx_tuser_tbs[21:0]</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/top_bench/s_axis_rx_tvalid_tbs" type="logic">
       <obj_property name="ElementShortName">s_axis_rx_tvalid_tbs</obj_property>
       <obj_property name="ObjectShortName">s_axis_rx_tvalid_tbs</obj_property>
+      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/top_bench/m_axis_tx_tdata_s" type="array">
       <obj_property name="ElementShortName">m_axis_tx_tdata_s[63:0]</obj_property>
       <obj_property name="ObjectShortName">m_axis_tx_tdata_s[63:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/top_bench/m_axis_tx_tkeep_s" type="array">
       <obj_property name="ElementShortName">m_axis_tx_tkeep_s[7:0]</obj_property>
       <obj_property name="ObjectShortName">m_axis_tx_tkeep_s[7:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/top_bench/m_axis_tx_tuser_s" type="array">
       <obj_property name="ElementShortName">m_axis_tx_tuser_s[3:0]</obj_property>
       <obj_property name="ObjectShortName">m_axis_tx_tuser_s[3:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/top_bench/m_axis_tx_tlast_s" type="logic">
       <obj_property name="ElementShortName">m_axis_tx_tlast_s</obj_property>
       <obj_property name="ObjectShortName">m_axis_tx_tlast_s</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/top_bench/m_axis_tx_tvalid_s" type="logic">
       <obj_property name="ElementShortName">m_axis_tx_tvalid_s</obj_property>
       <obj_property name="ObjectShortName">m_axis_tx_tvalid_s</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/top_bench/m_axis_tx_tready_tbs" type="logic">
       <obj_property name="ElementShortName">m_axis_tx_tready_tbs</obj_property>
       <obj_property name="ObjectShortName">m_axis_tx_tready_tbs</obj_property>
+      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/top_bench/step" type="other">
       <obj_property name="ElementShortName">step</obj_property>
@@ -83,5 +107,61 @@
    <wvobject fp_name="/top_bench/app_0/wb_master/state_s" type="other">
       <obj_property name="ElementShortName">state_s</obj_property>
       <obj_property name="ObjectShortName">state_s</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/app_0/wb_adr_s" type="array">
+      <obj_property name="ElementShortName">wb_adr_s[63:0]</obj_property>
+      <obj_property name="ObjectShortName">wb_adr_s[63:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/app_0/wb_dat_o_s" type="array">
+      <obj_property name="ElementShortName">wb_dat_o_s[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wb_dat_o_s[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/app_0/wb_dat_i_s" type="array">
+      <obj_property name="ElementShortName">wb_dat_i_s[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wb_dat_i_s[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/app_0/wb_cyc_s" type="logic">
+      <obj_property name="ElementShortName">wb_cyc_s</obj_property>
+      <obj_property name="ObjectShortName">wb_cyc_s</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/app_0/wb_sel_s" type="array">
+      <obj_property name="ElementShortName">wb_sel_s[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wb_sel_s[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/app_0/wb_stb_s" type="logic">
+      <obj_property name="ElementShortName">wb_stb_s</obj_property>
+      <obj_property name="ObjectShortName">wb_stb_s</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/app_0/wb_we_s" type="logic">
+      <obj_property name="ElementShortName">wb_we_s</obj_property>
+      <obj_property name="ObjectShortName">wb_we_s</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/app_0/wb_ack_s" type="logic">
+      <obj_property name="ElementShortName">wb_ack_s</obj_property>
+      <obj_property name="ObjectShortName">wb_ack_s</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/app_0/wb_master/data_s" type="array">
+      <obj_property name="ElementShortName">data_s[63:0]</obj_property>
+      <obj_property name="ObjectShortName">data_s[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/top_bench/app_0/wb_master/address_s" type="array">
+      <obj_property name="ElementShortName">address_s[63:0]</obj_property>
+      <obj_property name="ObjectShortName">address_s[63:0]</obj_property>
    </wvobject>
 </wave_config>

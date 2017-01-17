@@ -28,10 +28,10 @@ entity l2p_dma_master is
         rst_n_i : in std_logic;
 
         -- From the DMA controller
-        dma_ctrl_target_addr_i : in  std_logic_vector(wb_data_width_c-1 downto 0);
-        dma_ctrl_host_addr_h_i : in  std_logic_vector(wb_data_width_c-1 downto 0);
-        dma_ctrl_host_addr_l_i : in  std_logic_vector(wb_data_width_c-1 downto 0);
-        dma_ctrl_len_i         : in  std_logic_vector(wb_data_width_c-1 downto 0);
+        dma_ctrl_target_addr_i : in  std_logic_vector(32-1 downto 0);
+        dma_ctrl_host_addr_h_i : in  std_logic_vector(32-1 downto 0);
+        dma_ctrl_host_addr_l_i : in  std_logic_vector(32-1 downto 0);
+        dma_ctrl_len_i         : in  std_logic_vector(32-1 downto 0);
         dma_ctrl_start_l2p_i   : in  std_logic;
         dma_ctrl_done_o        : out std_logic;
         dma_ctrl_error_o       : out std_logic;
@@ -136,8 +136,8 @@ architecture behavioral of l2p_dma_master is
     -- L2P packets
     signal s_l2p_header    : std_logic_vector(axis_data_width_c-1 downto 0);
     signal l2p_len_cnt     : unsigned(12 downto 0);
-    signal l2p_address_h   : std_logic_vector(axis_data_width_c-1 downto 0); -- TODO remove
-    signal l2p_address_l   : std_logic_vector(axis_data_width_c-1 downto 0);
+    signal l2p_address_h   : std_logic_vector(32-1 downto 0); -- TODO remove
+    signal l2p_address_l   : std_logic_vector(32-1 downto 0);
     signal l2p_data_cnt    : unsigned(12 downto 0);
     --signal l2p_64b_address : std_logic;
     signal l2p_len_header  : unsigned(12 downto 0);
@@ -146,14 +146,14 @@ architecture behavioral of l2p_dma_master is
     signal l2p_lbe_header  : std_logic_vector(3 downto 0);
     
     signal ldm_arb_data_l  : std_logic_vector(axis_data_width_c-1 downto 0);
-    signal ldm_arb_data_32 : std_logic_vector(axis_data_width_c-1 downto 0);
+    --signal ldm_arb_data_32 : std_logic_vector(axis_data_width_c-1 downto 0);
     signal ldm_arb_valid   : std_logic;
     
     signal data_fifo_valid : std_logic;
     signal addr_fifo_valid : std_logic;
 
     -- Counter
-    signal target_addr_cnt : std_logic_vector(axis_data_width_c-1 downto 0);
+    signal target_addr_cnt : std_logic_vector(32-1 downto 0);
     signal dma_length_cnt  : unsigned(12 downto 0);
     signal l2p_timeout_cnt : unsigned(12 downto 0);
     signal wb_timeout_cnt  : unsigned(12 downto 0);
@@ -302,7 +302,7 @@ begin
             data_fifo_dout_1 <= (others => '0');
         elsif (clk_i'event and clk_i = '1') then
             if (l2p_dma_current_state = L2P_HEADER_1) then
-                data_fifo_dout_1(63 downto 32) <= l2p_address_l(31 downto 0);
+                data_fifo_dout_1(63 downto 32) <= l2p_address_l;--(31 downto 0);
             elsif (data_fifo_rd = '1') then
                 --data_0_s <= data_i;
                 --data_1_s <= data_0_s;
@@ -326,7 +326,7 @@ begin
 				ldm_arb_valid <= '1';
 				ldm_arb_tkeep_o <= x"FF";
 			when L2P_HEADER_1 =>
-				ldm_arb_data_l <= l2p_address_l;
+				ldm_arb_data_l <= l2p_address_h & l2p_address_l;
 				ldm_arb_tlast_o <= '0';
 				if (l2p_64b_address_i = '1') then
                     ldm_arb_valid <= '1';
@@ -450,8 +450,8 @@ begin
             elsif (dma_ctrl_start_l2p_i = '1') then
                 if (l2p_dma_current_state = L2P_IDLE) then
                     -- dma target adrr is byte address, need 32bit address
-                    target_addr_cnt(63 downto 60) <= "0000";
-                    target_addr_cnt(59 downto 0) <= dma_ctrl_target_addr_i(63 downto 4);
+                    target_addr_cnt(31 downto 28) <= "0000";
+                    target_addr_cnt(27 downto 0) <= dma_ctrl_target_addr_i(31 downto 4);
                     -- dma target length is in byte, need 32bit
                     dma_length_cnt <= unsigned(dma_ctrl_len_i(16 downto 4));
                     dma_ctrl_error_o <= '0';
@@ -465,7 +465,7 @@ begin
                 addr_fifo_wr <= '1';
                 target_addr_cnt <= STD_LOGIC_VECTOR(unsigned(target_addr_cnt) + 1);
                 dma_length_cnt <= dma_length_cnt - 1;
-                addr_fifo_din <= target_addr_cnt;
+                addr_fifo_din <= X"00000000" & target_addr_cnt; -- TODO
             else
                 addr_fifo_wr <= '0';
                 dma_ctrl_error_o <= '0';

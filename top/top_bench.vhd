@@ -193,7 +193,7 @@ begin
 		variable data_1 : STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
 		variable data_2 : STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
 	begin
-		step <= 1;
+		step <= 0;
 		s_axis_rx_tdata_tbs <= (others => '0');
 		s_axis_rx_tkeep_tbs <= (others => '0');
 		s_axis_rx_tlast_tbs <= '0';
@@ -201,12 +201,12 @@ begin
 		s_axis_rx_tvalid_tbs <= '0';
 		m_axis_tx_tready_tbs <= '1';
 		wait for period;
-		
 		wait for period;
-		step <= 2;
+		-- DMACSTARTR = X"00000010"
+		step <= 10;
 		axis_data_p (MWr,H3DW,
-		X"0000000000000000",
-		X"00000000" & X"BEEF5A5A",
+		X"0000000000000008",
+		X"00000000" & X"00000010",
 		"00" & X"01",
 		data_0,
 		data_1,
@@ -215,171 +215,227 @@ begin
 		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '0';
 		s_axis_rx_tuser_tbs <= "11" & X"e4004";
-		s_axis_rx_tvalid_tbs <= '1';
-		m_axis_tx_tready_tbs <= '1';	
-
+		s_axis_rx_tvalid_tbs <= '1';	
 		wait for period;
-		step <= 3;
+		
+		step <= 11;
 		s_axis_rx_tdata_tbs <= data_1;
 		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '1';
 		s_axis_rx_tuser_tbs <= "10" & X"e4004";
 		s_axis_rx_tvalid_tbs <= '1';
-		m_axis_tx_tready_tbs <= '1';
-		
-		
 		wait for period;
-		step <= 4;
+		
+		step <= 12;
 		s_axis_rx_tdata_tbs <= X"0000000000000001";
 		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '0';
 		s_axis_rx_tuser_tbs <= "11" & X"60000";
 		s_axis_rx_tvalid_tbs <= '0';
-		m_axis_tx_tready_tbs <= '1';
-		--wb_ack_s <= '0';
 		wait for period;
-		step <= 5;
-		s_axis_rx_tdata_tbs <= X"0000000000000001";
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '0';
-		s_axis_rx_tuser_tbs <= "11" & X"60000";
-		s_axis_rx_tvalid_tbs <= '0';
-		m_axis_tx_tready_tbs <= '1';
-		wait for period;
-		wait for period;
-		wait for period;
-		step <= 6;
-		axis_data_p (MRd,H3DW,X"0000000000000000",X"00000000" & X"BEEF5A5A","00" & X"00",data_0,data_1,data_2);
-		s_axis_rx_tdata_tbs <= data_0;
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '0';
-		s_axis_rx_tuser_tbs <= "00" & X"e4004";
-		s_axis_rx_tvalid_tbs <= '1';
-		m_axis_tx_tready_tbs <= '1';
-		wait for period;
-		step <= 7;
 		
-		s_axis_rx_tdata_tbs <= data_1;
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '1';
-		s_axis_rx_tuser_tbs <= "11" & X"60004";
-		s_axis_rx_tvalid_tbs <= '1';
-		m_axis_tx_tready_tbs <= '1';
-		wait for period;
-		s_axis_rx_tdata_tbs <= X"0000000000A00001";
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '0';
-		s_axis_rx_tuser_tbs <= "11" & X"60000";
-		s_axis_rx_tvalid_tbs <= '0';
-		m_axis_tx_tready_tbs <= '1';
-		wait for period;
-		wait for period;
-		step <= 8;
-		wait for period;
-		wait for period;
-		m_axis_tx_tready_tbs <= '0';
-		wait for period;
-		m_axis_tx_tready_tbs <= '1';
-		step <= 9;
-		wait for period;
-		wait for period;
-		wait for period;
-		step <= 10;
-		axis_data_p (MWr,H4DW,X"0000000000000010",X"CACA5A5A" & X"BEEF5A5A","00" & X"02",data_0,data_1,data_2);
-		s_axis_rx_tdata_tbs <= data_0;
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '0';
-		s_axis_rx_tuser_tbs <= "11" & X"60004";
-		s_axis_rx_tvalid_tbs <= '1';
-		m_axis_tx_tready_tbs <= '1';
-		wait for period;
-		step <= 11;
-		s_axis_rx_tdata_tbs <= data_1;
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '0';
-		s_axis_rx_tuser_tbs <= "11" & X"60004";
-		s_axis_rx_tvalid_tbs <= '1';
-		m_axis_tx_tready_tbs <= '1';
-		wait for period;
-		step <= 12;
-		s_axis_rx_tdata_tbs <= data_2;
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '1';
-		s_axis_rx_tuser_tbs <= "11" & X"60004";
-		s_axis_rx_tvalid_tbs <= '1';
-		m_axis_tx_tready_tbs <= '1';
-		wait for period;
-		step <= 12;
-		s_axis_rx_tdata_tbs <= X"0000000000A00001";
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '0';
-		s_axis_rx_tuser_tbs <= "11" & X"60000";
-		s_axis_rx_tvalid_tbs <= '0';
-		m_axis_tx_tready_tbs <= '1';
-		wait for period;
 		step <= 13;
-		wait for period;
-		wait for period;
-		step <= 14;
-		axis_data_p (MRd,H4DW,X"0000000000000010",X"BEEF5A5A" & X"CACA5A5A","00" & X"00",data_0,data_1,data_2);
-		s_axis_rx_tdata_tbs <= data_0;
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '0';
-		s_axis_rx_tuser_tbs <= "11" & X"60004";
-		s_axis_rx_tvalid_tbs <= '1';
-		m_axis_tx_tready_tbs <= '1';
-		wait for period;
-		step <= 15;
-		s_axis_rx_tdata_tbs <= data_1;
-		s_axis_rx_tkeep_tbs <= X"FF";
-		s_axis_rx_tlast_tbs <= '1';
-		s_axis_rx_tuser_tbs <= "11" & X"60004";
-		s_axis_rx_tvalid_tbs <= '1';
-		m_axis_tx_tready_tbs <= '1';
-		wait for period;
-		step <= 16;
-		s_axis_rx_tdata_tbs <= X"0000000000A00001";
+		s_axis_rx_tdata_tbs <= X"0000000000000001";
 		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '0';
 		s_axis_rx_tuser_tbs <= "11" & X"60000";
 		s_axis_rx_tvalid_tbs <= '0';
-		m_axis_tx_tready_tbs <= '1';
 		wait for period;
+		
+		wait for 6*period;
+		
+		
+		--DMAHSTARTLR = 0xA0
 		wait for period;
-		wait for period;
-		wait for period;
-		wait for period;
-		wait for period;
-		step <= 17;
-		axis_data_p (CplD,H3DW,X"0000000000000010",X"BEEF5A5A" & X"BEEF0001","00" & X"04",data_0,data_1,data_2);
+		step <= 20;
+		axis_data_p (MWr,H3DW,
+		X"000000000000000C",
+		X"00000000" & X"000000A0",
+		"00" & X"01",
+		data_0,
+		data_1,
+		data_2);
 		s_axis_rx_tdata_tbs <= data_0;
 		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '0';
-		s_axis_rx_tuser_tbs <= "11" & X"60004";
-		s_axis_rx_tvalid_tbs <= '1';
-		m_axis_tx_tready_tbs <= '1';
+		s_axis_rx_tuser_tbs <= "11" & X"e4004";
+		s_axis_rx_tvalid_tbs <= '1';	
+
 		wait for period;
-		step <= 18;
+		step <= 21;
 		s_axis_rx_tdata_tbs <= data_1;
-		wait for period;
-		s_axis_rx_tdata_tbs <=  X"BEEF0002" & X"DEAD0001";
-		wait for period;
-		s_axis_rx_tdata_tbs <=  X"CACA0003" & X"DEAD0002";
-		s_axis_rx_tkeep_tbs <= X"0F";
+		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '1';
+		s_axis_rx_tuser_tbs <= "10" & X"e4004";
+		s_axis_rx_tvalid_tbs <= '1';
 		
-		
-		
-		step <= 18;
 		
 		wait for period;
-		step <= 19;
-		s_axis_rx_tdata_tbs <= X"000F000000A00001";
+		step <= 22;
+		s_axis_rx_tdata_tbs <= X"0000000000000001";
 		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '0';
 		s_axis_rx_tuser_tbs <= "11" & X"60000";
 		s_axis_rx_tvalid_tbs <= '0';
-		m_axis_tx_tready_tbs <= '1';
+		wait for period;
+		step <= 23;
+		s_axis_rx_tdata_tbs <= X"0000000000000001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
+		wait for period;
+		
+		wait for 6*period;
+		
+		--DMALENR = 0x40
+		wait for period;
+		step <= 30;
+		axis_data_p (MWr,H3DW,
+		X"0000000000000014",
+		X"00000000" & X"00000040",
+		"00" & X"01",
+		data_0,
+		data_1,
+		data_2);
+		s_axis_rx_tdata_tbs <= data_0;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"e4004";
+		s_axis_rx_tvalid_tbs <= '1';	
+		wait for period;
+		step <= 31;
+		s_axis_rx_tdata_tbs <= data_1;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '1';
+		s_axis_rx_tuser_tbs <= "10" & X"e4004";
+		s_axis_rx_tvalid_tbs <= '1';
+		wait for period;
+		step <= 32;
+		s_axis_rx_tdata_tbs <= X"0000000000000001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
+		wait for period;
+		step <= 33;
+		s_axis_rx_tdata_tbs <= X"0000000000000001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
+		wait for period;
+		
+		wait for 6*period;
+		
+		--DMAATTRIBR = 0x3 last item and P2L
+		wait for period;
+		step <= 40;
+		axis_data_p (MWr,H3DW,
+		X"0000000000000020",
+		X"00000000" & X"00000003",
+		"00" & X"01",
+		data_0,
+		data_1,
+		data_2);
+		s_axis_rx_tdata_tbs <= data_0;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"e4004";
+		s_axis_rx_tvalid_tbs <= '1';	
+		wait for period;
+		step <= 41;
+		s_axis_rx_tdata_tbs <= data_1;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '1';
+		s_axis_rx_tuser_tbs <= "10" & X"e4004";
+		s_axis_rx_tvalid_tbs <= '1';
+		wait for period;
+		step <= 42;
+		s_axis_rx_tdata_tbs <= X"0000000000000001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
+		wait for period;
+		step <= 43;
+		s_axis_rx_tdata_tbs <= X"0000000000000001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
+		wait for period;
+		
+		wait for 6*period;
+		
+		--DMACTRLR = 0x1 to start the transfert
+		wait for period;
+		step <= 40;
+		axis_data_p (MWr,H3DW,
+		X"0000000000000000",
+		X"00000000" & X"00000001",
+		"00" & X"01",
+		data_0,
+		data_1,
+		data_2);
+		s_axis_rx_tdata_tbs <= data_0;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"e4004";
+		s_axis_rx_tvalid_tbs <= '1';	
+		wait for period;
+		step <= 41;
+		s_axis_rx_tdata_tbs <= data_1;
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '1';
+		s_axis_rx_tuser_tbs <= "10" & X"e4004";
+		s_axis_rx_tvalid_tbs <= '1';
+		wait for period;
+		step <= 42;
+		s_axis_rx_tdata_tbs <= X"0000000000000001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
+		wait for period;
+		step <= 43;
+		s_axis_rx_tdata_tbs <= X"0000000000000001";
+		s_axis_rx_tkeep_tbs <= X"FF";
+		s_axis_rx_tlast_tbs <= '0';
+		s_axis_rx_tuser_tbs <= "11" & X"60000";
+		s_axis_rx_tvalid_tbs <= '0';
+		wait for period;
+		
+		wait for 6*period;		
+		
+		--- Read DMACSTARTR
+		-- step <= 60;
+		-- axis_data_p (MRd,H3DW,X"0000000000000008",X"00000000" & X"BEEF5050","00" & X"00",data_0,data_1,data_2);
+		-- s_axis_rx_tdata_tbs <= data_0;
+		-- s_axis_rx_tkeep_tbs <= X"FF";
+		-- s_axis_rx_tlast_tbs <= '0';
+		-- s_axis_rx_tuser_tbs <= "00" & X"e4004";
+		-- s_axis_rx_tvalid_tbs <= '1';
+		-- wait for period;
+		-- step <= 61;
+		-- s_axis_rx_tdata_tbs <= data_1;
+		-- s_axis_rx_tkeep_tbs <= X"FF";
+		-- s_axis_rx_tlast_tbs <= '1';
+		-- s_axis_rx_tuser_tbs <= "11" & X"60004";
+		-- s_axis_rx_tvalid_tbs <= '1';
+		-- wait for period;
+		-- step <= 62;
+		-- s_axis_rx_tdata_tbs <= X"0000000000A00001";
+		-- s_axis_rx_tkeep_tbs <= X"FF";
+		-- s_axis_rx_tlast_tbs <= '0';
+		-- s_axis_rx_tuser_tbs <= "11" & X"60000";
+		-- s_axis_rx_tvalid_tbs <= '0';
+		-- wait for period;
+		
+		-- wait for 6*period;
+		
+		step <= 100;
+
 
 		wait;
 		

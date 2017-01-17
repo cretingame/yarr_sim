@@ -28,7 +28,7 @@ use ieee.std_logic_unsigned.all;
 entity bram_wbs is
 	generic (
 		constant ADDR_WIDTH : integer := 16;
-		constant DATA_WIDTH : integer := 32 
+		constant DATA_WIDTH : integer := 64 
 	);
 	port (
 		-- SYS CON
