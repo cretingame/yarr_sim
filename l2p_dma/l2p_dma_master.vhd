@@ -96,6 +96,7 @@ architecture behavioral of l2p_dma_master is
     -- Constants
     ---------------------
     constant c_L2P_MAX_PAYLOAD : integer := 32;
+    constant c_L2P_MAX_PAYLOAD_64 : integer := c_L2P_MAX_PAYLOAD/2;
     constant c_ADDR_FIFO_FULL_THRES : integer := 700;
     constant c_DATA_FIFO_FULL_THRES : integer := 700;
     constant c_TIMEOUT : integer := 2000;
@@ -326,7 +327,7 @@ begin
 				ldm_arb_valid <= '1';
 				ldm_arb_tkeep_o <= x"FF";
 			when L2P_HEADER_1 =>
-				ldm_arb_data_l <= l2p_address_h & l2p_address_l;
+				ldm_arb_data_l <= l2p_address_l & l2p_address_h;
 				ldm_arb_tlast_o <= '0';
 				if (l2p_64b_address_i = '1') then
                     ldm_arb_valid <= '1';
@@ -394,12 +395,12 @@ begin
                 l2p_byte_swap <= dma_ctrl_byte_swap_i;
                 l2p_last_packet <= '0';
             elsif (l2p_dma_current_state = L2P_SETUP) then
-                if (l2p_len_cnt > c_L2P_MAX_PAYLOAD) then
-                    l2p_data_cnt <= TO_UNSIGNED(c_L2P_MAX_PAYLOAD, 13);
+                if (l2p_len_cnt > c_L2P_MAX_PAYLOAD/2) then
+                    l2p_data_cnt <= TO_UNSIGNED(c_L2P_MAX_PAYLOAD/2, 13);
                     l2p_len_header <= TO_UNSIGNED(c_L2P_MAX_PAYLOAD, 13);
                     l2p_last_packet <= '0';
-                elsif (l2p_len_cnt = c_L2P_MAX_PAYLOAD) then
-                    l2p_data_cnt <= TO_UNSIGNED(c_L2P_MAX_PAYLOAD, 13);
+                elsif (l2p_len_cnt = c_L2P_MAX_PAYLOAD/2) then
+                    l2p_data_cnt <= TO_UNSIGNED(c_L2P_MAX_PAYLOAD/2, 13);
                     l2p_len_header <= TO_UNSIGNED(c_L2P_MAX_PAYLOAD, 13);
                     l2p_last_packet <= '1';
                 else

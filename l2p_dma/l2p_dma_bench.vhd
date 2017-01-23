@@ -187,7 +187,7 @@ begin
 		dma_ctrl_target_addr_tbs <= X"00000010";
 		dma_ctrl_host_addr_h_tbs <= X"00000000";
 		dma_ctrl_host_addr_l_tbs <= X"0000005A";
-		dma_ctrl_len_tbs         <= X"00000020";
+		dma_ctrl_len_tbs         <= X"00000100";
 		dma_ctrl_start_l2p_tbs   <= '1';
 		dma_ctrl_byte_swap_tbs   <= "000";
 		dma_ctrl_abort_tbs       <= '0';
@@ -200,10 +200,10 @@ begin
 		ldm_arb_tready_tbs <= '1'; -- Asserted when GN4124 is ready to receive master write
 		l2p_rdy_tbs  <= '1';                    -- De-asserted to pause transdert already in progress
 		tx_error_tbs <= '0';                    -- Asserted when unexpected or malformed paket received
-		dma_ctrl_target_addr_tbs <= X"00000010";
-		dma_ctrl_host_addr_h_tbs <= X"00000000";
-		dma_ctrl_host_addr_l_tbs <= X"0000005A";
-		dma_ctrl_len_tbs         <= X"00000080";
+		--dma_ctrl_target_addr_tbs <= X"00000010";
+		--dma_ctrl_host_addr_h_tbs <= X"00000000";
+		--dma_ctrl_host_addr_l_tbs <= X"0000005A";
+		--dma_ctrl_len_tbs         <= X"00000080";
 		dma_ctrl_start_l2p_tbs   <= '0';
 		dma_ctrl_byte_swap_tbs   <= "000";
 		dma_ctrl_abort_tbs       <= '0';
