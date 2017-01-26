@@ -315,6 +315,7 @@ architecture Behavioral of app is
 		  pdm_arb_tvalid_o  : out std_logic;  -- Read completion signals
 		  pdm_arb_tlast_o : out std_logic;  -- Toward the arbiter
 		  pdm_arb_tdata_o   : out std_logic_vector(63 downto 0);
+		  pdm_arb_tkeep_o   : out std_logic_vector(7 downto 0);
 		  pdm_arb_req_o    : out std_logic;
 		  arb_pdm_gnt_i    : in  std_logic;
 

@@ -54,10 +54,16 @@ package gn4124_core_pkg is
 --==============================================================================
 --! Functions declaration
 --==============================================================================
-  function f_byte_swap (
+  function f_byte_swap_64 (
     constant enable    : boolean;
     signal   din       : std_logic_vector(63 downto 0);
     signal   byte_swap : std_logic_vector(2 downto 0))
+    return std_logic_vector;
+    
+  function f_byte_swap (
+    constant enable    : boolean;
+    signal   din       : std_logic_vector(31 downto 0);
+    signal   byte_swap : std_logic_vector(1 downto 0))
     return std_logic_vector;
 
   function log2_ceil(N : natural) return positive;
@@ -74,6 +80,49 @@ end gn4124_core_pkg;
 
 package body gn4124_core_pkg is
 
+    -----------------------------------------------------------------------------
+  -- Byte swap function
+  --
+  -- enable | byte_swap | din  | dout
+  -- false  | XX        | ABCD | ABCD
+  -- true   | 00        | ABCD | ABCD
+  -- true   | 01        | ABCD | BADC
+  -- true   | 10        | ABCD | CDAB
+  -- true   | 11        | ABCD | DCBA
+  -----------------------------------------------------------------------------
+  function f_byte_swap (
+    constant enable    : boolean;
+    signal   din       : std_logic_vector(31 downto 0);
+    signal   byte_swap : std_logic_vector(1 downto 0))
+    return std_logic_vector is
+    variable dout : std_logic_vector(31 downto 0) := din;
+  begin
+    if (enable = true) then
+      case byte_swap is
+        when "00" =>
+          dout := din;
+        when "01" =>
+          dout := din(23 downto 16)
+                  & din(31 downto 24)
+                  & din(7 downto 0)
+                  & din(15 downto 8);
+        when "10" =>
+          dout := din(15 downto 0)
+                  & din(31 downto 16);
+        when "11" =>
+          dout := din(7 downto 0)
+                  & din(15 downto 8)
+                  & din(23 downto 16)
+                  & din(31 downto 24);
+        when others =>
+          dout := din;
+      end case;
+    else
+      dout := din;
+    end if;
+    return dout;
+  end function f_byte_swap;
+  
   -----------------------------------------------------------------------------
   -- Byte swap function
   --
@@ -88,7 +137,7 @@ package body gn4124_core_pkg is
   -- true   | 110        | ABCDEFGH | GHEFCDAB
   -- true   | 111        | ABCDEFGH | HGFEDCBA
   -----------------------------------------------------------------------------
-  function f_byte_swap (
+  function f_byte_swap_64 (
     constant enable    : boolean;
     signal   din       : std_logic_vector(63 downto 0);
     signal   byte_swap : std_logic_vector(2 downto 0))
@@ -96,68 +145,19 @@ package body gn4124_core_pkg is
     variable dout : std_logic_vector(63 downto 0) := din;
   begin
     if (enable = true) then
-      case byte_swap is
-        when "000" =>
-          dout := din;
-        when "001" =>
-          dout := din(55 downto 48)   --B
-		          & din(63 downto 56) --A
-				  & din(39 downto 32) --D
-				  & din(47 downto 40) --C
-		          & din(23 downto 16) --F
-                  & din(31 downto 24) --E
-                  & din(7  downto  0) --H
-                  & din(15 downto  8);--G
-        when "010" =>
-          dout := din(47 downto 32) --CD
-				  & din(63 downto 48) --AB
-		          & din(15 downto 0) --GH
-                  & din(31 downto 16); --EF
-				  
-        when "011" =>
-          dout := din(39 downto 32) --D
-				  & din(47 downto 40) --C
-		          & din(55 downto 48) --B
-		          & din(63 downto 56) --A
-		          & din(7 downto 0) --H
-                  & din(15 downto 8) --G
-                  & din(23 downto 16) --F
-                  & din(31 downto 24); --E
-		when "100" =>
-          dout := din(31 downto 0)
-		          & din(63 downto 32);
-        when "101" =>
-          dout := din(23 downto 16) --F
-                  & din(31 downto 24) --E
-                  & din(7  downto  0) --H
-                  & din(15 downto  8) --G
-				  & din(55 downto 48) --B
-		          & din(63 downto 56) --A
-				  & din(39 downto 32) --D
-				  & din(47 downto 40);--C
-        when "110" =>
-          dout := din(15 downto 0) --GH
-                  & din(31 downto 16) --EF
-				  & din(47 downto 32) --CD
-				  & din(63 downto 48); --AB
-				  
-        when "111" =>
-          dout := din(7 downto 0) --H
-                  & din(15 downto 8) --G
-                  & din(23 downto 16) --F
-                  & din(31 downto 24) --E
-				  & din(39 downto 32) --D
-				  & din(47 downto 40) --C
-		          & din(55 downto 48) --B
-		          & din(63 downto 56); --A
-        when others =>
-          dout := din;
-      end case;
+      if byte_swap(2) = '0' then
+        dout := f_byte_swap(true, din(63 downto 0), byte_swap(1 downto 0)) & f_byte_swap(true, din(31 downto 0), byte_swap(1 downto 0));
+      else
+        dout := f_byte_swap(true, din(31 downto 0), byte_swap(1 downto 0)) & f_byte_swap(true, din(63 downto 0), byte_swap(1 downto 0));
+      end if;
+      
     else
       dout := din;
     end if;
     return dout;
-  end function f_byte_swap;
+  end function f_byte_swap_64;
+
+
 
   -----------------------------------------------------------------------------
   -- Returns log of 2 of a natural number

@@ -98,7 +98,7 @@ architecture Behavioral of l2p_dma_bench is
             -- L2P channel control
             l2p_edb_o  : out std_logic;                    -- Asserted when transfer is aborted
             l2p_rdy_i  : in  std_logic;                    -- De-asserted to pause transdert already in progress
-            l2p_64b_address_i : in std_logic;
+            --l2p_64b_address_i : in std_logic;
             tx_error_i : in  std_logic;                    -- Asserted when unexpected or malformed paket received
     
             -- DMA Interface (Pipelined Wishbone)
@@ -185,9 +185,9 @@ begin
 		l2p_rdy_tbs  <= '1';                    -- De-asserted to pause transdert already in progress
 		tx_error_tbs <= '0';                    -- Asserted when unexpected or malformed paket received
 		dma_ctrl_target_addr_tbs <= X"00000010";
-		dma_ctrl_host_addr_h_tbs <= X"00000000";
-		dma_ctrl_host_addr_l_tbs <= X"0000005A";
-		dma_ctrl_len_tbs         <= X"00000100";
+		dma_ctrl_host_addr_h_tbs <= X"00000003";
+		dma_ctrl_host_addr_l_tbs <= X"c57334d0";
+		dma_ctrl_len_tbs         <= X"000000A0";
 		dma_ctrl_start_l2p_tbs   <= '1';
 		dma_ctrl_byte_swap_tbs   <= "000";
 		dma_ctrl_abort_tbs       <= '0';
@@ -265,7 +265,7 @@ begin
       l2p_edb_o  => l2p_edb_s,
       ldm_arb_tready_i => ldm_arb_tready_tbs,
       l2p_rdy_i  => l2p_rdy_tbs,
-      l2p_64b_address_i => l2p_64b_address_tbs,
+      --l2p_64b_address_i => l2p_64b_address_tbs,
       tx_error_i => tx_error_tbs,
 
       l2p_dma_clk_i   => clk_tbs,

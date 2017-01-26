@@ -95,6 +95,7 @@ entity p2l_dma_master is
       pdm_arb_tvalid_o  : out std_logic;  -- Read completion signals
       pdm_arb_tlast_o : out std_logic;  -- Toward the arbiter
       pdm_arb_tdata_o   : out std_logic_vector(63 downto 0);
+      pdm_arb_tkeep_o   : out std_logic_vector(7 downto 0);
       pdm_arb_req_o    : out std_logic;
       arb_pdm_gnt_i    : in  std_logic;
 
@@ -153,7 +154,7 @@ architecture behaviour of p2l_dma_master is
   -- L2P packet generator
   signal l2p_address_h   : std_logic_vector(31 downto 0);
   signal l2p_address_l   : std_logic_vector(31 downto 0);
-  signal l2p_len_cnt     : unsigned(27 downto 0);
+  signal l2p_len_cnt     : unsigned(28 downto 0);
   signal l2p_len_header  : unsigned(9 downto 0);
   signal l2p_64b_address : std_logic;
   signal s_l2p_header    : std_logic_vector(63 downto 0);
@@ -161,7 +162,7 @@ architecture behaviour of p2l_dma_master is
   signal l2p_lbe_header  : std_logic_vector(3 downto 0);
 
   -- Target address counter
-  signal target_addr_cnt : unsigned(27 downto 0);
+  signal target_addr_cnt : unsigned(28 downto 0);
 
   -- sync fifo
   signal fifo_rst_n : std_logic;
@@ -170,8 +171,8 @@ architecture behaviour of p2l_dma_master is
   signal to_wb_fifo_full      : std_logic;
   signal to_wb_fifo_rd        : std_logic;
   signal to_wb_fifo_wr        : std_logic;
-  signal to_wb_fifo_din       : std_logic_vector(91 downto 0);
-  signal to_wb_fifo_dout      : std_logic_vector(91 downto 0);
+  signal to_wb_fifo_din       : std_logic_vector(95 downto 0);
+  signal to_wb_fifo_dout      : std_logic_vector(95 downto 0);
   signal to_wb_fifo_valid     : std_logic;
   signal to_wb_fifo_byte_swap : std_logic_vector(2 downto 0);
 
@@ -183,7 +184,7 @@ architecture behaviour of p2l_dma_master is
   signal p2l_dma_stall_d : std_logic_vector(1 downto 0);
 
   -- P2L DMA read request FSM
-  type   p2l_dma_state_type is (P2L_IDLE, P2L_HEADER, P2L_ADDR_H, P2L_ADDR_L, P2L_WAIT_READ_COMPLETION);
+  type   p2l_dma_state_type is (P2L_IDLE, P2L_HEADER, P2L_HEADER_1, P2L_HEADER_2, P2L_WAIT_READ_COMPLETION);
   signal p2l_dma_current_state : p2l_dma_state_type;
   signal p2l_data_cnt          : unsigned(10 downto 0);
 
@@ -227,7 +228,7 @@ begin
           -- Stores DMA info locally
           l2p_address_h <= dma_ctrl_host_addr_h_i;
           l2p_address_l <= dma_ctrl_host_addr_l_i;
-          l2p_len_cnt   <= unsigned(dma_ctrl_len_i(31 downto 4));  -- dma_ctrl_len_i is in byte
+          l2p_len_cnt   <= unsigned(dma_ctrl_len_i(31 downto 3));  -- dma_ctrl_len_i is in byte
           if (dma_ctrl_start_next_i = '1') then
             -- Catching next DMA item
             is_next_item <= '1';                                   -- flag for data retrieve block
@@ -244,22 +245,22 @@ begin
       elsif (p2l_dma_current_state = P2L_HEADER) then
         -- if DMA length is bigger than the max PCIe payload size,
         -- we have to generate several read request
-        if (l2p_len_cnt > c_MAX_READ_REQ_SIZE) then
+        if (l2p_len_cnt > c_MAX_READ_REQ_SIZE/2) then
           -- when max payload length is 1024, the header length field = 0
           l2p_len_header  <= c_MAX_READ_REQ_SIZE(9 downto 0);
           l2p_last_packet <= '0';
-        elsif (l2p_len_cnt = c_MAX_READ_REQ_SIZE) then
+        elsif (l2p_len_cnt = c_MAX_READ_REQ_SIZE/2) then
           -- when max payload length is 1024, the header length field = 0
           l2p_len_header  <= c_MAX_READ_REQ_SIZE(9 downto 0);
           l2p_last_packet <= '1';
         else
-          l2p_len_header  <= l2p_len_cnt(9 downto 0);
+          l2p_len_header  <= l2p_len_cnt(8 downto 0) & '0';
           l2p_last_packet <= '1';
         end if;
-      elsif (p2l_dma_current_state = P2L_ADDR_L) then
+      elsif (p2l_dma_current_state = P2L_HEADER_2) then
         -- Subtract the number of word requested to generate a new read request if needed
         if (l2p_last_packet = '0') then
-          l2p_len_cnt <= l2p_len_cnt - c_MAX_READ_REQ_SIZE;
+          l2p_len_cnt <= l2p_len_cnt - c_MAX_READ_REQ_SIZE/2;
         else
           l2p_len_cnt <= (others => '0');
         end if;
@@ -300,7 +301,8 @@ begin
       pdm_arb_req_o         <= '0';
       pdm_arb_tdata_o        <= (others => '0');
       pdm_arb_tvalid_o       <= '0';
-      pdm_arb_tlast_o      <= '0';
+      pdm_arb_tlast_o       <= '0';
+      pdm_arb_tkeep_o     <= X"FF";
       dma_ctrl_done_t       <= '0';
       next_item_valid_o     <= '0';
       completion_error      <= '0';
@@ -327,10 +329,7 @@ begin
           if(arb_pdm_gnt_i = '1') then
             -- clear access request to the arbiter
             -- access is granted until dframe is cleared
-            pdm_arb_req_o    <= '0';
-            -- send header
-            pdm_arb_tdata_o   <= s_l2p_header;
-            pdm_arb_tvalid_o  <= '1';
+
             
             --if(l2p_64b_address = '1') then
               -- if host address is 64-bit, we have to send an additionnal
@@ -338,18 +337,29 @@ begin
               --p2l_dma_current_state <= P2L_ADDR_H;
             --else
               -- for 32-bit host address, we only have to send lowest bits
-              p2l_dma_current_state <= P2L_ADDR_L;
+              p2l_dma_current_state <= P2L_HEADER_1;
             --end if;
           end if;
 
-        when P2L_ADDR_H =>
+        when P2L_HEADER_1 =>
           -- send host address 32 highest bits
+          pdm_arb_req_o    <= '0';
+          -- send header
+          pdm_arb_tdata_o   <= s_l2p_header;
+          pdm_arb_tvalid_o  <= '1';
+          pdm_arb_tkeep_o <= X"FF";
           --pdm_arb_tdata_o        <= l2p_address_h;
-          p2l_dma_current_state <= P2L_ADDR_L;
+          p2l_dma_current_state <= P2L_HEADER_2;
 
-        when P2L_ADDR_L =>
+        when P2L_HEADER_2 =>
           -- send host address 32 lowest bits
-          pdm_arb_tdata_o        <= l2p_address_h & l2p_address_l;
+          if(l2p_64b_address = '1') then
+              pdm_arb_tdata_o        <= l2p_address_l & l2p_address_h;
+              pdm_arb_tkeep_o <= X"FF";
+          else
+              pdm_arb_tdata_o        <= X"00000000" & l2p_address_l;
+              pdm_arb_tkeep_o <= X"0F";
+          end if;
           -- clear dframe signal to indicate the end of packet
           pdm_arb_tlast_o <= '1';
           p2l_dma_current_state <= P2L_WAIT_READ_COMPLETION;
@@ -423,12 +433,12 @@ begin
     if (rst_n_i = c_RST_ACTIVE) then
       p2l_data_cnt <= (others => '0');
     elsif rising_edge(clk_i) then
-      if (p2l_dma_current_state = P2L_ADDR_L) then
+      if (p2l_dma_current_state = P2L_HEADER_2) then
         -- Store number of 32-bit data words to be received for the current read request
         if l2p_len_header = 0 then
           p2l_data_cnt <= to_unsigned(1024, p2l_data_cnt'length);
         else
-          p2l_data_cnt <= '0' & l2p_len_header;
+          p2l_data_cnt <= "00" & l2p_len_header(9 downto 1);
         end if;
       elsif (p2l_dma_current_state = P2L_WAIT_READ_COMPLETION
              and pd_pdm_data_valid_i = '1'
@@ -494,7 +504,7 @@ begin
         if (p2l_dma_current_state = P2L_IDLE) then
           -- dma_ctrl_target_addr_i is a byte address and target_addr_cnt is a
           -- 64-bit word address
-          target_addr_cnt      <= unsigned(dma_ctrl_carrier_addr_i(31 downto 4));
+          target_addr_cnt      <= unsigned(dma_ctrl_carrier_addr_i(31 downto 3));
           -- stores byte swap info for the current DMA transfer
           to_wb_fifo_byte_swap <= dma_ctrl_byte_swap_i;
         else
@@ -507,7 +517,7 @@ begin
         -- write target address and data to the sync fifo
         to_wb_fifo_wr                <= '1';
         to_wb_fifo_din(63 downto 0)  <= pd_pdm_data_i; --f_byte_swap(g_BYTE_SWAP, pd_pdm_data_i, to_wb_fifo_byte_swap);
-        to_wb_fifo_din(91 downto 64) <= std_logic_vector(target_addr_cnt);
+        to_wb_fifo_din(92 downto 64) <= std_logic_vector(target_addr_cnt);
       else
         dma_busy_error <= '0';
         to_wb_fifo_wr  <= '0';
@@ -520,7 +530,7 @@ begin
   ------------------------------------------------------------------------------
   cmp_to_wb_fifo : generic_async_fifo
     generic map (
-      g_data_width             => 92,
+      g_data_width             => 96,
       g_size                   => 512,
       g_show_ahead             => false,
       g_with_rd_empty          => true,
@@ -591,8 +601,8 @@ begin
       p2l_dma_stall_d(1) <= p2l_dma_stall_d(0);
       -- data and address
       if (to_wb_fifo_valid = '1') then
-        p2l_dma_adr_o(31 downto 30) <= "00";
-		  p2l_dma_adr_o(27 downto 0) <= to_wb_fifo_dout(91 downto 64);
+        --p2l_dma_adr_o(31 downto 30) <= "00";
+		p2l_dma_adr_o(31 downto 0) <= to_wb_fifo_dout(95 downto 64);
         p2l_dma_dat_o <= to_wb_fifo_dout(63 downto 0);
       end if;
       -- stb and sel signals management

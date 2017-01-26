@@ -30,20 +30,20 @@
     <Option Name="IPStaticSourceDir" Val="$PPRDIR/project_sim.ip_user_files/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSANumComputeUnits" Val="16"/>
-    <Option Name="WTXSimLaunchSim" Val="311"/>
+    <Option Name="WTXSimLaunchSim" Val="350"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="17"/>
-    <Option Name="WTModelSimExportSim" Val="17"/>
-    <Option Name="WTQuestaExportSim" Val="17"/>
-    <Option Name="WTIesExportSim" Val="17"/>
-    <Option Name="WTVcsExportSim" Val="17"/>
-    <Option Name="WTRivieraExportSim" Val="17"/>
-    <Option Name="WTActivehdlExportSim" Val="17"/>
+    <Option Name="WTXSimExportSim" Val="23"/>
+    <Option Name="WTModelSimExportSim" Val="23"/>
+    <Option Name="WTQuestaExportSim" Val="23"/>
+    <Option Name="WTIesExportSim" Val="23"/>
+    <Option Name="WTVcsExportSim" Val="23"/>
+    <Option Name="WTRivieraExportSim" Val="23"/>
+    <Option Name="WTActivehdlExportSim" Val="23"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
     <Option Name="XSimRadix" Val="hex"/>
     <Option Name="XSimTimeUnit" Val="ns"/>
@@ -190,7 +190,7 @@
       </File>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
-        <Option Name="TopModule" Val="l2p_dma_bench"/>
+        <Option Name="TopModule" Val="p2l_dma_bench"/>
         <Option Name="TransportPathDelay" Val="0"/>
         <Option Name="TransportIntDelay" Val="0"/>
         <Option Name="SrcSet" Val="sources_1"/>
@@ -268,8 +268,8 @@
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
-    <FileSet Name="fifo_92x512" Type="BlockSrcs" RelSrcDir="$PSRCDIR/fifo_92x512">
-      <File Path="$PSRCDIR/sources_1/ip/fifo_92x512/fifo_92x512.xci">
+    <FileSet Name="fifo_96x512" Type="BlockSrcs" RelSrcDir="$PSRCDIR/fifo_96x512">
+      <File Path="$PSRCDIR/sources_1/ip/fifo_96x512/fifo_96x512.xci">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -277,7 +277,7 @@
         </FileInfo>
       </File>
       <Config>
-        <Option Name="TopModule" Val="fifo_92x512"/>
+        <Option Name="TopModule" Val="fifo_96x512"/>
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
@@ -340,9 +340,11 @@
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
     </Run>
-    <Run Id="fifo_92x512_synth_1" Type="Ft3:Synth" SrcSet="fifo_92x512" Part="xc7k160tfbg676-2" ConstrsSet="fifo_92x512" Description="Vivado Synthesis Defaults" Dir="$PRUNDIR/fifo_92x512_synth_1" IncludeInArchive="true">
+    <Run Id="fifo_96x512_synth_1" Type="Ft3:Synth" SrcSet="fifo_96x512" Part="xc7k160tfbg676-2" ConstrsSet="fifo_96x512" Description="Vivado Synthesis Defaults" Dir="$PRUNDIR/fifo_96x512_synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2016"/>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2016">
+          <Desc>Vivado Synthesis Defaults</Desc>
+        </StratHandle>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -423,9 +425,11 @@
       </Strategy>
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
     </Run>
-    <Run Id="fifo_92x512_impl_1" Type="Ft2:EntireDesign" Part="xc7k160tfbg676-2" ConstrsSet="fifo_92x512" Description="Default settings for Implementation." SynthRun="fifo_92x512_synth_1" IncludeInArchive="false">
+    <Run Id="fifo_96x512_impl_1" Type="Ft2:EntireDesign" Part="xc7k160tfbg676-2" ConstrsSet="fifo_96x512" Description="Default settings for Implementation." SynthRun="fifo_96x512_synth_1" IncludeInArchive="false">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016"/>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016">
+          <Desc>Default settings for Implementation.</Desc>
+        </StratHandle>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>

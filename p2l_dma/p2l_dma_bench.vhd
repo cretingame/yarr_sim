@@ -60,6 +60,7 @@ architecture Behavioral of p2l_dma_bench is
 		signal pdm_arb_tvalid_s  : std_logic;  -- Read completion signals
 		signal pdm_arb_tlast_s : std_logic;  -- Toward the arbiter
 		signal pdm_arb_tdata_s   : std_logic_vector(wb_data_width_c-1 downto 0);
+		signal pdm_arb_tkeep_s   : std_logic_vector(7 downto 0);
 		signal pdm_arb_req_s    : std_logic;
 		signal arb_pdm_gnt_tbs    : std_logic;
 
@@ -137,6 +138,7 @@ architecture Behavioral of p2l_dma_bench is
 		  pdm_arb_tvalid_o  : out std_logic;  -- Read completion signals
 		  pdm_arb_tlast_o : out std_logic;  -- Toward the arbiter
 		  pdm_arb_tdata_o   : out std_logic_vector(63 downto 0);
+		  pdm_arb_tkeep_o   : out std_logic_vector(7 downto 0);
 		  pdm_arb_req_o    : out std_logic;
 		  arb_pdm_gnt_i    : in  std_logic;
 
@@ -246,7 +248,7 @@ begin
 		wait for period;
 		
         dma_ctrl_target_addr_tbs <= X"00000010";
-        dma_ctrl_host_addr_h_tbs <= X"00000000";
+        dma_ctrl_host_addr_h_tbs <= X"00000001";
         dma_ctrl_host_addr_l_tbs <= X"0000005A";
         dma_ctrl_len_tbs         <= X"00000040";
         dma_ctrl_start_p2l_tbs   <= '0';
@@ -305,31 +307,31 @@ begin
 		pd_pdm_data_tbs        <= X"BABECACA00000002";  -- Data
 		
 		wait for period;
-		--step <= 6;
+		step <= 6;
 		
 		
-		--pd_pdm_data_tbs        <= X"DEADBABE";  -- Data
+		pd_pdm_data_tbs        <= X"BABECACA00000003";  -- Data
 		
-		--wait for period;
-		--step <= 7;
+		wait for period;
+		step <= 7;
         
-        --pd_pdm_data_tbs        <= X"DEADDEAD";  -- Data
+        pd_pdm_data_tbs        <= X"BABECACA00000004";  -- Data
 		
-		--wait for period;
-        --step <= 8;
+		wait for period;
+        step <= 8;
         
-        --pd_pdm_data_tbs        <= X"DEADBEEF";  -- Data
+        pd_pdm_data_tbs        <= X"BABECACA00000005";  -- Data
         
-        --wait for period;
-        --step <= 9;
+        wait for period;
+        step <= 9;
 		
-		--pd_pdm_data_tbs        <= X"CACABEEF";  -- Data
+		pd_pdm_data_tbs        <= X"BABECACA00000006";  -- Data
         
-        --wait for period;
+        wait for period;
         step <= 10;
         
         pd_pdm_data_last_tbs   <= '1';
-        pd_pdm_data_tbs        <= X"DEADC4C400000003";  -- Data
+        pd_pdm_data_tbs        <= X"DEADC4C400000007";  -- Data
         
         wait for period;
         step <= 11;
@@ -397,6 +399,7 @@ begin
 		  pdm_arb_tvalid_o  => pdm_arb_tvalid_s, -- Read completion signals
 		  pdm_arb_tlast_o => pdm_arb_tlast_s, -- Toward the arbiter
 		  pdm_arb_tdata_o   => pdm_arb_tdata_s,
+		  pdm_arb_tkeep_o   => pdm_arb_tkeep_s,
 		  pdm_arb_req_o    => pdm_arb_req_s,
 		  arb_pdm_gnt_i    => arb_pdm_gnt_tbs,
 

@@ -13,15 +13,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="8640337074fs"></ZoomStartTime>
-      <ZoomEndTime time="10271932586fs"></ZoomEndTime>
-      <Cursor1Time time="10000000000fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="1187712780fs"></ZoomEndTime>
+      <Cursor1Time time="200000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="200"></NameColumnWidth>
-      <ValueColumnWidth column_width="158"></ValueColumnWidth>
+      <ValueColumnWidth column_width="152"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="50" />
+   <WVObjectSize size="54" />
    <wvobject fp_name="/p2l_dma_bench/clk_tbs" type="logic">
       <obj_property name="ElementShortName">clk_tbs</obj_property>
       <obj_property name="ObjectShortName">clk_tbs</obj_property>
@@ -118,6 +118,14 @@
       <obj_property name="ElementShortName">rx_error_s</obj_property>
       <obj_property name="ObjectShortName">rx_error_s</obj_property>
    </wvobject>
+   <wvobject fp_name="/p2l_dma_bench/dut1/s_l2p_header" type="array">
+      <obj_property name="ElementShortName">s_l2p_header[63:0]</obj_property>
+      <obj_property name="ObjectShortName">s_l2p_header[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/p2l_dma_bench/dut1/l2p_len_header" type="array">
+      <obj_property name="ElementShortName">l2p_len_header[9:0]</obj_property>
+      <obj_property name="ObjectShortName">l2p_len_header[9:0]</obj_property>
+   </wvobject>
    <wvobject fp_name="/p2l_dma_bench/pdm_arb_tvalid_s" type="logic">
       <obj_property name="ElementShortName">pdm_arb_tvalid_s</obj_property>
       <obj_property name="ObjectShortName">pdm_arb_tvalid_s</obj_property>
@@ -133,6 +141,12 @@
    <wvobject fp_name="/p2l_dma_bench/pdm_arb_tdata_s" type="array">
       <obj_property name="ElementShortName">pdm_arb_tdata_s[63:0]</obj_property>
       <obj_property name="ObjectShortName">pdm_arb_tdata_s[63:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFA500</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/p2l_dma_bench/pdm_arb_tkeep_s" type="array">
+      <obj_property name="ElementShortName">pdm_arb_tkeep_s[7:0]</obj_property>
+      <obj_property name="ObjectShortName">pdm_arb_tkeep_s[7:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
@@ -246,6 +260,10 @@
       <obj_property name="ElementShortName">p2l_data_cnt[10:0]</obj_property>
       <obj_property name="ObjectShortName">p2l_data_cnt[10:0]</obj_property>
    </wvobject>
+   <wvobject fp_name="/p2l_dma_bench/dut1/l2p_len_cnt" type="array">
+      <obj_property name="ElementShortName">l2p_len_cnt[28:0]</obj_property>
+      <obj_property name="ObjectShortName">l2p_len_cnt[28:0]</obj_property>
+   </wvobject>
    <wvobject fp_name="/p2l_dma_bench/dut1/to_wb_fifo_empty" type="logic">
       <obj_property name="ElementShortName">to_wb_fifo_empty</obj_property>
       <obj_property name="ObjectShortName">to_wb_fifo_empty</obj_property>
@@ -271,14 +289,14 @@
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/p2l_dma_bench/dut1/to_wb_fifo_din" type="array">
-      <obj_property name="ElementShortName">to_wb_fifo_din[127:0]</obj_property>
-      <obj_property name="ObjectShortName">to_wb_fifo_din[127:0]</obj_property>
+      <obj_property name="ElementShortName">to_wb_fifo_din[91:0]</obj_property>
+      <obj_property name="ObjectShortName">to_wb_fifo_din[91:0]</obj_property>
       <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/p2l_dma_bench/dut1/to_wb_fifo_dout" type="array">
-      <obj_property name="ElementShortName">to_wb_fifo_dout[127:0]</obj_property>
-      <obj_property name="ObjectShortName">to_wb_fifo_dout[127:0]</obj_property>
+      <obj_property name="ElementShortName">to_wb_fifo_dout[91:0]</obj_property>
+      <obj_property name="ObjectShortName">to_wb_fifo_dout[91:0]</obj_property>
       <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
