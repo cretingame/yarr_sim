@@ -1,10 +1,10 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/common/gn4124_core_pkg.vhd" into library xil_defaultlib
 INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/common/bcf_bram_wbs.vhd" into library xil_defaultlib
 INFO: [VRFC 10-307] analyzing entity bram_wbs
 INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/wb_master64/wb_master64.vhd" into library xil_defaultlib
 INFO: [VRFC 10-307] analyzing entity wb_master64
 INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/wb_master64/wb_master64_bench.vhd" into library xil_defaultlib
 INFO: [VRFC 10-307] analyzing entity wb_master64_bench
-INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/common/gn4124_core_pkg.vhd" into library xil_defaultlib
 INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/l2p_dma/l2p_fifo.vhd" into library xil_defaultlib
 INFO: [VRFC 10-307] analyzing entity l2p_fifo
 INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/common/common_pkg.vhd" into library xil_defaultlib
@@ -33,3 +33,7 @@ INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/top/dma
 INFO: [VRFC 10-307] analyzing entity dma_controller
 INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/top/dma_controller_wb_slave.vhd" into library xil_defaultlib
 INFO: [VRFC 10-307] analyzing entity dma_controller_wb_slave
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/p2l_decoder/p2l_decoder.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity p2l_decoder
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/cygwin64/home/saute/yarr_sim/p2l_decoder/p2l_decoder_bench.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity p2l_decoder_bench

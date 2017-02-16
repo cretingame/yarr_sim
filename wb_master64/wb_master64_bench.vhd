@@ -3,6 +3,7 @@ USE IEEE.STD_LOGIC_1164.all;
 USE IEEE.NUMERIC_STD.all;
 use IEEE.std_logic_unsigned.all; 
 
+use work.gn4124_core_pkg.all;
 
 entity wb_master64_bench is
     generic (
@@ -48,6 +49,8 @@ architecture Behavioral of wb_master64_bench is
 		signal wb_ack_s : STD_LOGIC;
 		type tlp_type_t is (MRd,MRdLk,MWr,IORd,IOWr,CfgRd0,CfgWr0,CfgRd1,CfgWr1,TCfgRd,TCfgWr,Msg,MsgD,Cpl,CplD,CplLk,CplDLk,LPrfx,unknown);
 		type header_t is (H3DW,H4DW);
+		signal byte_swap_c : STD_LOGIC_VECTOR (1 downto 0);
+		type bool_t is (false,true);
 		-- Test bench specific signals
 		signal step : integer;
 		
@@ -102,7 +105,7 @@ architecture Behavioral of wb_master64_bench is
 			rx_data_0(9 downto 0) := length_i;  --H0 length H & length L
 			
 			if header_type_i = H3DW then
-				rx_data_1(63 downto 32) := data_i(31 downto 0); --D0 Data
+				rx_data_1(63 downto 32) := data_i(31 downto 0); --D0 Data 
 				rx_data_1(31 downto 0)	:= address_i(31 downto 0);  --H2 Adress	
 				rx_data_2 := (others => '0');
 			else
@@ -182,7 +185,7 @@ architecture Behavioral of wb_master64_bench is
 		);
 		end component;
 begin
-
+    byte_swap_c <= "11";
 	clk_p: process
 	begin
 		clk_tbs <= '1';
@@ -261,7 +264,7 @@ begin
 		wait for period;
 		wait for period;
 		step <= 6;
-		axis_data_p (MRd,H3DW,X"0000000000000000",X"00000000" & X"BEEF5A5A","00" & X"00",data_0,data_1,data_2);
+		axis_data_p (MRd,H3DW,X"0000000000000000",X"00000000" & X"5A5AEFBE","00" & X"00",data_0,data_1,data_2);
 		s_axis_rx_tdata_tbs <= data_0;
 		--s_axis_rx_tdata_tbs <= X"0000000f" & X"00000001";
 		s_axis_rx_tkeep_tbs <= X"FF";
@@ -365,7 +368,7 @@ begin
 		-- wait for period;
 	    wait for period;
 		step <= 17;
-		axis_data_p (CplD,H3DW,X"0000000000000010",X"BEEF5A5A" & X"BEEF0001","00" & X"04",data_0,data_1,data_2);
+		axis_data_p (CplD,H3DW,X"0000000000000010",X"5A5AEFBE" & X"0000EFBE","00" & X"04",data_0,data_1,data_2);
 		s_axis_rx_tdata_tbs <= data_0;
 		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '0';
@@ -376,18 +379,45 @@ begin
 		step <= 18;
 		s_axis_rx_tdata_tbs <= data_1;
 		wait for period;
-		s_axis_rx_tdata_tbs <=  X"BEEF0002" & X"DEAD0001";
+		s_axis_rx_tdata_tbs <=  X"0200EFBE" & X"0100EFBE";
 		wait for period;
-		s_axis_rx_tdata_tbs <=  X"CACA0003" & X"DEAD0002";
+		s_axis_rx_tdata_tbs <=  X"0400CACA" & X"0300EFBE";
 		s_axis_rx_tkeep_tbs <= X"0F";
 		s_axis_rx_tlast_tbs <= '1';
-		
+		wait for period;
+        
+        
+        s_axis_rx_tdata_tbs <= X"000F000000A00001";
+        s_axis_rx_tkeep_tbs <= X"FF";
+        s_axis_rx_tlast_tbs <= '0';
+        s_axis_rx_tuser_tbs <= "11" & X"60000";
+        s_axis_rx_tvalid_tbs <= '0';
+        m_axis_tx_ready_tbs <= '1';
+        wait for period;
+        
+        step <= 19;
+        axis_data_p (CplD,H3DW,X"0000000000000010",X"5A5AEFBE" & X"0000EFBE","00" & X"04",data_0,data_1,data_2);
+        s_axis_rx_tdata_tbs <= data_0;
+        s_axis_rx_tkeep_tbs <= X"FF";
+        s_axis_rx_tlast_tbs <= '0';
+        s_axis_rx_tuser_tbs <= "11" & X"60004";
+        s_axis_rx_tvalid_tbs <= '1';
+        m_axis_tx_ready_tbs <= '1';
+        wait for period;
+        step <= 20;
+        s_axis_rx_tdata_tbs <= data_1;
+        wait for period;
+        s_axis_rx_tdata_tbs <=  X"0200EFBE" & X"0100EFBE";
+        wait for period;
+        s_axis_rx_tdata_tbs <=  X"0400CACA" & X"0300EFBE";
+        s_axis_rx_tkeep_tbs <= X"0F";
+        s_axis_rx_tlast_tbs <= '1';
 		
 		
 		-- step <= 18;
 		
 		wait for period;
-		step <= 19;
+		step <= 21;
 		s_axis_rx_tdata_tbs <= X"000F000000A00001";
 		s_axis_rx_tkeep_tbs <= X"FF";
 		s_axis_rx_tlast_tbs <= '0';

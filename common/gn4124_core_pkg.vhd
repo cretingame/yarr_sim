@@ -172,5 +172,10 @@ package body gn4124_core_pkg is
       return 1 + log2_ceil((N+1)/2);
     end if;
   end;
+  
+  type bool_t is (false,true);
+  type tlp_type_t is (MRd,MRdLk,MWr,IORd,IOWr,CfgRd0,CfgWr0,CfgRd1,CfgWr1,TCfgRd,TCfgWr,Msg,MsgD,Cpl,CplD,CplLk,CplDLk,LPrfx,unknown);
+  type header_t is (H3DW,H4DW);
+
 
 end gn4124_core_pkg;

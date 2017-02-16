@@ -340,7 +340,50 @@ begin
         pd_pdm_data_valid_tbs  <= '0';                      -- Indicates Data is valid
         pd_pdm_data_last_tbs   <= '0';
 		
-		wait;
+		wait for period;
+		wait for period;
+		wait for period;
+        
+        step <= 12;
+        dma_ctrl_len_tbs         <= X"00000020";
+        dma_ctrl_start_next_tbs  <= '1';
+        wait for period;
+        
+        step <= 13;
+        dma_ctrl_start_next_tbs  <= '0';
+        wait for period;
+        
+		step <= 14;
+        wait for period;
+        
+ 		step <= 15;
+        wait for period;
+        
+        step <= 16;
+        pd_pdm_data_tbs        <= X"0000000300000360";
+        pd_pdm_data_valid_tbs  <= '1';
+        wait for period;
+		
+		step <= 17;
+        pd_pdm_data_tbs        <= X"000004E0922d1000";
+        wait for period;
+        
+ 		step <= 18;
+        pd_pdm_data_tbs        <= X"0000000403a57038";
+        wait for period;
+        
+       step <= 18;
+       pd_pdm_data_tbs        <=  X"CACA000000000001";
+       pd_pdm_data_last_tbs   <= '1';
+       wait for period;       
+       
+       step <= 19;
+       pd_pdm_data_tbs        <=  X"CACA1000000000CC";
+       pd_pdm_data_valid_tbs  <= '0';                      -- Indicates Data is valid
+       pd_pdm_data_last_tbs   <= '0';
+       
+       
+	   wait;
 		
 		
 	end process stimuli_p;

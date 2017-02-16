@@ -2,12 +2,14 @@ library IEEE;
 USE IEEE.STD_LOGIC_1164.all;
 USE IEEE.NUMERIC_STD.all;
 
+use work.gn4124_core_pkg.all;
+
 entity wb_master64 is
 	Generic (
 		axis_data_width_c : integer := 64;
 		wb_address_width_c : integer := 64;
 		wb_data_width_c : integer := 32;
-		address_mask_c : STD_LOGIC_VECTOR(64-1 downto 0) := X"00000000" & X"000000FF" -- depends on pcie memory size
+		address_mask_c : STD_LOGIC_VECTOR(64-1 downto 0) := X"00000000" & X"0FFFFFFF" -- depends on pcie memory size
 		);
 	Port (
 		clk_i : in STD_LOGIC;
@@ -39,7 +41,13 @@ entity wb_master64 is
 		--wb_sel_o : out STD_LOGIC_VECTOR (wb_data_width_c - 1 downto 0);
 		wb_stb_o : out STD_LOGIC;
 		wb_we_o : out STD_LOGIC;
-		wb_ack_i : in STD_LOGIC
+		wb_ack_i : in STD_LOGIC;
+		--debug outputs
+		states_do : out STD_LOGIC_VECTOR(3 downto 0);
+		op_do : out STD_LOGIC_VECTOR(2 downto 0);
+		header_type_do : out STD_LOGIC;
+		payload_length_do : out STD_LOGIC_VECTOR(9 downto 0);
+		address_do : out STD_LOGIC_VECTOR(31 downto 0)
 	);
 end wb_master64;
 
@@ -79,8 +87,10 @@ architecture Behavioral of wb_master64 is
 	signal s_axis_rx_tlast_s : STD_LOGIC;
 	signal s_axis_rx_tdata_0_s : STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
 	signal s_axis_rx_tdata_1_s : STD_LOGIC_VECTOR (axis_data_width_c - 1 downto 0);
+	
+	signal byte_swap_c : STD_LOGIC_VECTOR (1 downto 0);
 begin
-
+    byte_swap_c <= "11";
 
 	state_p:process(rst_i,clk_i) 
 	begin
@@ -282,8 +292,9 @@ begin
 				when hd1_rx =>
 					if header_type_s = H3DW then -- d0h2_rx
 						--wb_dat_o_s <= X"00000000" & s_axis_rx_tdata_s(63 downto 32); -- 64bit
-						wb_dat_o_s <= s_axis_rx_tdata_s(63 downto 32);
-						address_s <= X"00000000" & s_axis_rx_tdata_s(31 downto 2) & "00" and address_mask_c; -- see 2.2.4.1. in pcie spec
+						wb_dat_o_s <= f_byte_swap(true, s_axis_rx_tdata_s(63 downto 32), byte_swap_c);
+						address_s <= X"00000000" & s_axis_rx_tdata_s(31 downto 0) and address_mask_c; -- see 2.2.4.1. in pcie spec
+						address_s(1 downto 0) <= "00";
 					else -- H4DW h3h2_rx
 						address_s(63 downto 32) <= s_axis_rx_tdata_s(31 downto 0) and address_mask_c(63 downto 32);
 						address_s(31 downto 0) <= s_axis_rx_tdata_s(63 downto 36) & "0000" and address_mask_c(31 downto 0); 
@@ -291,13 +302,13 @@ begin
 					
 				when wb_read =>
 					--data_s <= wb_dat_i_s; --64bit
-					data_s <= X"00000000" & wb_dat_i;
+					data_s <= X"00000000" &  wb_dat_i;
 				
 				when lastdata_rx =>
 					-- if big endian
 					--wb_dat_o_s <= s_axis_rx_tdata_s; -- 64bit
 					--wb_dat_o_s <= s_axis_rx_tdata_s(63 downto 32); -- TODO: endianness
-					wb_dat_o_s <= X"DEADBEEF";
+					--wb_dat_o_s <= X"DEADBEEF";
 				
 				when others =>
 
@@ -335,43 +346,12 @@ begin
 			end if;
 		end if;
 	end process p2l_data_delay_p;
-	
-	pd_pdm_data_o <= s_axis_rx_tdata_0_s(31 downto 0) & s_axis_rx_tdata_1_s(63 downto 32);
+
+	--pd_pdm_data_o <= s_axis_rx_tdata_0_s(31 downto 0) & s_axis_rx_tdata_1_s(63 downto 32);
+	pd_pdm_data_o <= f_byte_swap(true, s_axis_rx_tdata_0_s(31 downto 0), byte_swap_c) & f_byte_swap(true, s_axis_rx_tdata_1_s(63 downto 32), byte_swap_c);
 	
 	pd_pdm_data_valid_o <= s_axis_rx_tvalid_s when state_s = l2p_data_rx else '0';
 	pd_pdm_data_last_o <= s_axis_rx_tlast_s when state_s = l2p_data_rx else '0';
-	
-	-- p2l_output_p:process (clk_i)
-	-- begin
-		-- if (clk_i'event and clk_i = '1') then
-			-- case state_s is
-				-- when idle =>
-					-- pd_pdm_data_valid_o <= '0';
-					-- pd_pdm_data_last_o <= '0';
-				-- when l2p_data_rx =>
-					-- pd_pdm_data_valid_o <= s_axis_rx_tvalid_i;
-					-- pd_pdm_data_last_o <= s_axis_rx_tlast_i;
-				-- when others =>
-					-- pd_pdm_data_valid_o <= '0';
-					-- pd_pdm_data_last_o <= '0';
-			-- end case;
-		-- end if;
-	-- end process p2l_output_p;
-	
-	-- p2l_output_p:process (state_s,s_axis_rx_tvalid_i,s_axis_rx_tlast_i,s_axis_rx_tdata_i)
-	-- begin
-		-- case state_s is
-			-- when idle =>
-				-- pd_pdm_data_valid_o <= '0';
-				-- pd_pdm_data_last_o <= '0';
-			-- when l2p_data_rx =>
-				-- pd_pdm_data_valid_o <= s_axis_rx_tvalid_i;
-				-- pd_pdm_data_last_o <= s_axis_rx_tlast_i;
-			-- when others =>
-				-- pd_pdm_data_valid_o <= '0';
-				-- pd_pdm_data_last_o <= '0';
-		-- end case;
-	-- end process p2l_output_p;
 	
 	axis_output_p:process (state_s,header_type_s,tlp_type_s,s_axis_rx_tlast_s,payload_length_s,data_s,address_s)
 	begin
@@ -439,7 +419,7 @@ begin
 					wbm_arb_tvalid_o <= '1';
 					if header_type_s = H3DW then
 						wbm_arb_tlast_o <= '1';
-						wbm_arb_tdata_o <= data_s(32-1 downto 0) & address_s(32-1 downto 0);
+						wbm_arb_tdata_o <= f_byte_swap(true, data_s(32-1 downto 0), byte_swap_c) & address_s(32-1 downto 0);
 					else
 						wbm_arb_tlast_o <= '0';
 						wbm_arb_tdata_o <= address_s(31 downto 0) & address_s(63 downto 32);
@@ -459,13 +439,66 @@ begin
 					wbm_arb_tdata_o <= data_s; -- TODO: endianness
 					wbm_arb_req_o <= '1';
 				when l2p_data_rx =>
-					s_axis_rx_tready_o <= '1';
+					--s_axis_rx_tready_o <= '1';
+					if s_axis_rx_tlast_s = '1' then
+                        s_axis_rx_tready_o <= '0';
+                    else
+                        s_axis_rx_tready_o <= '1';
+                    end if;
 					wbm_arb_tvalid_o <= '0';
 					wbm_arb_tlast_o <= '0';
 					wbm_arb_tdata_o <= (others => '0');
 					wbm_arb_req_o <= '0';
 			end case;
 	end process axis_output_p;
+	
+--	states_do : out STD_LOGIC_VECTOR(3 downto 0);
+--    op_do : out STD_LOGIC_VECTOR(2 downto 0);
+--    header_type_do : out STD_LOGIC;
+--    payload_length_do : STD_LOGIC_VECTOR(9 downto 0);
+--    address_do : STD_LOGIC_VECTOR(31 downto 0)
+	
+	payload_length_do <= payload_length_s;
+	address_do <= address_s(31 downto 0);
+	
+	
+    debug_output_p:process (state_s,header_type_s,tlp_type_s)
+    begin
+        case tlp_type_s is
+            when MRd =>
+                op_do <= "001";
+            when MWr =>
+                op_do <= "010";
+            when CplD =>
+                op_do <= "011";
+            when others =>
+                op_do <= "000";
+        end case;
+        case state_s is
+            when idle =>
+                states_do <= "0000";
+            when hd0_rx =>
+                states_do <= "0001";
+            when hd1_rx =>
+                states_do <= "0010";
+            when wb_write =>
+                states_do <= "0011";
+            when ignore =>
+                states_do <= "0100";
+            when wb_read =>
+                states_do <= "0101";
+            when hd0_tx => 
+                states_do <= "0110";
+            when hd1_tx =>
+                states_do <= "0111";
+            when lastdata_rx => 
+                states_do <= "1000";
+            when data_tx =>
+                states_do <= "1001";
+            when l2p_data_rx =>
+                states_do <= "1010";
+         end case;
+    end process debug_output_p;
 	
 	wbm_arb_tkeep_o <= X"FF";
 	wbm_arb_tuser_o <= "0000";

@@ -6,20 +6,21 @@
       <db_ref path="wb_master64_bench_behav.wdb" id="1">
          <top_modules>
             <top_module name="glbl" />
+            <top_module name="gn4124_core_pkg" />
             <top_module name="wb_master64_bench" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="2954269999fs"></ZoomStartTime>
-      <ZoomEndTime time="3902183440fs"></ZoomEndTime>
-      <Cursor1Time time="11000000000fs"></Cursor1Time>
+      <ZoomStartTime time="1829500000fs"></ZoomStartTime>
+      <ZoomEndTime time="2068500001fs"></ZoomEndTime>
+      <Cursor1Time time="1900000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="187"></NameColumnWidth>
-      <ValueColumnWidth column_width="114"></ValueColumnWidth>
+      <ValueColumnWidth column_width="110"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="29" />
+   <WVObjectSize size="32" />
    <wvobject fp_name="/wb_master64_bench/step" type="other">
       <obj_property name="ElementShortName">step</obj_property>
       <obj_property name="ObjectShortName">step</obj_property>
@@ -122,6 +123,20 @@
       <obj_property name="CustomSignalColor">#FF0080</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
+   <wvobject fp_name="/wb_master64_bench/dut1/s_axis_rx_tdata_0_s" type="array">
+      <obj_property name="ElementShortName">s_axis_rx_tdata_0_s[63:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axis_rx_tdata_0_s[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/wb_master64_bench/dut1/s_axis_rx_tdata_1_s" type="array">
+      <obj_property name="ElementShortName">s_axis_rx_tdata_1_s[63:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axis_rx_tdata_1_s[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/wb_master64_bench/s_axis_rx_tdata_tbs" type="array">
+      <obj_property name="ElementShortName">s_axis_rx_tdata_tbs[63:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axis_rx_tdata_tbs[63:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FF0000</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
    <wvobject fp_name="/wb_master64_bench/wb_adr_s" type="array">
       <obj_property name="ElementShortName">wb_adr_s[63:0]</obj_property>
       <obj_property name="ObjectShortName">wb_adr_s[63:0]</obj_property>
@@ -129,14 +144,14 @@
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/wb_master64_bench/wb_dat_o_s" type="array">
-      <obj_property name="ElementShortName">wb_dat_o_s[63:0]</obj_property>
-      <obj_property name="ObjectShortName">wb_dat_o_s[63:0]</obj_property>
+      <obj_property name="ElementShortName">wb_dat_o_s[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wb_dat_o_s[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject fp_name="/wb_master64_bench/wb_dat_i_s" type="array">
-      <obj_property name="ElementShortName">wb_dat_i_s[63:0]</obj_property>
-      <obj_property name="ObjectShortName">wb_dat_i_s[63:0]</obj_property>
+      <obj_property name="ElementShortName">wb_dat_i_s[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wb_dat_i_s[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFA500</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
@@ -177,7 +192,7 @@
       <obj_property name="ObjectShortName">header_type_s</obj_property>
    </wvobject>
    <wvobject fp_name="/wb_master64_bench/dut2/RAM" type="array">
-      <obj_property name="ElementShortName">RAM[63:0][63:0]</obj_property>
-      <obj_property name="ObjectShortName">RAM[63:0][63:0]</obj_property>
+      <obj_property name="ElementShortName">RAM[63:0][31:0]</obj_property>
+      <obj_property name="ObjectShortName">RAM[63:0][31:0]</obj_property>
    </wvobject>
 </wave_config>

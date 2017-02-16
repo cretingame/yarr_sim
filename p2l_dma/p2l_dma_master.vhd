@@ -228,7 +228,7 @@ begin
           -- Stores DMA info locally
           l2p_address_h <= dma_ctrl_host_addr_h_i;
           l2p_address_l <= dma_ctrl_host_addr_l_i;
-          l2p_len_cnt   <= unsigned(dma_ctrl_len_i(31 downto 3));  -- dma_ctrl_len_i is in byte
+          l2p_len_cnt   <= unsigned(dma_ctrl_len_i(30 downto 2));  -- dma_ctrl_len_i is in byte
           if (dma_ctrl_start_next_i = '1') then
             -- Catching next DMA item
             is_next_item <= '1';                                   -- flag for data retrieve block
@@ -245,22 +245,22 @@ begin
       elsif (p2l_dma_current_state = P2L_HEADER) then
         -- if DMA length is bigger than the max PCIe payload size,
         -- we have to generate several read request
-        if (l2p_len_cnt > c_MAX_READ_REQ_SIZE/2) then
+        if (l2p_len_cnt > c_MAX_READ_REQ_SIZE) then
           -- when max payload length is 1024, the header length field = 0
           l2p_len_header  <= c_MAX_READ_REQ_SIZE(9 downto 0);
           l2p_last_packet <= '0';
-        elsif (l2p_len_cnt = c_MAX_READ_REQ_SIZE/2) then
+        elsif (l2p_len_cnt = c_MAX_READ_REQ_SIZE) then
           -- when max payload length is 1024, the header length field = 0
           l2p_len_header  <= c_MAX_READ_REQ_SIZE(9 downto 0);
           l2p_last_packet <= '1';
         else
-          l2p_len_header  <= l2p_len_cnt(8 downto 0) & '0';
+          l2p_len_header  <= l2p_len_cnt(9 downto 0);
           l2p_last_packet <= '1';
         end if;
       elsif (p2l_dma_current_state = P2L_HEADER_2) then
         -- Subtract the number of word requested to generate a new read request if needed
         if (l2p_last_packet = '0') then
-          l2p_len_cnt <= l2p_len_cnt - c_MAX_READ_REQ_SIZE/2;
+          l2p_len_cnt <= l2p_len_cnt - c_MAX_READ_REQ_SIZE;
         else
           l2p_len_cnt <= (others => '0');
         end if;
@@ -372,7 +372,7 @@ begin
             rx_error_t            <= '1';
             p2l_dma_current_state <= P2L_IDLE;
           elsif (pd_pdm_master_cpld_i = '1' and pd_pdm_data_last_i = '1'
-                 and p2l_data_cnt <= 1) then
+                 and p2l_data_cnt <= 2) then
             -- last word of read completion has been received
             if (l2p_last_packet = '0') then
               -- A new read request is needed, DMA size > max payload
@@ -438,13 +438,13 @@ begin
         if l2p_len_header = 0 then
           p2l_data_cnt <= to_unsigned(1024, p2l_data_cnt'length);
         else
-          p2l_data_cnt <= "00" & l2p_len_header(9 downto 1);
+          p2l_data_cnt <= "0" & l2p_len_header(9 downto 0);
         end if;
       elsif (p2l_dma_current_state = P2L_WAIT_READ_COMPLETION
              and pd_pdm_data_valid_i = '1'
              and pd_pdm_master_cpld_i = '1') then
         -- decrement number of data to be received
-        p2l_data_cnt <= p2l_data_cnt - 1;
+        p2l_data_cnt <= p2l_data_cnt - 2;
       end if;
     end if;
   end process p_recv_data_cnt;
@@ -466,20 +466,17 @@ begin
       if (p2l_dma_current_state = P2L_WAIT_READ_COMPLETION
           and is_next_item = '1' and pd_pdm_data_valid_i = '1') then
         -- next item data are supposed to be received in the rigth order !!
-        case p2l_data_cnt(2 downto 0) is
-          when "111" =>
+        case p2l_data_cnt(3 downto 0) is
+          when "1000" =>
+            next_item_host_addr_h_o <= pd_pdm_data_i(63 downto 32);
             next_item_carrier_addr_o <= pd_pdm_data_i(31 downto 0);
-          when "110" =>
+          when "0110" =>
+            next_item_len_o <= pd_pdm_data_i(63 downto 32);
             next_item_host_addr_l_o <= pd_pdm_data_i(31 downto 0);
-          when "101" =>
-            next_item_host_addr_h_o <= pd_pdm_data_i(31 downto 0);
-          when "100" =>
-            next_item_len_o <= pd_pdm_data_i(31 downto 0);
-          when "011" =>
+          when "0100" =>
+            next_item_next_h_o <= pd_pdm_data_i(63 downto 32);
             next_item_next_l_o <= pd_pdm_data_i(31 downto 0);
-          when "010" =>
-            next_item_next_h_o <= pd_pdm_data_i(31 downto 0);
-          when "001" =>
+          when "0010" =>
             next_item_attrib_o <= pd_pdm_data_i(31 downto 0);
           when others =>
             null;

@@ -17,7 +17,7 @@ use work.common_pkg.all;
 
 entity l2p_dma_master is
     generic (
-        g_BYTE_SWAP : boolean := false;
+        g_BYTE_SWAP : boolean := true;
 		axis_data_width_c : integer := 64;
 		wb_address_width_c : integer := 64;
 		wb_data_width_c : integer := 64
@@ -150,6 +150,8 @@ architecture behavioral of l2p_dma_master is
     
     signal data_fifo_valid : std_logic;
     signal addr_fifo_valid : std_logic;
+    
+    signal byte_swap_c : STD_LOGIC_VECTOR (1 downto 0);
 
     -- Counter
     signal target_addr_cnt : std_logic_vector(32-1 downto 0);
@@ -169,6 +171,7 @@ architecture behavioral of l2p_dma_master is
 	signal wb_cyc_cnt	   : unsigned(12 downto 0);
 
 begin
+    byte_swap_c <= "11";
     fifo_rst <= not rst_n_i or fifo_rst_t;
 
     ldm_arb_tvalid_o <= ldm_arb_valid;
@@ -303,7 +306,7 @@ begin
             data_fifo_dout_1 <= (others => '0');
         elsif (clk_i'event and clk_i = '1') then
             if (l2p_dma_current_state = L2P_HEADER_1) then
-                data_fifo_dout_1(63 downto 32) <= l2p_address_l;--(31 downto 0);
+                data_fifo_dout_1(63 downto 32) <= f_byte_swap(true,l2p_address_l, byte_swap_c); -- for unswapping
             elsif (data_fifo_rd = '1') then
                 --data_0_s <= data_i;
                 --data_1_s <= data_0_s;
@@ -337,19 +340,21 @@ begin
                 ldm_arb_tkeep_o <= x"FF";
 			when L2P_DATA =>
 				if (l2p_64b_address = '1') then
-				    ldm_arb_data_l <= f_byte_swap_64(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
+				    --ldm_arb_data_l <= f_byte_swap_64(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
+				    ldm_arb_data_l <= f_byte_swap(true, data_fifo_dout(63 downto 32), byte_swap_c) & f_byte_swap(true, data_fifo_dout(31 downto 0), byte_swap_c);
 				else
-				    ldm_arb_data_l <= data_fifo_dout (31 downto 0) & data_fifo_dout_1 (63 downto 32);
+				    ldm_arb_data_l <= f_byte_swap(true, data_fifo_dout (31 downto 0), byte_swap_c) & f_byte_swap(true, data_fifo_dout_1 (63 downto 32), byte_swap_c);
+				    --ldm_arb_data_l <= data_fifo_dout (31 downto 0) & data_fifo_dout_1 (63 downto 32);
 				end if;
 				ldm_arb_tlast_o <= '0';
 				ldm_arb_valid <= data_fifo_rd;
 				ldm_arb_tkeep_o <= x"FF";
 			when L2P_LAST_DATA =>
 			    if (l2p_64b_address = '1') then
-                    ldm_arb_data_l <= f_byte_swap_64(g_BYTE_SWAP, data_fifo_dout, l2p_byte_swap);
+                    ldm_arb_data_l <= f_byte_swap(true, data_fifo_dout(63 downto 32), byte_swap_c) & f_byte_swap(true, data_fifo_dout(31 downto 0), byte_swap_c);
                     ldm_arb_tkeep_o <= x"FF";
                 else
-                    ldm_arb_data_l <= data_fifo_dout (31 downto 0) & data_fifo_dout_1 (63 downto 32);
+                    ldm_arb_data_l <= f_byte_swap(true, data_fifo_dout (31 downto 0), byte_swap_c) & f_byte_swap(true, data_fifo_dout_1 (63 downto 32), byte_swap_c);
                     ldm_arb_tkeep_o <= x"0F";
                 end if;
 				ldm_arb_tlast_o <= '1';
@@ -367,7 +372,8 @@ begin
     ---------------------
     --- Paket Generator
     ---------------------
-    s_l2p_header(63 downto 48) <= X"0000"; --H1 Requester ID
+    -- 01:00.0 Memory controller: Xilinx Corporation Device 7024
+    s_l2p_header(63 downto 48) <= X"0100"; --H1 Requester ID
     s_l2p_header(47 downto 40) <= X"00"; --H1 Tag 
     s_l2p_header(39 downto 32) <= X"0f" when l2p_len_header = 1 else X"ff"; -- LBE (Last Byte Enable) & FBE (First Byte Enable)
     s_l2p_header(31 downto 29) <= "011" when l2p_64b_address = '1' else "010"; -- H0 FMT
@@ -451,8 +457,8 @@ begin
             elsif (dma_ctrl_start_l2p_i = '1') then
                 if (l2p_dma_current_state = L2P_IDLE) then
                     -- dma target adrr is byte address, need 32bit address
-                    target_addr_cnt(31 downto 28) <= "0000";
-                    target_addr_cnt(27 downto 0) <= dma_ctrl_target_addr_i(31 downto 4);
+                    target_addr_cnt(31 downto 29) <= "000";
+                    target_addr_cnt(28 downto 0) <= dma_ctrl_target_addr_i(31 downto 3);
                     -- dma target length is in byte, need 32bit
                     dma_length_cnt <= unsigned(dma_ctrl_len_i(15 downto 3)); -- That's it
                     dma_ctrl_error_o <= '0';

@@ -1,0 +1,23 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  "../../../../common/gn4124_core_pkg.vhd"
+vhdl xil_defaultlib  "../../../../common/bcf_bram_wbs.vhd"
+vhdl xil_defaultlib  "../../../../wb_master64/wb_master64.vhd"
+vhdl xil_defaultlib  "../../../../wb_master64/wb_master64_bench.vhd"
+vhdl xil_defaultlib  "../../../../l2p_dma/l2p_fifo.vhd"
+vhdl xil_defaultlib  "../../../../common/common_pkg.vhd"
+vhdl xil_defaultlib  "../../../../l2p_dma/l2p_dma_master.vhd"
+vhdl xil_defaultlib  "../../../../l2p_dma/l2p_dma_bench.vhd"
+vhdl xil_defaultlib  "../../../../l2p_arbiter/l2p_arbiter.vhd"
+vhdl xil_defaultlib  "../../../../p2l_dma/p2l_dma_master.vhd"
+vhdl xil_defaultlib  "../../../../p2l_dma/p2l_dma_bench.vhd"
+vhdl xil_defaultlib  "../../../../p2l_dma/generic_async_fifo_wrapper.vhd"
+vhdl xil_defaultlib  "../../../../top/top_bench.vhd"
+vhdl xil_defaultlib  "../../../../top/app.vhd"
+vhdl xil_defaultlib  "../../../../top/simple_counter.vhd"
+vhdl xil_defaultlib  "../../../../top/dma_controller.vhd"
+vhdl xil_defaultlib  "../../../../top/dma_controller_wb_slave.vhd"
+vhdl xil_defaultlib  "../../../../p2l_decoder/p2l_decoder.vhd"
+vhdl xil_defaultlib  "../../../../p2l_decoder/p2l_decoder_bench.vhd"
+
+# Do not sort compile order
+nosort
