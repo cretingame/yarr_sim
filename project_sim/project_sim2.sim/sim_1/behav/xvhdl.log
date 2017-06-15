@@ -1,9 +1,4 @@
 INFO: [VRFC 10-163] Analyzing VHDL file "/opt/Xilinx/Vivado/2016.2/data/ip/xpm/xpm_VCOMP.vhd" into library xpm
-INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/yarr_sim/ddr3_ctrl_wb_bench.vhd" into library xil_defaultlib
-INFO: [VRFC 10-307] analyzing entity ddr3_ctrl_wb_bench
-INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/ddr3k7-core/ddr3_ctrl_pkg.vhd" into library xil_defaultlib
-INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/ddr3k7-core/ddr3_ctrl_wb.vhd" into library xil_defaultlib
-INFO: [VRFC 10-307] analyzing entity ddr3_ctrl_wb
 INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/yarr_sim/project_sim/project_sim2.ip_user_files/ipstatic/fifo_generator_v13_1_1/hdl/fifo_generator_v13_1_rfs.vhd" into library fifo_generator_v13_1_1
 INFO: [VRFC 10-307] analyzing entity input_blk
 INFO: [VRFC 10-307] analyzing entity output_blk
@@ -33,3 +28,8 @@ INFO: [VRFC 10-307] analyzing entity reset_blk_ramfifo
 INFO: [VRFC 10-307] analyzing entity axi_reg_slice
 INFO: [VRFC 10-307] analyzing entity fifo_generator_top
 INFO: [VRFC 10-307] analyzing entity fifo_generator_v13_1_1_synth
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/ddr3k7-core/ddr3_ctrl_pkg.vhd" into library xil_defaultlib
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/yarr_sim/ddr3_ctrl_wb_bench.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity ddr3_ctrl_wb_bench
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/ddr3k7-core/ddr3_ctrl_wb.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity ddr3_ctrl_wb

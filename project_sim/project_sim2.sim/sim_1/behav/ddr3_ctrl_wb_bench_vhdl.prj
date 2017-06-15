@@ -1,9 +1,9 @@
 # compile vhdl design source files
 vhdl xpm  "/opt/Xilinx/Vivado/2016.2/data/ip/xpm/xpm_VCOMP.vhd"
-vhdl xil_defaultlib  "../../../../ddr3_ctrl_wb_bench.vhd"
-vhdl xil_defaultlib  "../../../../../Yarr-fw/rtl/ddr3k7-core/ddr3_ctrl_pkg.vhd"
-vhdl xil_defaultlib  "../../../../../Yarr-fw/rtl/ddr3k7-core/ddr3_ctrl_wb.vhd"
 vhdl fifo_generator_v13_1_1  "../../../project_sim2.ip_user_files/ipstatic/fifo_generator_v13_1_1/hdl/fifo_generator_v13_1_rfs.vhd"
+vhdl xil_defaultlib  "../../../../../Yarr-fw/rtl/ddr3k7-core/ddr3_ctrl_pkg.vhd"
+vhdl xil_defaultlib  "../../../../ddr3_ctrl_wb_bench.vhd"
+vhdl xil_defaultlib  "../../../../../Yarr-fw/rtl/ddr3k7-core/ddr3_ctrl_wb.vhd"
 
 # Do not sort compile order
 nosort

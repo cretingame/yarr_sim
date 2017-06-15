@@ -2,8 +2,8 @@
 # Webtalk v2016.2 (64-bit)
 # SW Build 1577090 on Thu Jun  2 16:32:35 MDT 2016
 # IP Build 1577682 on Fri Jun  3 12:00:54 MDT 2016
-# Start of session at: Wed Jun 14 17:28:15 2017
-# Process ID: 29214
+# Start of session at: Thu Jun 15 16:14:25 2017
+# Process ID: 31742
 # Current directory: /home/asautaux/yarr_sim/project_sim/project_sim2.sim/sim_1/behav
 # Command line: wbtcv -mode batch -source /home/asautaux/yarr_sim/project_sim/project_sim2.sim/sim_1/behav/xsim.dir/ddr3_ctrl_wb_bench_behav/webtalk/xsim_webtalk.tcl -notrace
 # Log file: /home/asautaux/yarr_sim/project_sim/project_sim2.sim/sim_1/behav/webtalk.log

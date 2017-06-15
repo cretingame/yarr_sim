@@ -3,7 +3,7 @@
 <!--The data in this file is primarily intended for consumption by Xilinx tools.
 The structure and the elements are likely to change over the next few releases.
 This means code written to parse this file will need to be revisited each subsequent release.-->
-<application name="pa" timeStamp="Wed Feb 15 18:22:53 2017">
+<application name="pa" timeStamp="Thu Jun 15 16:14:25 2017">
 <section name="Project Information" visible="false">
 <property name="ProjectID" value="64f7a30d5dce4d37828aee4c2409b9d2" type="ProjectID"/>
 <property name="ProjectIteration" value="1" type="ProjectIteration"/>
@@ -17,168 +17,113 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="ImplStrategy" value="Vivado Implementation Defaults" type="ImplStrategy"/>
 </item>
 <item name="Java Command Handlers">
-<property name="AddSources" value="12" type="JavaHandler"/>
+<property name="AddSources" value="19" type="JavaHandler"/>
 <property name="AutoConnectTarget" value="1" type="JavaHandler"/>
 <property name="CloseProject" value="2" type="JavaHandler"/>
-<property name="CopyIPHandler" value="5" type="JavaHandler"/>
+<property name="CopyIPHandler" value="6" type="JavaHandler"/>
 <property name="CoreView" value="4" type="JavaHandler"/>
 <property name="CustomizeCore" value="6" type="JavaHandler"/>
-<property name="EditDelete" value="9" type="JavaHandler"/>
-<property name="EditPaste" value="9" type="JavaHandler"/>
+<property name="EditDelete" value="23" type="JavaHandler"/>
+<property name="EditPaste" value="14" type="JavaHandler"/>
 <property name="EditProperties" value="2" type="JavaHandler"/>
 <property name="EditRedo" value="1" type="JavaHandler"/>
-<property name="EditUndo" value="24" type="JavaHandler"/>
-<property name="ManageCompositeTargets" value="9" type="JavaHandler"/>
-<property name="NewProject" value="1" type="JavaHandler"/>
-<property name="OpenHardwareManager" value="3" type="JavaHandler"/>
-<property name="OpenProject" value="3" type="JavaHandler"/>
+<property name="EditUndo" value="25" type="JavaHandler"/>
+<property name="ImportILAData" value="4" type="JavaHandler"/>
+<property name="ManageCompositeTargets" value="10" type="JavaHandler"/>
+<property name="NewProject" value="2" type="JavaHandler"/>
+<property name="OpenFile" value="1" type="JavaHandler"/>
+<property name="OpenHardwareManager" value="5" type="JavaHandler"/>
+<property name="OpenProject" value="5" type="JavaHandler"/>
 <property name="OpenRecentTarget" value="1" type="JavaHandler"/>
-<property name="ProjectSettingsCmdHandler" value="41" type="JavaHandler"/>
-<property name="RecustomizeCore" value="34" type="JavaHandler"/>
+<property name="ProjectSettingsCmdHandler" value="44" type="JavaHandler"/>
+<property name="RecustomizeCore" value="41" type="JavaHandler"/>
 <property name="ReportIPStatus" value="3" type="JavaHandler"/>
 <property name="SaveFileProxyHandler" value="3" type="JavaHandler"/>
+<property name="SaveProjectAs" value="1" type="JavaHandler"/>
 <property name="SetTopNode" value="2" type="JavaHandler"/>
 <property name="ShowProductWebPage" value="2" type="JavaHandler"/>
 <property name="ShowSource" value="1" type="JavaHandler"/>
-<property name="ShowView" value="25" type="JavaHandler"/>
-<property name="SimulationClose" value="3" type="JavaHandler"/>
-<property name="SimulationRestart" value="52" type="JavaHandler"/>
-<property name="SimulationRun" value="391" type="JavaHandler"/>
+<property name="ShowView" value="32" type="JavaHandler"/>
+<property name="SimulationClose" value="41" type="JavaHandler"/>
+<property name="SimulationRestart" value="66" type="JavaHandler"/>
+<property name="SimulationRun" value="442" type="JavaHandler"/>
 <property name="SimulationRunAll" value="1" type="JavaHandler"/>
-<property name="SimulationRunForTime" value="397" type="JavaHandler"/>
+<property name="SimulationRunForTime" value="467" type="JavaHandler"/>
 <property name="ToggleViewNavigator" value="1" type="JavaHandler"/>
 <property name="UpgradeIP" value="3" type="JavaHandler"/>
-<property name="ViewTaskProgramandDebug" value="1" type="JavaHandler"/>
-<property name="ViewTaskProjectManager" value="176" type="JavaHandler"/>
+<property name="ViewTaskProgramandDebug" value="3" type="JavaHandler"/>
+<property name="ViewTaskProjectManager" value="229" type="JavaHandler"/>
 <property name="ViewTaskRTLAnalysis" value="4" type="JavaHandler"/>
-<property name="ViewTaskSimulation" value="74" type="JavaHandler"/>
-<property name="WaveformNewConfiguration" value="4" type="JavaHandler"/>
-<property name="WaveformSaveConfiguration" value="41" type="JavaHandler"/>
+<property name="ViewTaskSimulation" value="89" type="JavaHandler"/>
+<property name="WaveformNewConfiguration" value="5" type="JavaHandler"/>
+<property name="WaveformSaveConfiguration" value="47" type="JavaHandler"/>
 <property name="aM" value="3" type="JavaHandler"/>
 <property name="ui.views.c.h.e" value="3" type="JavaHandler"/>
 <property name="ui.views.c.h.f" value="2" type="JavaHandler"/>
 </item>
 <item name="Gui Resources Info">
-<property name="AbstractFileView_RELOAD" value="22" type="GuiResourceData"/>
-<property name="AbstractSearchablePanel_SHOW_SEARCH" value="32" type="GuiResourceData"/>
-<property name="AddSrcWizard_SPECIFY_EXISTING_CONFIGURABLE_IP" value="1" type="GuiResourceData"/>
-<property name="AddSrcWizard_SPECIFY_HDL_AND_NETLIST_FILES_OR_DIRECTORIES" value="1" type="GuiResourceData"/>
-<property name="AddSrcWizard_SPECIFY_OR_CREATE_CONSTRAINT_FILES" value="1" type="GuiResourceData"/>
-<property name="BaseDialog_CANCEL" value="20" type="GuiResourceData"/>
-<property name="BaseDialog_OK" value="103" type="GuiResourceData"/>
-<property name="BaseDialog_YES" value="3" type="GuiResourceData"/>
-<property name="CmdMsgDialog_MESSAGES" value="45" type="GuiResourceData"/>
-<property name="CmdMsgDialog_OK" value="113" type="GuiResourceData"/>
-<property name="CmdMsgDialog_OPEN_MESSAGES_VIEW" value="6" type="GuiResourceData"/>
-<property name="CodeView_TOGGLE_COLUMN_SELECTION_MODE" value="2" type="GuiResourceData"/>
-<property name="ConfirmSaveTextEditsDialog_YES" value="1" type="GuiResourceData"/>
-<property name="CopyIPHandler_DESTINATION_IP_NAME" value="5" type="GuiResourceData"/>
-<property name="CoreTreeTablePanel_CORE_TREE_TABLE" value="34" type="GuiResourceData"/>
-<property name="ExpRunTreePanel_EXP_RUN_TREE_TABLE" value="4" type="GuiResourceData"/>
-<property name="FileSetPanel_0_CRITICAL_WARNING" value="2" type="GuiResourceData"/>
-<property name="FileSetPanel_0_WARNING" value="1" type="GuiResourceData"/>
-<property name="FileSetPanel_FILE_SET_PANEL_TREE" value="602" type="GuiResourceData"/>
-<property name="FindAndReplaceAllDialog_CLOSE" value="1" type="GuiResourceData"/>
-<property name="FindAndReplaceAllDialog_FIND" value="3" type="GuiResourceData"/>
-<property name="FindInFilesView_ROOT" value="12" type="GuiResourceData"/>
-<property name="FloatingTopDialog_IGNORE_AND_CONTINUE_WITH_INVALID_TOP" value="1" type="GuiResourceData"/>
-<property name="FloatingTopDialog_SELECT_TOP_MODULE_OF_YOUR_DESIGN" value="1" type="GuiResourceData"/>
-<property name="FloatingTopDialog_SPECIFY_NEW_TOP_MODULES" value="1" type="GuiResourceData"/>
-<property name="FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE" value="730" type="GuiResourceData"/>
-<property name="GettingStartedView_CREATE_NEW_PROJECT" value="1" type="GuiResourceData"/>
-<property name="GettingStartedView_RECENT_PROJECTS" value="41" type="GuiResourceData"/>
-<property name="HACGCIPSymbol_SHOW_DISABLED_PORTS" value="3" type="GuiResourceData"/>
-<property name="HCodeEditor_BLANK_OPERATIONS" value="2" type="GuiResourceData"/>
-<property name="HCodeEditor_DIFF_WITH" value="1" type="GuiResourceData"/>
-<property name="HCodeEditor_SEARCH_TEXT_COMBO_BOX" value="76" type="GuiResourceData"/>
-<property name="HInputHandler_TOGGLE_LINE_COMMENTS" value="2" type="GuiResourceData"/>
-<property name="HPopupTitle_CLOSE" value="1" type="GuiResourceData"/>
-<property name="IPPropPanel_UPGRADE_VERSION" value="1" type="GuiResourceData"/>
-<property name="IPStatusSectionPanel_RE_RUN_REPORT" value="1" type="GuiResourceData"/>
-<property name="IPStatusTablePanel_IP_STATUS_TABLE" value="4" type="GuiResourceData"/>
-<property name="IPStatusTablePanel_MORE_INFO" value="1" type="GuiResourceData"/>
-<property name="LogMonitor_MONITOR" value="35" type="GuiResourceData"/>
-<property name="MainMenuMgr_EDIT" value="22" type="GuiResourceData"/>
-<property name="MainMenuMgr_FILE" value="26" type="GuiResourceData"/>
-<property name="MainMenuMgr_FLOW" value="4" type="GuiResourceData"/>
-<property name="MainMenuMgr_OPEN_RECENT_PROJECT" value="17" type="GuiResourceData"/>
-<property name="MainToolbarMgr_OPEN" value="1" type="GuiResourceData"/>
-<property name="MsgTreePanel_MESSAGE_VIEW_TREE" value="52" type="GuiResourceData"/>
-<property name="NetlistTreeView_NETLIST_TREE" value="1" type="GuiResourceData"/>
-<property name="PACodeView_COPY" value="2" type="GuiResourceData"/>
-<property name="PACommandNames_ADD_SOURCES" value="11" type="GuiResourceData"/>
-<property name="PACommandNames_AUTO_CONNECT_TARGET" value="1" type="GuiResourceData"/>
-<property name="PACommandNames_AUTO_UPDATE_HIER" value="15" type="GuiResourceData"/>
-<property name="PACommandNames_CLOSE_PROJECT" value="1" type="GuiResourceData"/>
-<property name="PACommandNames_COPY_IP" value="5" type="GuiResourceData"/>
-<property name="PACommandNames_FIND_IN_FILES" value="2" type="GuiResourceData"/>
-<property name="PACommandNames_GENERATE_COMPOSITE_FILE" value="6" type="GuiResourceData"/>
-<property name="PACommandNames_GOTO_INSTANTIATION" value="1" type="GuiResourceData"/>
-<property name="PACommandNames_IMPORT_SRC" value="3" type="GuiResourceData"/>
-<property name="PACommandNames_OPEN_PROJECT" value="3" type="GuiResourceData"/>
-<property name="PACommandNames_REPLACE_IN_FILES" value="3" type="GuiResourceData"/>
-<property name="PACommandNames_REPORT_IP_STATUS" value="3" type="GuiResourceData"/>
-<property name="PACommandNames_RESET_COMPOSITE_FILE" value="3" type="GuiResourceData"/>
-<property name="PACommandNames_SET_AS_TOP" value="2" type="GuiResourceData"/>
-<property name="PACommandNames_SHOW_PRODUCT_WEBPAGE" value="1" type="GuiResourceData"/>
-<property name="PACommandNames_SHOW_PRODUCT_WEBPAGE_SRC" value="1" type="GuiResourceData"/>
-<property name="PACommandNames_SIMULATION_LIVE_RESTART" value="52" type="GuiResourceData"/>
-<property name="PACommandNames_SIMULATION_LIVE_RUN" value="399" type="GuiResourceData"/>
-<property name="PACommandNames_SIMULATION_LIVE_RUN_ALL" value="1" type="GuiResourceData"/>
-<property name="PACommandNames_SIMULATION_RUN_BEHAVIORAL" value="391" type="GuiResourceData"/>
-<property name="PACommandNames_TOGGLE_VIEW_NAV" value="1" type="GuiResourceData"/>
-<property name="PACommandNames_UPGRADE_IP" value="2" type="GuiResourceData"/>
-<property name="PAViews_CODE" value="46" type="GuiResourceData"/>
-<property name="PAViews_FLOW_NAVIGATOR" value="8" type="GuiResourceData"/>
-<property name="PAViews_SCHEMATIC" value="1" type="GuiResourceData"/>
-<property name="PartChooser_PARTS" value="1" type="GuiResourceData"/>
-<property name="PlanAheadTab_SHOW_FLOW_NAVIGATOR" value="1" type="GuiResourceData"/>
-<property name="ProgramDebugTab_OPEN_TARGET" value="1" type="GuiResourceData"/>
-<property name="ProgressDialog_CANCEL" value="6" type="GuiResourceData"/>
-<property name="ProjectNameChooser_CHOOSE_PROJECT_LOCATION" value="2" type="GuiResourceData"/>
-<property name="ProjectNameChooser_PROJECT_NAME" value="1" type="GuiResourceData"/>
-<property name="ProjectSettingsIPPage_DELETE_IP_CACHE" value="5" type="GuiResourceData"/>
-<property name="ProjectSettingsSimulationPanel_SELECT_TESTBENCH_TOP_MODULE" value="30" type="GuiResourceData"/>
-<property name="ProjectSettingsSimulationPanel_TABBED_PANE" value="6" type="GuiResourceData"/>
-<property name="RDICommands_COPY" value="33" type="GuiResourceData"/>
-<property name="RDICommands_CUT" value="2" type="GuiResourceData"/>
-<property name="RDICommands_PROPERTIES" value="2" type="GuiResourceData"/>
-<property name="RDICommands_REDO" value="1" type="GuiResourceData"/>
-<property name="RDICommands_SAVE_FILE" value="1" type="GuiResourceData"/>
-<property name="RDICommands_UNDO" value="20" type="GuiResourceData"/>
-<property name="RDICommands_WAVEFORM_NEW_CONFIGURATION" value="4" type="GuiResourceData"/>
-<property name="RDICommands_WAVEFORM_SAVE_CONFIGURATION" value="4" type="GuiResourceData"/>
-<property name="RDIViews_WAVEFORM_VIEWER" value="581" type="GuiResourceData"/>
-<property name="RemoveSourcesDialog_ALSO_DELETE" value="2" type="GuiResourceData"/>
-<property name="SelectTopModuleDialog_SELECT_TOP_MODULE" value="34" type="GuiResourceData"/>
-<property name="SimpleOutputProductDialog_CLOSE_DIALOG_UNSAVED_CHANGES_WILL" value="2" type="GuiResourceData"/>
-<property name="SimpleOutputProductDialog_GENERATE_OUTPUT_PRODUCTS_IMMEDIATELY" value="27" type="GuiResourceData"/>
-<property name="SimpleOutputProductDialog_RESET_OUTPUT_PRODUCTS" value="3" type="GuiResourceData"/>
-<property name="SimulationLiveRunForComp_SPECIFY_TIME_AND_UNITS" value="7" type="GuiResourceData"/>
-<property name="SimulationObjectsPanel_SIMULATION_OBJECTS_TREE_TABLE" value="210" type="GuiResourceData"/>
-<property name="SimulationScopesPanel_SIMULATION_SCOPES_TREE_TABLE" value="157" type="GuiResourceData"/>
-<property name="SrcChooserPanel_ADD_CONFIGURABLE_IP_FILES" value="1" type="GuiResourceData"/>
-<property name="SrcChooserPanel_ADD_DIRECTORIES" value="2" type="GuiResourceData"/>
-<property name="SrcChooserPanel_ADD_HDL_AND_NETLIST_FILES_TO_YOUR_PROJECT" value="9" type="GuiResourceData"/>
-<property name="SrcChooserPanel_MAKE_LOCAL_COPY_OF_THESE_FILES_INTO" value="2" type="GuiResourceData"/>
-<property name="SrcFilePropPanels_MORE_INFO" value="3" type="GuiResourceData"/>
-<property name="SrcMenu_IP_DOCUMENTATION" value="21" type="GuiResourceData"/>
-<property name="SrcMenu_IP_HIERARCHY" value="12" type="GuiResourceData"/>
-<property name="TaskBanner_CLOSE" value="23" type="GuiResourceData"/>
-<property name="TclConsoleView_COPY" value="13" type="GuiResourceData"/>
-<property name="TclConsoleView_TCL_CONSOLE_CODE_EDITOR" value="58" type="GuiResourceData"/>
-<property name="TopModuleDialog_SELECT_TOP_MODULE_FOR_YOUR_SIMULATION" value="1" type="GuiResourceData"/>
-<property name="UpgradeIP_CONVERT_IP_TO_CORE_CONTAINER_AND_SET" value="3" type="GuiResourceData"/>
-<property name="UpgradeIP_OK" value="2" type="GuiResourceData"/>
-<property name="UpgradeProjectDialog_OPEN_PROJECT_IN_READ_ONLY_MODE" value="2" type="GuiResourceData"/>
-<property name="WaveformNameTree_WAVEFORM_NAME_TREE" value="347" type="GuiResourceData"/>
-<property name="WaveformView_NEXT_TRANSITION" value="5" type="GuiResourceData"/>
-<property name="WaveformView_PREVIOUS_TRANSITION" value="2" type="GuiResourceData"/>
+<property name="PAResourceAtoD.CmdMsgDialog_OPEN_MESSAGES_VIEW, Open Messages View" value="1" type="GuiResourceData"/>
+<property name="PAResourceCommand.PACommandNames_SIMULATION_LIVE_RUN, simulation_live_run_for_time" value="6" type="GuiResourceData"/>
+<property name="PAResourceCommand.PACommandNames_SIMULATION_RUN_BEHAVIORAL, Run Behavioral Simulation" value="2" type="GuiResourceData"/>
+<property name="PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, [, Simulation, Run Simulation], 11, false" value="2" type="GuiResourceData"/>
+<property name="RDIResource.BaseDialog_OK, OK" value="1" type="GuiResourceData"/>
+<property name="RDIResource.HCodeEditor_SEARCH_TEXT_COMBO_BOX, ddr_app_addr_u_tbs" value="1" type="GuiResourceData"/>
+<property name="RDIResource.RDIViews_WAVEFORM_VIEWER, 88, 311" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 102, 291" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 102, 291, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 107, 149" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 110, 144" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 111, 140" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 111, 140, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 116, 27" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 116, 27, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 164, 325" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 164, 325, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 177, 439" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 177, 439, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 180, 144" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 242, 474" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 243, 169" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 332, 466" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 332, 466, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 431, 139" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 437, 141" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 457, 412" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 457, 412, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 462, 320, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 462, 321" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 463, 398" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 463, 398, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 466, 426" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 466, 427, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 467, 48" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 467, 48, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 473, 137" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 473, 137, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 473, 356, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 473, 357" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 473, 365" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 473, 365, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 473, 377" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 473, 377, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 474, 342" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 474, 342, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 474, 356" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 474, 356, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 478, 156" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 478, 156, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 494, 318" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 494, 318, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 539, 107" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 539, 107, false, false, false, false, true" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 650, 23" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 66, 124" value="1" type="GuiResourceData"/>
+<property name="ddr3_ctrl_wb_bench.vhd, 670, 113" value="1" type="GuiResourceData"/>
 </item>
 <item name="Other">
-<property name="GuiMode" value="32" type="GuiMode"/>
+<property name="GuiMode" value="574" type="GuiMode"/>
 <property name="BatchMode" value="0" type="BatchMode"/>
-<property name="TclMode" value="23" type="TclMode"/>
+<property name="TclMode" value="496" type="TclMode"/>
 </item>
 </section>
 </application>

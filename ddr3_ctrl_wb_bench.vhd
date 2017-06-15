@@ -31,6 +31,9 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
+library work;
+use work.ddr3_ctrl_pkg.all;
+
 entity ddr3_ctrl_wb_bench is
 --  Port ( );
 end ddr3_ctrl_wb_bench;
@@ -95,6 +98,20 @@ architecture Behavioral of ddr3_ctrl_wb_bench is
       );
   end component ddr3_ctrl_wb;
   
+COMPONENT fifo_27x16_bench
+    PORT (
+      rst : IN STD_LOGIC;
+      wr_clk : IN STD_LOGIC;
+      rd_clk : IN STD_LOGIC;
+      din : IN STD_LOGIC_VECTOR(28 DOWNTO 0);
+      wr_en : IN STD_LOGIC;
+      rd_en : IN STD_LOGIC;
+      dout : OUT STD_LOGIC_VECTOR(28 DOWNTO 0);
+      full : OUT STD_LOGIC;
+      almost_full : OUT STD_LOGIC;
+      empty : OUT STD_LOGIC
+    );
+  END COMPONENT;
   
   constant period : time := 4 ns; -- 250MHz
   constant period_ddr : time := 7.5 ns; -- 533 Mhz/4
@@ -135,6 +152,8 @@ architecture Behavioral of ddr3_ctrl_wb_bench is
   signal ddr3_odt_s      : std_logic_vector(0 downto 0);
   
   signal ddr_app_addr_s                  :     std_logic_vector(g_BYTE_ADDR_WIDTH-1 downto 0);
+  signal ddr_app_addr_tbs                :     std_logic_vector(g_BYTE_ADDR_WIDTH-1 downto 0);
+  signal ddr_app_addr_u_tbs              :     unsigned(31 downto 0);
   signal ddr_app_cmd_s                   :     std_logic_vector(2 downto 0);
   signal ddr_app_cmd_en_s                :     std_logic;
   signal ddr_app_wdf_data_s              :     std_logic_vector(511 downto 0);
@@ -571,15 +590,31 @@ begin
                                
     ddr_app_rd_data_end_s <= '1';
     
-    ddr_app_rd_data_s       <= X"deadbeef" & std_logic_vector(ddr_counter+7) &
-                               X"deadbeef" & std_logic_vector(ddr_counter+6) &
-                               X"deadbeef" & std_logic_vector(ddr_counter+5) &
-                               X"deadbeef" & std_logic_vector(ddr_counter+4) &
-                               X"deadbeef" & std_logic_vector(ddr_counter+3) & 
-                               X"deadbeef" & std_logic_vector(ddr_counter+2) & 
-                               X"deadbeef" & std_logic_vector(ddr_counter+1) & 
-                               X"deadbeef" & std_logic_vector(ddr_counter+0) when ddr_app_rd_data_valid_s = '1' else
+    ddr_app_addr_u_tbs <= unsigned("000" & ddr_app_addr_tbs);
+    
+    ddr_app_rd_data_s       <= X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+7) &
+                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+6) &
+                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+5) &
+                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+4) &
+                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+3) & 
+                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+2) & 
+                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+1) & 
+                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+0) when ddr_app_rd_data_valid_s = '1' else
                                (others => '0');
+                               
+    fifo_wb_read_addr : fifo_27x16_bench
+     PORT MAP (
+       rst => rst_tbs,
+       wr_clk => ddr_app_ui_clk_s,
+       rd_clk => ddr_app_ui_clk_s,
+       din => ddr_app_addr_s,
+       wr_en => ddr_app_cmd_en_s,
+       rd_en => ddr_app_rd_data_valid_s,
+       dout => ddr_app_addr_tbs,
+       full => open,
+       almost_full => open,
+       empty => open
+     );
     
     ddr_stimuli_p : process
         
