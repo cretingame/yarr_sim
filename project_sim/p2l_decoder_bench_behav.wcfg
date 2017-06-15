@@ -3,140 +3,134 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="p2l_decoder_bench_behav.wdb" id="1">
+      <db_ref path="ddr3_ctrl_wb_bench_behav.wdb" id="1">
          <top_modules>
+            <top_module name="ddr3_ctrl_pkg" />
+            <top_module name="ddr3_ctrl_wb_bench" />
             <top_module name="glbl" />
-            <top_module name="gn4124_core_pkg" />
-            <top_module name="p2l_decoder_bench" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="1294050000fs"></ZoomStartTime>
-      <ZoomEndTime time="3539050001fs"></ZoomEndTime>
-      <Cursor1Time time="2600000000fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="417000002fs"></ZoomEndTime>
+      <Cursor1Time time="40000000fs"></Cursor1Time>
    </zoom_setting>
-   <column_width_setting>
-      <NameColumnWidth column_width="200"></NameColumnWidth>
-      <ValueColumnWidth column_width="126"></ValueColumnWidth>
-   </column_width_setting>
-   <WVObjectSize size="25" />
-   <wvobject fp_name="/p2l_decoder_bench/clk_tbs" type="logic">
+   <WVObjectSize size="29" />
+   <wvobject type="other" fp_name="/ddr3_ctrl_wb_bench/step">
+      <obj_property name="ElementShortName">step</obj_property>
+      <obj_property name="ObjectShortName">step</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/ddr3_ctrl_wb_bench/step_wb">
+      <obj_property name="ElementShortName">step_wb</obj_property>
+      <obj_property name="ObjectShortName">step_wb</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ddr3_ctrl_wb_bench/clk_tbs">
       <obj_property name="ElementShortName">clk_tbs</obj_property>
       <obj_property name="ObjectShortName">clk_tbs</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/rst_tbs" type="logic">
+   <wvobject type="logic" fp_name="/ddr3_ctrl_wb_bench/rst_tbs">
       <obj_property name="ElementShortName">rst_tbs</obj_property>
       <obj_property name="ObjectShortName">rst_tbs</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/s_axis_rx_tdata_tbs" type="array">
-      <obj_property name="ElementShortName">s_axis_rx_tdata_tbs[63:0]</obj_property>
-      <obj_property name="ObjectShortName">s_axis_rx_tdata_tbs[63:0]</obj_property>
+   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/wb_addr_tbs">
+      <obj_property name="ElementShortName">wb_addr_tbs[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wb_addr_tbs[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/s_axis_rx_tkeep_tbs" type="array">
-      <obj_property name="ElementShortName">s_axis_rx_tkeep_tbs[7:0]</obj_property>
-      <obj_property name="ObjectShortName">s_axis_rx_tkeep_tbs[7:0]</obj_property>
+   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/wb_dat_m2s_tbs">
+      <obj_property name="ElementShortName">wb_dat_m2s_tbs[63:0]</obj_property>
+      <obj_property name="ObjectShortName">wb_dat_m2s_tbs[63:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/s_axis_rx_tlast_tbs" type="logic">
-      <obj_property name="ElementShortName">s_axis_rx_tlast_tbs</obj_property>
-      <obj_property name="ObjectShortName">s_axis_rx_tlast_tbs</obj_property>
+   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/wb_dat_s2m_s">
+      <obj_property name="ElementShortName">wb_dat_s2m_s[63:0]</obj_property>
+      <obj_property name="ObjectShortName">wb_dat_s2m_s[63:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/s_axis_rx_tvalid_tbs" type="logic">
-      <obj_property name="ElementShortName">s_axis_rx_tvalid_tbs</obj_property>
-      <obj_property name="ObjectShortName">s_axis_rx_tvalid_tbs</obj_property>
+   <wvobject type="logic" fp_name="/ddr3_ctrl_wb_bench/wb_cyc_tbs">
+      <obj_property name="ElementShortName">wb_cyc_tbs</obj_property>
+      <obj_property name="ObjectShortName">wb_cyc_tbs</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/s_axis_rx_ready_s" type="logic">
-      <obj_property name="ElementShortName">s_axis_rx_ready_s</obj_property>
-      <obj_property name="ObjectShortName">s_axis_rx_ready_s</obj_property>
+   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/wb_sel_tbs">
+      <obj_property name="ElementShortName">wb_sel_tbs[7:0]</obj_property>
+      <obj_property name="ObjectShortName">wb_sel_tbs[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/s_axis_rx_tuser_tbs" type="array">
-      <obj_property name="ElementShortName">s_axis_rx_tuser_tbs[21:0]</obj_property>
-      <obj_property name="ObjectShortName">s_axis_rx_tuser_tbs[21:0]</obj_property>
+   <wvobject type="logic" fp_name="/ddr3_ctrl_wb_bench/wb_stb_tbs">
+      <obj_property name="ElementShortName">wb_stb_tbs</obj_property>
+      <obj_property name="ObjectShortName">wb_stb_tbs</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/dut1/state_s" type="other">
-      <obj_property name="ElementShortName">state_s</obj_property>
-      <obj_property name="ObjectShortName">state_s</obj_property>
-      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
+   <wvobject type="logic" fp_name="/ddr3_ctrl_wb_bench/wb_we_tbs">
+      <obj_property name="ElementShortName">wb_we_tbs</obj_property>
+      <obj_property name="ObjectShortName">wb_we_tbs</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/dut1/payload_length_s" type="array">
-      <obj_property name="ElementShortName">payload_length_s[9:0]</obj_property>
-      <obj_property name="ObjectShortName">payload_length_s[9:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
+   <wvobject type="logic" fp_name="/ddr3_ctrl_wb_bench/wb_ack_s">
+      <obj_property name="ElementShortName">wb_ack_s</obj_property>
+      <obj_property name="ObjectShortName">wb_ack_s</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/dut1/tlp_type_s" type="other">
-      <obj_property name="ElementShortName">tlp_type_s</obj_property>
-      <obj_property name="ObjectShortName">tlp_type_s</obj_property>
-      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
+   <wvobject type="logic" fp_name="/ddr3_ctrl_wb_bench/wb_stall_s">
+      <obj_property name="ElementShortName">wb_stall_s</obj_property>
+      <obj_property name="ObjectShortName">wb_stall_s</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/dut1/header_type_s" type="other">
-      <obj_property name="ElementShortName">header_type_s</obj_property>
-      <obj_property name="ObjectShortName">header_type_s</obj_property>
-      <obj_property name="CustomSignalColor">#FFFF00</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
+   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/wb_dat_s2m_tbs">
+      <obj_property name="ElementShortName">wb_dat_s2m_tbs[63:0]</obj_property>
+      <obj_property name="ObjectShortName">wb_dat_s2m_tbs[63:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/pd_wbm_address_s" type="array">
-      <obj_property name="ElementShortName">pd_wbm_address_s[63:0]</obj_property>
-      <obj_property name="ObjectShortName">pd_wbm_address_s[63:0]</obj_property>
+   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/wb_s2m_msg_tbs">
+      <obj_property name="ElementShortName">wb_s2m_msg_tbs[1:2]</obj_property>
+      <obj_property name="ObjectShortName">wb_s2m_msg_tbs[1:2]</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/pd_wbm_data_s" type="array">
-      <obj_property name="ElementShortName">pd_wbm_data_s[31:0]</obj_property>
-      <obj_property name="ObjectShortName">pd_wbm_data_s[31:0]</obj_property>
+   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/ddr_app_addr_s">
+      <obj_property name="ElementShortName">ddr_app_addr_s[28:0]</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_addr_s[28:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/pd_wbm_valid_s" type="logic">
-      <obj_property name="ElementShortName">pd_wbm_valid_s</obj_property>
-      <obj_property name="ObjectShortName">pd_wbm_valid_s</obj_property>
+   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/ddr_app_cmd_s">
+      <obj_property name="ElementShortName">ddr_app_cmd_s[2:0]</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_cmd_s[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/wbm_pd_ready_tbs" type="logic">
-      <obj_property name="ElementShortName">wbm_pd_ready_tbs</obj_property>
-      <obj_property name="ObjectShortName">wbm_pd_ready_tbs</obj_property>
-      <obj_property name="CustomSignalColor">#FFA500</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
+   <wvobject type="logic" fp_name="/ddr3_ctrl_wb_bench/ddr_app_cmd_en_s">
+      <obj_property name="ElementShortName">ddr_app_cmd_en_s</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_cmd_en_s</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/pd_op_s" type="array">
-      <obj_property name="ElementShortName">pd_op_s[2:0]</obj_property>
-      <obj_property name="ObjectShortName">pd_op_s[2:0]</obj_property>
+   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/ddr_app_wdf_data_s">
+      <obj_property name="ElementShortName">ddr_app_wdf_data_s[511:0]</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_wdf_data_s[511:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/pd_header_type_s" type="logic">
-      <obj_property name="ElementShortName">pd_header_type_s</obj_property>
-      <obj_property name="ObjectShortName">pd_header_type_s</obj_property>
+   <wvobject type="logic" fp_name="/ddr3_ctrl_wb_bench/ddr_app_wdf_end_s">
+      <obj_property name="ElementShortName">ddr_app_wdf_end_s</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_wdf_end_s</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/pd_payload_length_s" type="array">
-      <obj_property name="ElementShortName">pd_payload_length_s[9:0]</obj_property>
-      <obj_property name="ObjectShortName">pd_payload_length_s[9:0]</obj_property>
+   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/ddr_app_wdf_mask_s">
+      <obj_property name="ElementShortName">ddr_app_wdf_mask_s[63:0]</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_wdf_mask_s[63:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/pd_pdm_data_valid_s" type="logic">
-      <obj_property name="ElementShortName">pd_pdm_data_valid_s</obj_property>
-      <obj_property name="ObjectShortName">pd_pdm_data_valid_s</obj_property>
-      <obj_property name="CustomSignalColor">#800080</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
+   <wvobject type="logic" fp_name="/ddr3_ctrl_wb_bench/ddr_app_wdf_wren_s">
+      <obj_property name="ElementShortName">ddr_app_wdf_wren_s</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_wdf_wren_s</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/pd_pdm_data_last_s" type="logic">
-      <obj_property name="ElementShortName">pd_pdm_data_last_s</obj_property>
-      <obj_property name="ObjectShortName">pd_pdm_data_last_s</obj_property>
-      <obj_property name="CustomSignalColor">#800080</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
+   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/ddr_app_rd_data_s">
+      <obj_property name="ElementShortName">ddr_app_rd_data_s[511:0]</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_rd_data_s[511:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/pd_pdm_keep_s" type="array">
-      <obj_property name="ElementShortName">pd_pdm_keep_s[7:0]</obj_property>
-      <obj_property name="ObjectShortName">pd_pdm_keep_s[7:0]</obj_property>
-      <obj_property name="CustomSignalColor">#800080</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
+   <wvobject type="logic" fp_name="/ddr3_ctrl_wb_bench/ddr_app_rd_data_end_s">
+      <obj_property name="ElementShortName">ddr_app_rd_data_end_s</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_rd_data_end_s</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/pd_pdm_data_s" type="array">
-      <obj_property name="ElementShortName">pd_pdm_data_s[63:0]</obj_property>
-      <obj_property name="ObjectShortName">pd_pdm_data_s[63:0]</obj_property>
-      <obj_property name="CustomSignalColor">#800080</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
+   <wvobject type="logic" fp_name="/ddr3_ctrl_wb_bench/ddr_app_rd_data_valid_s">
+      <obj_property name="ElementShortName">ddr_app_rd_data_valid_s</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_rd_data_valid_s</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/byte_swap_c" type="array">
-      <obj_property name="ElementShortName">byte_swap_c[1:0]</obj_property>
-      <obj_property name="ObjectShortName">byte_swap_c[1:0]</obj_property>
+   <wvobject type="logic" fp_name="/ddr3_ctrl_wb_bench/ddr_app_rdy_s">
+      <obj_property name="ElementShortName">ddr_app_rdy_s</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_rdy_s</obj_property>
    </wvobject>
-   <wvobject fp_name="/p2l_decoder_bench/step" type="other">
-      <obj_property name="ElementShortName">step</obj_property>
-      <obj_property name="ObjectShortName">step</obj_property>
+   <wvobject type="logic" fp_name="/ddr3_ctrl_wb_bench/ddr_app_wdf_rdy_s">
+      <obj_property name="ElementShortName">ddr_app_wdf_rdy_s</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_wdf_rdy_s</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ddr3_ctrl_wb_bench/ddr_app_ui_clk_s">
+      <obj_property name="ElementShortName">ddr_app_ui_clk_s</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_ui_clk_s</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/ddr3_ctrl_wb_bench/step_ddr">
+      <obj_property name="ElementShortName">step_ddr</obj_property>
+      <obj_property name="ObjectShortName">step_ddr</obj_property>
    </wvobject>
 </wave_config>

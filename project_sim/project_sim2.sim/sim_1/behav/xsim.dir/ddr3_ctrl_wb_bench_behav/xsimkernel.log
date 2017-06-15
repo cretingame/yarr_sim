@@ -1,0 +1,4 @@
+Running: xsim.dir/ddr3_ctrl_wb_bench_behav/xsimk -simmode gui -wdb ddr3_ctrl_wb_bench_behav.wdb -simrunnum 0 -socket 42264
+Design successfully loaded
+Design Loading Memory Usage: 55248 KB (Peak: 55956 KB)
+Design Loading CPU Usage: 10 ms
