@@ -54,22 +54,20 @@
 // (in parentheses) to your own signal names.
 
 //----------- Begin Cut here for INSTANTIATION Template ---// INST_TAG
-fifo_4x16 your_instance_name (
-  .rst(rst),                      // input wire rst
-  .wr_clk(wr_clk),                // input wire wr_clk
-  .rd_clk(rd_clk),                // input wire rd_clk
-  .din(din),                      // input wire [36 : 0] din
-  .wr_en(wr_en),                  // input wire wr_en
-  .rd_en(rd_en),                  // input wire rd_en
-  .dout(dout),                    // output wire [36 : 0] dout
-  .full(full),                    // output wire full
-  .almost_full(almost_full),      // output wire almost_full
-  .empty(empty),                  // output wire empty
-  .rd_data_count(rd_data_count)  // output wire [4 : 0] rd_data_count
+fifo_315x16 your_instance_name (
+  .rst(rst),        // input wire rst
+  .wr_clk(wr_clk),  // input wire wr_clk
+  .rd_clk(rd_clk),  // input wire rd_clk
+  .din(din),        // input wire [604 : 0] din
+  .wr_en(wr_en),    // input wire wr_en
+  .rd_en(rd_en),    // input wire rd_en
+  .dout(dout),      // output wire [604 : 0] dout
+  .full(full),      // output wire full
+  .empty(empty)    // output wire empty
 );
 // INST_TAG_END ------ End INSTANTIATION Template ---------
 
-// You must compile the wrapper file fifo_4x16.v when simulating
-// the core, fifo_4x16. When compiling the wrapper file, be sure to
+// You must compile the wrapper file fifo_315x16.v when simulating
+// the core, fifo_315x16. When compiling the wrapper file, be sure to
 // reference the Verilog simulation library.
 

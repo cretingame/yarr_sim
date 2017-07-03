@@ -11,11 +11,11 @@
     <Option Name="CompiledLibDir" Val="$PPRDIR/../../../../../Modeltech_pe_edu_10.4a/win32pe_edu"/>
     <Option Name="CompiledLibDirXSim" Val=""/>
     <Option Name="CompiledLibDirModelSim" Val="/home/asautaux/Modeltech_pe_edu_10.4a/win32pe_edu"/>
-    <Option Name="CompiledLibDirQuesta" Val="$PCACHEDIR/compile_simlib/questa"/>
-    <Option Name="CompiledLibDirIES" Val="$PCACHEDIR/compile_simlib/ies"/>
-    <Option Name="CompiledLibDirVCS" Val="$PCACHEDIR/compile_simlib/vcs"/>
-    <Option Name="CompiledLibDirRiviera" Val="$PCACHEDIR/compile_simlib/riviera"/>
-    <Option Name="CompiledLibDirActivehdl" Val="$PCACHEDIR/compile_simlib/activehdl"/>
+    <Option Name="CompiledLibDirQuesta" Val="/home/asautaux/yarr_sim/project_sim/project_sim2.cache/compile_simlib/questa"/>
+    <Option Name="CompiledLibDirIES" Val="/home/asautaux/yarr_sim/project_sim/project_sim2.cache/compile_simlib/ies"/>
+    <Option Name="CompiledLibDirVCS" Val="/home/asautaux/yarr_sim/project_sim/project_sim2.cache/compile_simlib/vcs"/>
+    <Option Name="CompiledLibDirRiviera" Val="/home/asautaux/yarr_sim/project_sim/project_sim2.cache/compile_simlib/riviera"/>
+    <Option Name="CompiledLibDirActivehdl" Val="/home/asautaux/yarr_sim/project_sim/project_sim2.cache/compile_simlib/activehdl"/>
     <Option Name="TargetLanguage" Val="VHDL"/>
     <Option Name="BoardPart" Val=""/>
     <Option Name="SourceMgmtMode" Val="DisplayOnly"/>
@@ -27,7 +27,7 @@
     <Option Name="IPUserFilesDir" Val="$PPRDIR/project_sim2.ip_user_files"/>
     <Option Name="IPStaticSourceDir" Val="$PPRDIR/project_sim2.ip_user_files/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
-    <Option Name="WTXSimLaunchSim" Val="479"/>
+    <Option Name="WTXSimLaunchSim" Val="560"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
@@ -198,20 +198,15 @@
         <Step Id="synth_design"/>
       </Strategy>
     </Run>
-    <Run Id="fifo_27x16_synth_1" Type="Ft3:Synth" SrcSet="fifo_27x16" Part="xc7k160tfbg676-2" ConstrsSet="fifo_27x16" Description="Vivado Synthesis Defaults" Dir="$PRUNDIR/fifo_27x16_synth_1" IncludeInArchive="true">
+    <Run Id="fifo_27x16_synth_1" Type="Ft3:Synth" SrcSet="fifo_27x16" Part="xc7k160tfbg676-2" ConstrsSet="fifo_27x16" Description="Vivado Synthesis Defaults" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2016">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2016"/>
         <Step Id="synth_design"/>
       </Strategy>
-      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
     </Run>
     <Run Id="fifo_27x16_bench_synth_1" Type="Ft3:Synth" SrcSet="fifo_27x16_bench" Part="xc7k160tfbg676-2" ConstrsSet="fifo_27x16_bench" Description="Vivado Synthesis Defaults" Dir="$PRUNDIR/fifo_27x16_bench_synth_1" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2016">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2016"/>
         <Step Id="synth_design"/>
       </Strategy>
       <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
@@ -232,9 +227,7 @@
     </Run>
     <Run Id="fifo_27x16_impl_1" Type="Ft2:EntireDesign" Part="xc7k160tfbg676-2" ConstrsSet="fifo_27x16" Description="Default settings for Implementation." SynthRun="fifo_27x16_synth_1" IncludeInArchive="false">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>
@@ -248,9 +241,7 @@
     </Run>
     <Run Id="fifo_27x16_bench_impl_1" Type="Ft2:EntireDesign" Part="xc7k160tfbg676-2" ConstrsSet="fifo_27x16_bench" Description="Default settings for Implementation." SynthRun="fifo_27x16_bench_synth_1" IncludeInArchive="false">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2016"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>

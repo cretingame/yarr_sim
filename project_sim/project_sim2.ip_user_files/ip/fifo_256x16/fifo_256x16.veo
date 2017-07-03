@@ -65,7 +65,7 @@ fifo_256x16 your_instance_name (
   .full(full),                    // output wire full
   .almost_full(almost_full),      // output wire almost_full
   .empty(empty),                  // output wire empty
-  .rd_data_count(rd_data_count)  // output wire [3 : 0] rd_data_count
+  .rd_data_count(rd_data_count)  // output wire [4 : 0] rd_data_count
 );
 // INST_TAG_END ------ End INSTANTIATION Template ---------
 

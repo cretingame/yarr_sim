@@ -119,11 +119,11 @@ COMPONENT fifo_27x16_bench
   constant g_MASK_SIZE       : integer := 8;
   constant g_DATA_PORT_SIZE  : integer := 64;
   
-  constant c_outoforder : std_logic := '0';
-  constant c_write : std_logic := '0';
+  constant c_outoforder : std_logic := '1';
+  constant c_write : std_logic := '1';
   constant c_read : std_logic := '1';
   
-  constant c_rd_valid : std_logic_vector := "00000000000000000000000000000000000000000000111100111100000000011010001000000000110100000000011010001000000000110100010000000001101000000000110100010000000001101000100000000010000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011000000000110100010000000001101000000000110100010000000001101000100000000011010000000001101000100000000011010001000000000110100010000000001101000000000110100010000000001101000100000000011010001000000000110100000000011010001000000000110100010000000001101000000000110100000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010100010001000100000000010011001000000000110100000000011010001000000000110100010000000001101000100000000011010001000000000100000000100000000000000000000000000000011111011111110100000000011010001000000000110100000000011010001000000000110100010000000001101000100000000011000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+  --constant c_rd_valid : std_logic_vector := "00000000000000000000000000000000000000000000111100111100000000011010001000000000110100000000011010001000000000110100010000000001101000000000110100010000000001101000100000000010000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011000000000110100010000000001101000000000110100010000000001101000100000000011010000000001101000100000000011010001000000000110100010000000001101000000000110100010000000001101000100000000011010001000000000110100000000011010001000000000110100010000000001101000000000110100000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010100010001000100000000010011001000000000110100000000011010001000000000110100010000000001101000100000000011010001000000000100000000100000000000000000000000000000011111011111110100000000011010001000000000110100000000011010001000000000110100010000000001101000100000000011000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
   
   signal clk_tbs : STD_LOGIC;
   signal rst_tbs : STD_LOGIC;
@@ -169,6 +169,8 @@ COMPONENT fifo_27x16_bench
   signal ddr_app_ui_clk_sync_rst_s       :     std_logic;
   
   signal ddr_counter : unsigned (31 downto 0);
+  signal fifo_wr_s : std_logic;
+  signal fifo_empty_s : std_logic;
   
   signal wb_addr_tbs : STD_LOGIC_VECTOR (32 - 1 downto 0);
   signal wb_dat_m2s_tbs : STD_LOGIC_VECTOR (64 - 1 downto 0);
@@ -254,8 +256,8 @@ begin
             end loop;
             
             step <= 200 + J*10;
-            wb_addr_tbs <= X"00000000";
-            wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
+            wb_addr_tbs <= X"000CACA1";
+            wb_dat_m2s_tbs <= X"CACA0001DEADBEEF";
             wb_cyc_tbs <= '1';
             wb_sel_tbs <= "11111111";
             wb_stb_tbs <= '0';
@@ -265,8 +267,8 @@ begin
         end loop;
         
         step <= 2;
-        wb_addr_tbs <= X"00000000";
-        wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
+        wb_addr_tbs <= X"000CACA2";
+        wb_dat_m2s_tbs <= X"CACA0002DEADBEEF";
         wb_cyc_tbs <= '1';
         wb_sel_tbs <= "11111111";
         wb_stb_tbs <= '0';
@@ -304,8 +306,8 @@ begin
             end loop;
             
             step <= 400 + J*10;
-            wb_addr_tbs <= X"00000000";
-            wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
+            wb_addr_tbs <= X"000CACA3";
+            wb_dat_m2s_tbs <= X"CACA0003DEADBEEF";
             wb_cyc_tbs <= '1';
             wb_sel_tbs <= "11111111";
             wb_stb_tbs <= '0';
@@ -315,21 +317,45 @@ begin
         end loop;
         
         step <= 3;
-        wb_addr_tbs <= X"00000000";
-        wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
+        wb_addr_tbs <= X"000CACA4";
+        wb_dat_m2s_tbs <= X"CACA0004DEADBEEF";
         wb_cyc_tbs <= '1';
         wb_sel_tbs <= "11111111";
         wb_stb_tbs <= '0';
         wb_we_tbs <= '0';
-        wait for 10*period;
+        wait for 30*period;
         
-        end if;
+        step <= 4;
         
-        for I in 0 to 31 loop
-            step <= 63+I;
+        for I in 0 to 7 loop
+            step <= 400+I;
     
-            wb_addr_tbs <= std_logic_vector(to_unsigned(I+4,32));
-            wb_dat_m2s_tbs <= X"DEADBEEF" & std_logic_vector(to_unsigned(I+4,32));
+            wb_addr_tbs <= std_logic_vector(to_unsigned(I,16)) & std_logic_vector(to_unsigned(I,16));
+            wb_dat_m2s_tbs <= X"DEADBABE" & std_logic_vector(to_unsigned(I,16)) & std_logic_vector(to_unsigned(I,16));
+            wb_cyc_tbs <= '1';
+            wb_sel_tbs <= "11111111";
+            wb_stb_tbs <= '1';
+            wb_we_tbs <= '1';
+            wait for period;
+        
+        end loop;
+        
+        step <= 5;
+        wb_addr_tbs <= X"000CACA4";
+        wb_dat_m2s_tbs <= X"CACA0004DEADBEEF";
+        wb_cyc_tbs <= '1';
+        wb_sel_tbs <= "11111111";
+        wb_stb_tbs <= '0';
+        wb_we_tbs <= '0';
+        wait for 7*period;
+        
+        end if; -- out of order
+        
+        for I in 0 to 27 loop
+            step <= 600+I;
+    
+            wb_addr_tbs <= std_logic_vector(to_unsigned(I,32));
+            wb_dat_m2s_tbs <= X"DEADBEEF" & std_logic_vector(to_unsigned(I,32));
             wb_cyc_tbs <= '1';
             wb_sel_tbs <= "11111111";
             wb_stb_tbs <= '1';
@@ -340,13 +366,35 @@ begin
         
         
         step <= 6;
-        wb_addr_tbs <= X"00000000";
-        wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
+        wb_addr_tbs <= X"000CACA5";
+        wb_dat_m2s_tbs <= X"CACA0005DEADBEEF";
         wb_cyc_tbs <= '1';
         wb_sel_tbs <= "11111111";
         wb_stb_tbs <= '0';
         wb_we_tbs <= '0';
-        wait for period;        
+        wait for 25*period;        
+        
+        for I in 28 to 63 loop
+            step <= 700+I;
+    
+            wb_addr_tbs <= std_logic_vector(to_unsigned(I,32));
+            wb_dat_m2s_tbs <= X"DEADBEEF" & std_logic_vector(to_unsigned(I,32));
+            wb_cyc_tbs <= '1';
+            wb_sel_tbs <= "11111111";
+            wb_stb_tbs <= '1';
+            wb_we_tbs <= '1';
+            wait for period;
+        
+        end loop;
+ 
+        step <= 7;
+        wb_addr_tbs <= X"000CACA6";
+        wb_dat_m2s_tbs <= X"CACA0006DEADBEEF";
+        wb_cyc_tbs <= '1';
+        wb_sel_tbs <= "11111111";
+        wb_stb_tbs <= '0';
+        wb_we_tbs <= '0';
+        wait for period;  
         
         end if;
         
@@ -424,25 +472,25 @@ begin
         wb_sel_tbs <= "11111111";
         wb_stb_tbs <= '0';
         wb_we_tbs <= '0';
-        wait for 111*period;
+        wait for 10*period;
         
-        step <= 101;
-        wb_addr_tbs <= X"000000FA";
-        wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
-        wb_cyc_tbs <= '0';
-        wb_sel_tbs <= "11111111";
-        wb_stb_tbs <= '0';
-        wb_we_tbs <= '0';
-        wait for 278*period;
+        --step <= 101;
+        --wb_addr_tbs <= X"000000FA";
+        --wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
+        --wb_cyc_tbs <= '0';
+        --wb_sel_tbs <= "11111111";
+        --wb_stb_tbs <= '0';
+        --wb_we_tbs <= '0';
+        --wait for 40*period;
         
-        step <= 102;
-        wb_addr_tbs <= X"000000FF";
-        wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
-        wb_cyc_tbs <= '1';
-        wb_sel_tbs <= "11111111";
-        wb_stb_tbs <= '0';
-        wb_we_tbs <= '0';
-        wait for period; 
+        --step <= 102;
+        --wb_addr_tbs <= X"000000FF";
+        --wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
+        --wb_cyc_tbs <= '1';
+        --wb_sel_tbs <= "11111111";
+        --wb_stb_tbs <= '0';
+        --wb_we_tbs <= '0';
+        --wait for period; 
         
         for I in 16#11a# to 16#319# loop
     
@@ -585,9 +633,12 @@ begin
         --'0' when 150,
         '1' when others;
     
-    ddr_app_rd_data_valid_s <= c_rd_valid(step_ddr) when step_ddr >= 0 and step_ddr < 2048 else
-                               '0';
-                               
+    --ddr_app_rd_data_valid_s <= c_rd_valid(step_ddr) when step_ddr >= 0 and step_ddr < 2048 else
+    --                           '0';
+    
+    ddr_app_rd_data_valid_s <= not fifo_empty_s;
+    fifo_wr_s <= ddr_app_cmd_en_s and ddr_app_rdy_s;
+                             
     ddr_app_rd_data_end_s <= '1';
     
     ddr_app_addr_u_tbs <= unsigned("000" & ddr_app_addr_tbs);
@@ -608,12 +659,12 @@ begin
        wr_clk => ddr_app_ui_clk_s,
        rd_clk => ddr_app_ui_clk_s,
        din => ddr_app_addr_s,
-       wr_en => ddr_app_cmd_en_s,
+       wr_en => fifo_wr_s,
        rd_en => ddr_app_rd_data_valid_s,
        dout => ddr_app_addr_tbs,
        full => open,
        almost_full => open,
-       empty => open
+       empty => fifo_empty_s
      );
     
     ddr_stimuli_p : process
