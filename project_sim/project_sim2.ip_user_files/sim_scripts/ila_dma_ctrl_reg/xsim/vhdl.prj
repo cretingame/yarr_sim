@@ -1,0 +1,4 @@
+vhdl xpm "/opt/Xilinx/Vivado/2016.2/data/ip/xpm/xpm_VCOMP.vhd" 
+vhdl xil_defaultlib "../../../../../../Yarr-fw/ip-cores/kintex7/ila_dma_ctrl_reg/sim/ila_dma_ctrl_reg.vhd" 
+
+nosort

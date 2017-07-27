@@ -28,8 +28,82 @@ INFO: [VRFC 10-307] analyzing entity reset_blk_ramfifo
 INFO: [VRFC 10-307] analyzing entity axi_reg_slice
 INFO: [VRFC 10-307] analyzing entity fifo_generator_top
 INFO: [VRFC 10-307] analyzing entity fifo_generator_v13_1_1_synth
-INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/ddr3k7-core/ddr3_ctrl_pkg.vhd" into library xil_defaultlib
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/common/wshexp_core_pkg.vhd" into library xil_defaultlib
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/common/common_pkg.vhd" into library xil_defaultlib
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/ila_l2p_dma/sim/ila_l2p_dma.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity ila_l2p_dma
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/ila_pd_pdm/sim/ila_pd_pdm.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity ila_pd_pdm
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/mig_7series_0/mig_7series_0/user_design/rtl/phy/mig_7series_v4_0_ddr_phy_top.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity mig_7series_v4_0_ddr_phy_top
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/mig_7series_0/mig_7series_0/user_design/rtl/mig_7series_0_mig_sim.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity mig_7series_0_mig
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/mig_7series_0/mig_7series_0/user_design/rtl/mig_7series_0.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity mig_7series_0
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/ila_axis/sim/ila_axis.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity ila_axis
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_core_top.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_core_top
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_axi_basic_rx_null_gen.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_axi_basic_rx_null_gen
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_axi_basic_rx_pipeline.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_axi_basic_rx_pipeline
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_axi_basic_rx.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_axi_basic_rx
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_axi_basic_top.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_axi_basic_top
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_axi_basic_tx_pipeline.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_axi_basic_tx_pipeline
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_axi_basic_tx_thrtl_ctl.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_axi_basic_tx_thrtl_ctl
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_axi_basic_tx.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_axi_basic_tx
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_pcie_7x.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_pcie_7x
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_pcie_bram_7x.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_pcie_bram_7x
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_pcie_bram_top_7x.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_pcie_bram_top_7x
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_pcie_brams_7x.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_pcie_brams_7x
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_pcie_pipe_lane.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_pcie_pipe_lane
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_pcie_pipe_misc.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_pcie_pipe_misc
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_pcie_pipe_pipeline.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_pcie_pipe_pipeline
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_gt_rx_valid_filter_7x.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_gt_rx_valid_filter_7x
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_gt_top.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_gt_top
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_pcie_top.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_pcie_top
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/source/pcie_7x_0_pcie2_top.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0_pcie2_top
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/pcie_7x_0/sim/pcie_7x_0.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity pcie_7x_0
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/ila_wsh_pipe/sim/ila_wsh_pipe.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity ila_wsh_pipe
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/ila_dma_ctrl_reg/sim/ila_dma_ctrl_reg.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity ila_dma_ctrl_reg
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/ila_ddr/sim/ila_ddr.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity ila_ddr
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/common/bcf_bram32.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity bram_wbs32
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/common/simple_counter.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity simple_counter
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/common/m_clk_sync.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity m_clk_sync
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/common/k_bram.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity k_bram
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/yarr_sim/top_bench.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity top_bench
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/common/k_dual_bram.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity k_dual_bram
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/yarr_sim/k_dual_bram_bench.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity k_dual_bram_bench
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/kintex7/ddr3k7-core/ddr3_ctrl_pkg.vhd" into library xil_defaultlib
 INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/yarr_sim/ddr3_ctrl_wb_bench.vhd" into library xil_defaultlib
 INFO: [VRFC 10-307] analyzing entity ddr3_ctrl_wb_bench
-INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/ddr3k7-core/ddr3_ctrl_wb.vhd" into library xil_defaultlib
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/kintex7/ddr3k7-core/ddr3_ctrl_wb.vhd" into library xil_defaultlib
 INFO: [VRFC 10-307] analyzing entity ddr3_ctrl_wb

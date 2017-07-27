@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="k_dual_bram_bench_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="k_dual_bram_bench" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="828000002fs"></ZoomEndTime>
+      <Cursor1Time time="300000000fs"></Cursor1Time>
+   </zoom_setting>
+   <WVObjectSize size="15" />
+   <wvobject type="logic" fp_name="/k_dual_bram_bench/clk_tbs">
+      <obj_property name="ElementShortName">clk_tbs</obj_property>
+      <obj_property name="ObjectShortName">clk_tbs</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/k_dual_bram_bench/rst_tbs">
+      <obj_property name="ElementShortName">rst_tbs</obj_property>
+      <obj_property name="ObjectShortName">rst_tbs</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/k_dual_bram_bench/dma_bram_adr_tbs">
+      <obj_property name="ElementShortName">dma_bram_adr_tbs[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dma_bram_adr_tbs[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/k_dual_bram_bench/dma_bram_dat_m2s_tbs">
+      <obj_property name="ElementShortName">dma_bram_dat_m2s_tbs[63:0]</obj_property>
+      <obj_property name="ObjectShortName">dma_bram_dat_m2s_tbs[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/k_dual_bram_bench/dma_bram_dat_s2m_s">
+      <obj_property name="ElementShortName">dma_bram_dat_s2m_s[63:0]</obj_property>
+      <obj_property name="ObjectShortName">dma_bram_dat_s2m_s[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/k_dual_bram_bench/dma_bram_cyc_tbs">
+      <obj_property name="ElementShortName">dma_bram_cyc_tbs</obj_property>
+      <obj_property name="ObjectShortName">dma_bram_cyc_tbs</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/k_dual_bram_bench/dma_bram_stb_tbs">
+      <obj_property name="ElementShortName">dma_bram_stb_tbs</obj_property>
+      <obj_property name="ObjectShortName">dma_bram_stb_tbs</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/k_dual_bram_bench/dma_bram_we_tbs">
+      <obj_property name="ElementShortName">dma_bram_we_tbs</obj_property>
+      <obj_property name="ObjectShortName">dma_bram_we_tbs</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/k_dual_bram_bench/dma_bram_ack_s">
+      <obj_property name="ElementShortName">dma_bram_ack_s</obj_property>
+      <obj_property name="ObjectShortName">dma_bram_ack_s</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/k_dual_bram_bench/dual_dma_ram/wba_adr_s">
+      <obj_property name="ElementShortName">wba_adr_s[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wba_adr_s[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/k_dual_bram_bench/dual_dma_ram/selecta_s">
+      <obj_property name="ElementShortName">selecta_s[1:0]</obj_property>
+      <obj_property name="ObjectShortName">selecta_s[1:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/k_dual_bram_bench/dual_dma_ram/wba_dat_a">
+      <obj_property name="ElementShortName">wba_dat_a[3:0][63:0]</obj_property>
+      <obj_property name="ObjectShortName">wba_dat_a[3:0][63:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/k_dual_bram_bench/dual_dma_ram/wbb_dat_a">
+      <obj_property name="ElementShortName">wbb_dat_a[3:0][63:0]</obj_property>
+      <obj_property name="ObjectShortName">wbb_dat_a[3:0][63:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/k_dual_bram_bench/dual_dma_ram/wba_cyc_v_s">
+      <obj_property name="ElementShortName">wba_cyc_v_s[3:0]</obj_property>
+      <obj_property name="ObjectShortName">wba_cyc_v_s[3:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/k_dual_bram_bench/dual_dma_ram/wbb_cyc_v_s">
+      <obj_property name="ElementShortName">wbb_cyc_v_s[3:0]</obj_property>
+      <obj_property name="ObjectShortName">wbb_cyc_v_s[3:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+</wave_config>

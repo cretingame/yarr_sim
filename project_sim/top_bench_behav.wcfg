@@ -5,309 +5,75 @@
    <db_ref_list>
       <db_ref path="top_bench_behav.wdb" id="1">
          <top_modules>
+            <top_module name="app_pkg" />
             <top_module name="common_pkg" />
+            <top_module name="ddr3_ctrl_pkg" />
             <top_module name="glbl" />
-            <top_module name="gn4124_core_pkg" />
             <top_module name="top_bench" />
+            <top_module name="wshexp_core_pkg" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="9350250000fs"></ZoomStartTime>
-      <ZoomEndTime time="12085354717fs"></ZoomEndTime>
-      <Cursor1Time time="21000000000fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="8280000001fs"></ZoomEndTime>
+      <Cursor1Time time="14000000000fs"></Cursor1Time>
    </zoom_setting>
-   <column_width_setting>
-      <NameColumnWidth column_width="200"></NameColumnWidth>
-      <ValueColumnWidth column_width="136"></ValueColumnWidth>
-   </column_width_setting>
-   <WVObjectSize size="19" />
-   <wvobject fp_name="/top_bench/clk_tbs" type="logic">
+   <WVObjectSize size="14" />
+   <wvobject type="logic" fp_name="/top_bench/clk_tbs">
       <obj_property name="ElementShortName">clk_tbs</obj_property>
       <obj_property name="ObjectShortName">clk_tbs</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_bench/rst_tbs" type="logic">
+   <wvobject type="logic" fp_name="/top_bench/rst_tbs">
       <obj_property name="ElementShortName">rst_tbs</obj_property>
       <obj_property name="ObjectShortName">rst_tbs</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_bench/s_axis_rx_tdata_tbs" type="array">
+   <wvobject type="array" fp_name="/top_bench/s_axis_rx_tdata_tbs">
       <obj_property name="ElementShortName">s_axis_rx_tdata_tbs[63:0]</obj_property>
       <obj_property name="ObjectShortName">s_axis_rx_tdata_tbs[63:0]</obj_property>
-      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_bench/s_axis_rx_tkeep_tbs" type="array">
+   <wvobject type="array" fp_name="/top_bench/s_axis_rx_tkeep_tbs">
       <obj_property name="ElementShortName">s_axis_rx_tkeep_tbs[7:0]</obj_property>
       <obj_property name="ObjectShortName">s_axis_rx_tkeep_tbs[7:0]</obj_property>
-      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_bench/s_axis_rx_tlast_tbs" type="logic">
+   <wvobject type="logic" fp_name="/top_bench/s_axis_rx_tlast_tbs">
       <obj_property name="ElementShortName">s_axis_rx_tlast_tbs</obj_property>
       <obj_property name="ObjectShortName">s_axis_rx_tlast_tbs</obj_property>
-      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_bench/s_axis_rx_tready_s" type="logic">
+   <wvobject type="logic" fp_name="/top_bench/s_axis_rx_tready_s">
       <obj_property name="ElementShortName">s_axis_rx_tready_s</obj_property>
       <obj_property name="ObjectShortName">s_axis_rx_tready_s</obj_property>
-      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_bench/s_axis_rx_tuser_tbs" type="array">
+   <wvobject type="array" fp_name="/top_bench/s_axis_rx_tuser_tbs">
       <obj_property name="ElementShortName">s_axis_rx_tuser_tbs[21:0]</obj_property>
       <obj_property name="ObjectShortName">s_axis_rx_tuser_tbs[21:0]</obj_property>
-      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_bench/s_axis_rx_tvalid_tbs" type="logic">
+   <wvobject type="logic" fp_name="/top_bench/s_axis_rx_tvalid_tbs">
       <obj_property name="ElementShortName">s_axis_rx_tvalid_tbs</obj_property>
       <obj_property name="ObjectShortName">s_axis_rx_tvalid_tbs</obj_property>
-      <obj_property name="CustomSignalColor">#00FFFF</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_bench/m_axis_tx_tdata_s" type="array">
+   <wvobject type="array" fp_name="/top_bench/m_axis_tx_tdata_s">
       <obj_property name="ElementShortName">m_axis_tx_tdata_s[63:0]</obj_property>
       <obj_property name="ObjectShortName">m_axis_tx_tdata_s[63:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_bench/m_axis_tx_tkeep_s" type="array">
+   <wvobject type="array" fp_name="/top_bench/m_axis_tx_tkeep_s">
       <obj_property name="ElementShortName">m_axis_tx_tkeep_s[7:0]</obj_property>
       <obj_property name="ObjectShortName">m_axis_tx_tkeep_s[7:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_bench/m_axis_tx_tuser_s" type="array">
+   <wvobject type="array" fp_name="/top_bench/m_axis_tx_tuser_s">
       <obj_property name="ElementShortName">m_axis_tx_tuser_s[3:0]</obj_property>
       <obj_property name="ObjectShortName">m_axis_tx_tuser_s[3:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_bench/m_axis_tx_tlast_s" type="logic">
+   <wvobject type="logic" fp_name="/top_bench/m_axis_tx_tlast_s">
       <obj_property name="ElementShortName">m_axis_tx_tlast_s</obj_property>
       <obj_property name="ObjectShortName">m_axis_tx_tlast_s</obj_property>
-      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_bench/m_axis_tx_tvalid_s" type="logic">
+   <wvobject type="logic" fp_name="/top_bench/m_axis_tx_tvalid_s">
       <obj_property name="ElementShortName">m_axis_tx_tvalid_s</obj_property>
       <obj_property name="ObjectShortName">m_axis_tx_tvalid_s</obj_property>
-      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/top_bench/m_axis_tx_tready_tbs" type="logic">
+   <wvobject type="logic" fp_name="/top_bench/m_axis_tx_tready_tbs">
       <obj_property name="ElementShortName">m_axis_tx_tready_tbs</obj_property>
       <obj_property name="ObjectShortName">m_axis_tx_tready_tbs</obj_property>
-      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject fp_name="/top_bench/step" type="other">
-      <obj_property name="ElementShortName">step</obj_property>
-      <obj_property name="ObjectShortName">step</obj_property>
-   </wvobject>
-   <wvobject fp_name="group2889" type="group">
-      <obj_property name="label">WBM</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <wvobject fp_name="/top_bench/app_0/wb_master/state_s" type="other">
-         <obj_property name="ElementShortName">state_s</obj_property>
-         <obj_property name="ObjectShortName">state_s</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/wb_master/pd_pdm_data_valid_o" type="logic">
-         <obj_property name="ElementShortName">pd_pdm_data_valid_o</obj_property>
-         <obj_property name="ObjectShortName">pd_pdm_data_valid_o</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/wb_master/pd_pdm_data_last_o" type="logic">
-         <obj_property name="ElementShortName">pd_pdm_data_last_o</obj_property>
-         <obj_property name="ObjectShortName">pd_pdm_data_last_o</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/wb_master/pd_pdm_data_o" type="array">
-         <obj_property name="ElementShortName">pd_pdm_data_o[63:0]</obj_property>
-         <obj_property name="ObjectShortName">pd_pdm_data_o[63:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/wb_adr_s" type="array">
-         <obj_property name="ElementShortName">wb_adr_s[63:0]</obj_property>
-         <obj_property name="ObjectShortName">wb_adr_s[63:0]</obj_property>
-         <obj_property name="CustomSignalColor">#FF0000</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/wb_dat_o_s" type="array">
-         <obj_property name="ElementShortName">wb_dat_o_s[31:0]</obj_property>
-         <obj_property name="ObjectShortName">wb_dat_o_s[31:0]</obj_property>
-         <obj_property name="CustomSignalColor">#FF0000</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/wb_dat_i_s" type="array">
-         <obj_property name="ElementShortName">wb_dat_i_s[31:0]</obj_property>
-         <obj_property name="ObjectShortName">wb_dat_i_s[31:0]</obj_property>
-         <obj_property name="CustomSignalColor">#FF0000</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/wb_cyc_s" type="logic">
-         <obj_property name="ElementShortName">wb_cyc_s</obj_property>
-         <obj_property name="ObjectShortName">wb_cyc_s</obj_property>
-         <obj_property name="CustomSignalColor">#FF0000</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/wb_sel_s" type="array">
-         <obj_property name="ElementShortName">wb_sel_s[31:0]</obj_property>
-         <obj_property name="ObjectShortName">wb_sel_s[31:0]</obj_property>
-         <obj_property name="CustomSignalColor">#FF0000</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/wb_stb_s" type="logic">
-         <obj_property name="ElementShortName">wb_stb_s</obj_property>
-         <obj_property name="ObjectShortName">wb_stb_s</obj_property>
-         <obj_property name="CustomSignalColor">#FF0000</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/wb_we_s" type="logic">
-         <obj_property name="ElementShortName">wb_we_s</obj_property>
-         <obj_property name="ObjectShortName">wb_we_s</obj_property>
-         <obj_property name="CustomSignalColor">#FF0000</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/wb_ack_s" type="logic">
-         <obj_property name="ElementShortName">wb_ack_s</obj_property>
-         <obj_property name="ObjectShortName">wb_ack_s</obj_property>
-         <obj_property name="CustomSignalColor">#FF0000</obj_property>
-         <obj_property name="UseCustomSignalColor">true</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/wb_master/data_s" type="array">
-         <obj_property name="ElementShortName">data_s[63:0]</obj_property>
-         <obj_property name="ObjectShortName">data_s[63:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/wb_master/address_s" type="array">
-         <obj_property name="ElementShortName">address_s[63:0]</obj_property>
-         <obj_property name="ObjectShortName">address_s[63:0]</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="group1854" type="group">
-      <obj_property name="label">P2L</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <wvobject fp_name="/top_bench/app_0/p2l_dma/p2l_dma_current_state" type="other">
-         <obj_property name="ElementShortName">p2l_dma_current_state</obj_property>
-         <obj_property name="ObjectShortName">p2l_dma_current_state</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/p2l_dma/dma_ctrl_start_p2l_i" type="logic">
-         <obj_property name="ElementShortName">dma_ctrl_start_p2l_i</obj_property>
-         <obj_property name="ObjectShortName">dma_ctrl_start_p2l_i</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/p2l_dma/p2l_data_cnt" type="array">
-         <obj_property name="ElementShortName">p2l_data_cnt[10:0]</obj_property>
-         <obj_property name="ObjectShortName">p2l_data_cnt[10:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/p2l_dma/pd_pdm_data_valid_i" type="logic">
-         <obj_property name="ElementShortName">pd_pdm_data_valid_i</obj_property>
-         <obj_property name="ObjectShortName">pd_pdm_data_valid_i</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/p2l_dma/pd_pdm_data_last_i" type="logic">
-         <obj_property name="ElementShortName">pd_pdm_data_last_i</obj_property>
-         <obj_property name="ObjectShortName">pd_pdm_data_last_i</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/p2l_dma/pd_pdm_data_i" type="array">
-         <obj_property name="ElementShortName">pd_pdm_data_i[63:0]</obj_property>
-         <obj_property name="ObjectShortName">pd_pdm_data_i[63:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/p2l_dma/p2l_dma_clk_i" type="logic">
-         <obj_property name="ElementShortName">p2l_dma_clk_i</obj_property>
-         <obj_property name="ObjectShortName">p2l_dma_clk_i</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/p2l_dma/p2l_dma_adr_o" type="array">
-         <obj_property name="ElementShortName">p2l_dma_adr_o[31:0]</obj_property>
-         <obj_property name="ObjectShortName">p2l_dma_adr_o[31:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/p2l_dma/p2l_dma_dat_i" type="array">
-         <obj_property name="ElementShortName">p2l_dma_dat_i[63:0]</obj_property>
-         <obj_property name="ObjectShortName">p2l_dma_dat_i[63:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/p2l_dma/p2l_dma_dat_o" type="array">
-         <obj_property name="ElementShortName">p2l_dma_dat_o[63:0]</obj_property>
-         <obj_property name="ObjectShortName">p2l_dma_dat_o[63:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/p2l_dma/p2l_dma_sel_o" type="array">
-         <obj_property name="ElementShortName">p2l_dma_sel_o[7:0]</obj_property>
-         <obj_property name="ObjectShortName">p2l_dma_sel_o[7:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/p2l_dma/p2l_dma_cyc_o" type="logic">
-         <obj_property name="ElementShortName">p2l_dma_cyc_o</obj_property>
-         <obj_property name="ObjectShortName">p2l_dma_cyc_o</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/p2l_dma/p2l_dma_stb_o" type="logic">
-         <obj_property name="ElementShortName">p2l_dma_stb_o</obj_property>
-         <obj_property name="ObjectShortName">p2l_dma_stb_o</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/p2l_dma/p2l_dma_we_o" type="logic">
-         <obj_property name="ElementShortName">p2l_dma_we_o</obj_property>
-         <obj_property name="ObjectShortName">p2l_dma_we_o</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/p2l_dma/p2l_dma_ack_i" type="logic">
-         <obj_property name="ElementShortName">p2l_dma_ack_i</obj_property>
-         <obj_property name="ObjectShortName">p2l_dma_ack_i</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/p2l_dma/p2l_dma_stall_i" type="logic">
-         <obj_property name="ElementShortName">p2l_dma_stall_i</obj_property>
-         <obj_property name="ObjectShortName">p2l_dma_stall_i</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/p2l_dma/dma_ctrl_done_o" type="logic">
-         <obj_property name="ElementShortName">dma_ctrl_done_o</obj_property>
-         <obj_property name="ObjectShortName">dma_ctrl_done_o</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="group1855" type="group">
-      <obj_property name="label">L2P</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-      <wvobject fp_name="/top_bench/app_0/l2p_dma/l2p_dma_current_state" type="other">
-         <obj_property name="ElementShortName">l2p_dma_current_state</obj_property>
-         <obj_property name="ObjectShortName">l2p_dma_current_state</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/l2p_dma/dma_ctrl_start_l2p_i" type="logic">
-         <obj_property name="ElementShortName">dma_ctrl_start_l2p_i</obj_property>
-         <obj_property name="ObjectShortName">dma_ctrl_start_l2p_i</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/l2p_dma/l2p_dma_adr_o" type="array">
-         <obj_property name="ElementShortName">l2p_dma_adr_o[63:0]</obj_property>
-         <obj_property name="ObjectShortName">l2p_dma_adr_o[63:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/l2p_dma/l2p_dma_dat_i" type="array">
-         <obj_property name="ElementShortName">l2p_dma_dat_i[63:0]</obj_property>
-         <obj_property name="ObjectShortName">l2p_dma_dat_i[63:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/l2p_dma/l2p_dma_dat_o" type="array">
-         <obj_property name="ElementShortName">l2p_dma_dat_o[63:0]</obj_property>
-         <obj_property name="ObjectShortName">l2p_dma_dat_o[63:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/l2p_dma/l2p_dma_sel_o" type="array">
-         <obj_property name="ElementShortName">l2p_dma_sel_o[3:0]</obj_property>
-         <obj_property name="ObjectShortName">l2p_dma_sel_o[3:0]</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/l2p_dma/l2p_dma_cyc_o" type="logic">
-         <obj_property name="ElementShortName">l2p_dma_cyc_o</obj_property>
-         <obj_property name="ObjectShortName">l2p_dma_cyc_o</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/l2p_dma/l2p_dma_stb_o" type="logic">
-         <obj_property name="ElementShortName">l2p_dma_stb_o</obj_property>
-         <obj_property name="ObjectShortName">l2p_dma_stb_o</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/l2p_dma/l2p_dma_we_o" type="logic">
-         <obj_property name="ElementShortName">l2p_dma_we_o</obj_property>
-         <obj_property name="ObjectShortName">l2p_dma_we_o</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/l2p_dma/l2p_dma_ack_i" type="logic">
-         <obj_property name="ElementShortName">l2p_dma_ack_i</obj_property>
-         <obj_property name="ObjectShortName">l2p_dma_ack_i</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/l2p_dma/l2p_dma_stall_i" type="logic">
-         <obj_property name="ElementShortName">l2p_dma_stall_i</obj_property>
-         <obj_property name="ObjectShortName">l2p_dma_stall_i</obj_property>
-      </wvobject>
-      <wvobject fp_name="/top_bench/app_0/l2p_dma/dma_ctrl_done_o" type="logic">
-         <obj_property name="ElementShortName">dma_ctrl_done_o</obj_property>
-         <obj_property name="ObjectShortName">dma_ctrl_done_o</obj_property>
-      </wvobject>
-   </wvobject>
-   <wvobject fp_name="/top_bench/app_0/dma_ctrl/dma_ctrl_current_state" type="other">
-      <obj_property name="ElementShortName">dma_ctrl_current_state</obj_property>
-      <obj_property name="ObjectShortName">dma_ctrl_current_state</obj_property>
    </wvobject>
 </wave_config>

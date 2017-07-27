@@ -10,6 +10,7 @@ vmap xpm activehdl/xpm
 vmap fifo_generator_v13_1_1 activehdl/fifo_generator_v13_1_1
 
 vlog -work xil_defaultlib -v2k5 -sv \
+"/opt/Xilinx/Vivado/2016.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv" \
 "/opt/Xilinx/Vivado/2016.2/data/ip/xpm/xpm_memory/hdl/xpm_memory_base.sv" \
 "/opt/Xilinx/Vivado/2016.2/data/ip/xpm/xpm_memory/hdl/xpm_memory_dpdistram.sv" \
 "/opt/Xilinx/Vivado/2016.2/data/ip/xpm/xpm_memory/hdl/xpm_memory_dprom.sv" \

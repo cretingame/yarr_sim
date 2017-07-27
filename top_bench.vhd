@@ -132,41 +132,71 @@ architecture Behavioral of top_bench is
 			);
 		Port ( 
 		   clk_i : in STD_LOGIC;
+		   sys_clk_n_i : IN STD_LOGIC;
+           sys_clk_p_i : IN STD_LOGIC;
 		   rst_i : in STD_LOGIC;
 		   user_lnk_up_i : in STD_LOGIC;
 		   user_app_rdy_i : in STD_LOGIC;
 		   
-		   -- AXI-Stream bus
-		   m_axis_tx_tready_i : in STD_LOGIC;
-		   m_axis_tx_tdata_o : out STD_LOGIC_VECTOR(AXI_BUS_WIDTH-1 DOWNTO 0);
-		   m_axis_tx_tkeep_o : out STD_LOGIC_VECTOR(AXI_BUS_WIDTH/8-1 DOWNTO 0);
-		   m_axis_tx_tlast_o : out STD_LOGIC;
-		   m_axis_tx_tvalid_o : out STD_LOGIC;
-		   m_axis_tx_tuser_o : out STD_LOGIC_VECTOR(3 DOWNTO 0);
-		   s_axis_rx_tdata_i : in STD_LOGIC_VECTOR(AXI_BUS_WIDTH-1 DOWNTO 0);
-		   s_axis_rx_tkeep_i : in STD_LOGIC_VECTOR(AXI_BUS_WIDTH/8-1 DOWNTO 0);
-		   s_axis_rx_tlast_i : in STD_LOGIC;
-		   s_axis_rx_tvalid_i : in STD_LOGIC;
-		   s_axis_rx_tready_o : out STD_LOGIC;
-		   s_axis_rx_tuser_i : in STD_LOGIC_VECTOR(21 DOWNTO 0);
-		   
-		   -- PCIe interrupt config
-		   cfg_interrupt_o : out STD_LOGIC;
-		   cfg_interrupt_rdy_i : in STD_LOGIC;
-		   cfg_interrupt_assert_o : out STD_LOGIC;
-		   cfg_interrupt_di_o : out STD_LOGIC_VECTOR(7 DOWNTO 0);
-		   cfg_interrupt_do_i : in STD_LOGIC_VECTOR(7 DOWNTO 0);
-		   cfg_interrupt_mmenable_i : in STD_LOGIC_VECTOR(2 DOWNTO 0);
-		   cfg_interrupt_msienable_i : in STD_LOGIC;
-		   cfg_interrupt_msixenable_i : in STD_LOGIC;
-		   cfg_interrupt_msixfm_i : in STD_LOGIC;
-		   cfg_interrupt_stat_o : out STD_LOGIC;
-		   cfg_pciecap_interrupt_msgnum_o : out STD_LOGIC_VECTOR(4 DOWNTO 0);
-		   
-		   --I/O
-		   usr_sw_i : in STD_LOGIC_VECTOR (2 downto 0);
-		   usr_led_o : out STD_LOGIC_VECTOR (3 downto 0);
-		   front_led_o : out STD_LOGIC_VECTOR (3 downto 0)
+           -- AXI-Stream bus
+           m_axis_tx_tready_i : in STD_LOGIC;
+           m_axis_tx_tdata_o : out STD_LOGIC_VECTOR(AXI_BUS_WIDTH-1 DOWNTO 0);
+           m_axis_tx_tkeep_o : out STD_LOGIC_VECTOR(AXI_BUS_WIDTH/8-1 DOWNTO 0);
+           m_axis_tx_tlast_o : out STD_LOGIC;
+           m_axis_tx_tvalid_o : out STD_LOGIC;
+           m_axis_tx_tuser_o : out STD_LOGIC_VECTOR(3 DOWNTO 0);
+           s_axis_rx_tdata_i : in STD_LOGIC_VECTOR(AXI_BUS_WIDTH-1 DOWNTO 0);
+           s_axis_rx_tkeep_i : in STD_LOGIC_VECTOR(AXI_BUS_WIDTH/8-1 DOWNTO 0);
+           s_axis_rx_tlast_i : in STD_LOGIC;
+           s_axis_rx_tvalid_i : in STD_LOGIC;
+           s_axis_rx_tready_o : out STD_LOGIC;
+           s_axis_rx_tuser_i : in STD_LOGIC_VECTOR(21 DOWNTO 0);
+           
+           -- PCIe interrupt config
+           cfg_interrupt_o : out STD_LOGIC;
+           cfg_interrupt_rdy_i : in STD_LOGIC;
+           cfg_interrupt_assert_o : out STD_LOGIC;
+           cfg_interrupt_di_o : out STD_LOGIC_VECTOR(7 DOWNTO 0);
+           cfg_interrupt_do_i : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+           cfg_interrupt_mmenable_i : in STD_LOGIC_VECTOR(2 DOWNTO 0);
+           cfg_interrupt_msienable_i : in STD_LOGIC;
+           cfg_interrupt_msixenable_i : in STD_LOGIC;
+           cfg_interrupt_msixfm_i : in STD_LOGIC;
+           cfg_interrupt_stat_o : out STD_LOGIC;
+           cfg_pciecap_interrupt_msgnum_o : out STD_LOGIC_VECTOR(4 DOWNTO 0);
+           
+           -- PCIe ID
+           cfg_bus_number_i : in STD_LOGIC_VECTOR(7 DOWNTO 0);
+           cfg_device_number_i : in STD_LOGIC_VECTOR(4 DOWNTO 0);
+           cfg_function_number_i : in STD_LOGIC_VECTOR(2 DOWNTO 0);
+           
+           -- PCIe debug
+           tx_err_drop_i: in STD_LOGIC;
+           cfg_dstatus_i : in STD_LOGIC_VECTOR(15 DOWNTO 0);
+           
+           --DDR3
+           ddr3_dq_io       : inout std_logic_vector(63 downto 0);
+           ddr3_dqs_p_io    : inout std_logic_vector(7 downto 0);
+           ddr3_dqs_n_io    : inout std_logic_vector(7 downto 0);
+           --init_calib_complete_o : out std_logic;
+     
+           ddr3_addr_o     : out   std_logic_vector(14 downto 0);
+           ddr3_ba_o       : out   std_logic_vector(2 downto 0);
+           ddr3_ras_n_o    : out   std_logic;
+           ddr3_cas_n_o    : out   std_logic;
+           ddr3_we_n_o     : out   std_logic;
+           ddr3_reset_n_o  : out   std_logic;
+           ddr3_ck_p_o     : out   std_logic_vector(0 downto 0);
+           ddr3_ck_n_o    : out   std_logic_vector(0 downto 0);
+           ddr3_cke_o      : out   std_logic_vector(0 downto 0);
+           ddr3_cs_n_o     : out   std_logic_vector(0 downto 0);
+           ddr3_dm_o       : out   std_logic_vector(7 downto 0);
+           ddr3_odt_o      : out   std_logic_vector(0 downto 0);
+           
+           --I/O
+           usr_sw_i : in STD_LOGIC_VECTOR (2 downto 0);
+           usr_led_o : out STD_LOGIC_VECTOR (3 downto 0);
+           front_led_o : out STD_LOGIC_VECTOR (3 downto 0)
 		);
 	end component;
 	
@@ -560,6 +590,8 @@ begin
 	)
 	port map(
 		clk_i => clk_tbs,
+		sys_clk_n_i => '0',
+        sys_clk_p_i => '0',
 		rst_i => rst_tbs,
 		user_lnk_up_i => user_lnk_up_s,
 		user_app_rdy_i => user_app_rdy_s,
@@ -590,6 +622,23 @@ begin
 		cfg_interrupt_msixfm_i => cfg_interrupt_msixfm_s,
 		cfg_interrupt_stat_o => cfg_interrupt_stat_s,
 		cfg_pciecap_interrupt_msgnum_o => cfg_pciecap_interrupt_msgnum_s,
+		
+		           -- PCIe ID
+        cfg_bus_number_i => (others => '0'),
+        cfg_device_number_i => (others => '0'),
+        cfg_function_number_i => (others => '0'),
+        
+        -- PCIe debug
+        tx_err_drop_i => '0',
+        cfg_dstatus_i => (others => '0'),
+        
+        --DDR3
+        ddr3_dq_io       => open,
+        ddr3_dqs_p_io    => open,
+        ddr3_dqs_n_io    => open,
+  
+
+        
 
 		--I/O
 		usr_sw_i => usr_sw_tbs,

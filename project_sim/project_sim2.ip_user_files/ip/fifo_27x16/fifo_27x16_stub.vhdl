@@ -1,7 +1,7 @@
 -- Copyright 1986-2016 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2016.2 (lin64) Build 1577090 Thu Jun  2 16:32:35 MDT 2016
--- Date        : Thu Jun 15 16:06:19 2017
+-- Date        : Wed Jul 26 11:24:06 2017
 -- Host        : spikepig.dhcp.lbl.gov running 64-bit CentOS Linux release 7.2.1511 (Core)
 -- Command     : write_vhdl -force -mode synth_stub /home/asautaux/Yarr-fw/ip-cores/kintex7/fifo_27x16/fifo_27x16_stub.vhdl
 -- Design      : fifo_27x16
