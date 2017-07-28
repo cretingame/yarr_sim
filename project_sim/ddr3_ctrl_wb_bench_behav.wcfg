@@ -12,11 +12,11 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="480200000fs"></ZoomStartTime>
-      <ZoomEndTime time="894200001fs"></ZoomEndTime>
-      <Cursor1Time time="200483000fs"></Cursor1Time>
+      <ZoomStartTime time="280500000fs"></ZoomStartTime>
+      <ZoomEndTime time="487500001fs"></ZoomEndTime>
+      <Cursor1Time time="315000000fs"></Cursor1Time>
    </zoom_setting>
-   <WVObjectSize size="59" />
+   <WVObjectSize size="45" />
    <wave_markers>
       <marker label="" time="584000000" />
       <marker label="" time="612000000" />
@@ -44,62 +44,6 @@
    <wvobject type="other" fp_name="/ddr3_ctrl_wb_bench/step_ddr">
       <obj_property name="ElementShortName">step_ddr</obj_property>
       <obj_property name="ObjectShortName">step_ddr</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/cmp_ddr3_ctrl_wb/wb_wr_addr_shift_next_a">
-      <obj_property name="ElementShortName">wb_wr_addr_shift_next_a[0:7][28:0]</obj_property>
-      <obj_property name="ObjectShortName">wb_wr_addr_shift_next_a[0:7][28:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/cmp_ddr3_ctrl_wb/wb_wr_addr_shift_a">
-      <obj_property name="ElementShortName">wb_wr_addr_shift_a[0:7][28:0]</obj_property>
-      <obj_property name="ObjectShortName">wb_wr_addr_shift_a[0:7][28:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/cmp_ddr3_ctrl_wb/wb_wr_data_shift_next_a">
-      <obj_property name="ElementShortName">wb_wr_data_shift_next_a[0:7][63:0]</obj_property>
-      <obj_property name="ObjectShortName">wb_wr_data_shift_next_a[0:7][63:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/cmp_ddr3_ctrl_wb/wb_wr_data_shift_a">
-      <obj_property name="ElementShortName">wb_wr_data_shift_a[0:7][63:0]</obj_property>
-      <obj_property name="ObjectShortName">wb_wr_data_shift_a[0:7][63:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/cmp_ddr3_ctrl_wb/wb_wr_data_shift_s">
-      <obj_property name="ElementShortName">wb_wr_data_shift_s[511:0]</obj_property>
-      <obj_property name="ObjectShortName">wb_wr_data_shift_s[511:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/cmp_ddr3_ctrl_wb/wb_wr_first_row_s">
-      <obj_property name="ElementShortName">wb_wr_first_row_s[7:0]</obj_property>
-      <obj_property name="ObjectShortName">wb_wr_first_row_s[7:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/ddr3_ctrl_wb_bench/cmp_ddr3_ctrl_wb/wb_wr_several_row_s">
-      <obj_property name="ElementShortName">wb_wr_several_row_s</obj_property>
-      <obj_property name="ObjectShortName">wb_wr_several_row_s</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/cmp_ddr3_ctrl_wb/wb_wr_global_row_s">
-      <obj_property name="ElementShortName">wb_wr_global_row_s[7:0]</obj_property>
-      <obj_property name="ObjectShortName">wb_wr_global_row_s[7:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/cmp_ddr3_ctrl_wb/wb_wr_flush_v_s">
-      <obj_property name="ElementShortName">wb_wr_flush_v_s[7:0]</obj_property>
-      <obj_property name="ObjectShortName">wb_wr_flush_v_s[7:0]</obj_property>
-   </wvobject>
-   <wvobject type="logic" fp_name="/ddr3_ctrl_wb_bench/cmp_ddr3_ctrl_wb/wb_wr_shift_flush_s">
-      <obj_property name="ElementShortName">wb_wr_shift_flush_s</obj_property>
-      <obj_property name="ObjectShortName">wb_wr_shift_flush_s</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/cmp_ddr3_ctrl_wb/wb_wr_row_a">
-      <obj_property name="ElementShortName">wb_wr_row_a[0:7][7:0]</obj_property>
-      <obj_property name="ObjectShortName">wb_wr_row_a[0:7][7:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/cmp_ddr3_ctrl_wb/wb_wr_valid_shift_s">
-      <obj_property name="ElementShortName">wb_wr_valid_shift_s[7:0]</obj_property>
-      <obj_property name="ObjectShortName">wb_wr_valid_shift_s[7:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/cmp_ddr3_ctrl_wb/wb_wr_match_s">
-      <obj_property name="ElementShortName">wb_wr_match_s[7:0]</obj_property>
-      <obj_property name="ObjectShortName">wb_wr_match_s[7:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/wb_addr_tbs">
       <obj_property name="ElementShortName">wb_addr_tbs[31:0]</obj_property>
@@ -155,13 +99,9 @@
       <obj_property name="CustomSignalColor">#FFD700</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/cmp_ddr3_ctrl_wb/wb_write_wait_cnt">
-      <obj_property name="ElementShortName">wb_write_wait_cnt[9:0]</obj_property>
-      <obj_property name="ObjectShortName">wb_write_wait_cnt[9:0]</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/cmp_ddr3_ctrl_wb/wb_read_wait_cnt">
-      <obj_property name="ElementShortName">wb_read_wait_cnt[9:0]</obj_property>
-      <obj_property name="ObjectShortName">wb_read_wait_cnt[9:0]</obj_property>
+      <obj_property name="ElementShortName">wb_read_wait_cnt[7:0]</obj_property>
+      <obj_property name="ObjectShortName">wb_read_wait_cnt[7:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/ddr3_ctrl_wb_bench/wb_dat_s2m_tbs">
       <obj_property name="ElementShortName">wb_dat_s2m_tbs[63:0]</obj_property>

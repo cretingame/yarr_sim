@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="ddr3_write_core_bench_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="ddr3_ctrl_pkg" />
+            <top_module name="ddr3_write_core_bench" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="415000001fs"></ZoomEndTime>
+      <Cursor1Time time="142600000fs"></Cursor1Time>
+   </zoom_setting>
+   <WVObjectSize size="27" />
+   <wvobject type="logic" fp_name="/ddr3_write_core_bench/clk_tbs">
+      <obj_property name="ElementShortName">clk_tbs</obj_property>
+      <obj_property name="ObjectShortName">clk_tbs</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ddr3_write_core_bench/rst_tbs">
+      <obj_property name="ElementShortName">rst_tbs</obj_property>
+      <obj_property name="ObjectShortName">rst_tbs</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/ddr3_write_core_bench/step">
+      <obj_property name="ElementShortName">step</obj_property>
+      <obj_property name="ObjectShortName">step</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/ddr3_write_core_bench/step_wb">
+      <obj_property name="ElementShortName">step_wb</obj_property>
+      <obj_property name="ObjectShortName">step_wb</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/ddr3_write_core_bench/step_ddr">
+      <obj_property name="ElementShortName">step_ddr</obj_property>
+      <obj_property name="ObjectShortName">step_ddr</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ddr3_write_core_bench/wb_addr_tbs">
+      <obj_property name="ElementShortName">wb_addr_tbs[31:0]</obj_property>
+      <obj_property name="ObjectShortName">wb_addr_tbs[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ddr3_write_core_bench/wb_dat_m2s_tbs">
+      <obj_property name="ElementShortName">wb_dat_m2s_tbs[63:0]</obj_property>
+      <obj_property name="ObjectShortName">wb_dat_m2s_tbs[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ddr3_write_core_bench/wb_dat_s2m_s">
+      <obj_property name="ElementShortName">wb_dat_s2m_s[63:0]</obj_property>
+      <obj_property name="ObjectShortName">wb_dat_s2m_s[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ddr3_write_core_bench/wb_cyc_tbs">
+      <obj_property name="ElementShortName">wb_cyc_tbs</obj_property>
+      <obj_property name="ObjectShortName">wb_cyc_tbs</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ddr3_write_core_bench/wb_sel_tbs">
+      <obj_property name="ElementShortName">wb_sel_tbs[7:0]</obj_property>
+      <obj_property name="ObjectShortName">wb_sel_tbs[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ddr3_write_core_bench/wb_stb_tbs">
+      <obj_property name="ElementShortName">wb_stb_tbs</obj_property>
+      <obj_property name="ObjectShortName">wb_stb_tbs</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ddr3_write_core_bench/wb_we_tbs">
+      <obj_property name="ElementShortName">wb_we_tbs</obj_property>
+      <obj_property name="ObjectShortName">wb_we_tbs</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ddr3_write_core_bench/wb_ack_s">
+      <obj_property name="ElementShortName">wb_ack_s</obj_property>
+      <obj_property name="ObjectShortName">wb_ack_s</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ddr3_write_core_bench/wb_stall_s">
+      <obj_property name="ElementShortName">wb_stall_s</obj_property>
+      <obj_property name="ObjectShortName">wb_stall_s</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ddr3_write_core_bench/ddr_app_cmd_s">
+      <obj_property name="ElementShortName">ddr_app_cmd_s[2:0]</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_cmd_s[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ddr3_write_core_bench/ddr_app_cmd_en_s">
+      <obj_property name="ElementShortName">ddr_app_cmd_en_s</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_cmd_en_s</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ddr3_write_core_bench/ddr_app_wdf_mask_s">
+      <obj_property name="ElementShortName">ddr_app_wdf_mask_s[63:0]</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_wdf_mask_s[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ddr3_write_core_bench/ddr_app_wdf_data_s">
+      <obj_property name="ElementShortName">ddr_app_wdf_data_s[511:0]</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_wdf_data_s[511:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ddr3_write_core_bench/ddr_app_wdf_end_s">
+      <obj_property name="ElementShortName">ddr_app_wdf_end_s</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_wdf_end_s</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ddr3_write_core_bench/ddr_app_wdf_wren_s">
+      <obj_property name="ElementShortName">ddr_app_wdf_wren_s</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_wdf_wren_s</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ddr3_write_core_bench/ddr_app_wdf_mask_s">
+      <obj_property name="ElementShortName">ddr_app_wdf_mask_s[63:0]</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_wdf_mask_s[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ddr3_write_core_bench/ddr_app_rdy_s">
+      <obj_property name="ElementShortName">ddr_app_rdy_s</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_rdy_s</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ddr3_write_core_bench/ddr_app_wdf_rdy_s">
+      <obj_property name="ElementShortName">ddr_app_wdf_rdy_s</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_wdf_rdy_s</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ddr3_write_core_bench/ddr_app_ui_clk_s">
+      <obj_property name="ElementShortName">ddr_app_ui_clk_s</obj_property>
+      <obj_property name="ObjectShortName">ddr_app_ui_clk_s</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ddr3_write_core_bench/ddr_req_s">
+      <obj_property name="ElementShortName">ddr_req_s</obj_property>
+      <obj_property name="ObjectShortName">ddr_req_s</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ddr3_write_core_bench/ddr_gnt_tbs">
+      <obj_property name="ElementShortName">ddr_gnt_tbs</obj_property>
+      <obj_property name="ObjectShortName">ddr_gnt_tbs</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ddr3_write_core_bench/cmp_ddr3_write_core/fifo_wb_wr_rd_s">
+      <obj_property name="ElementShortName">fifo_wb_wr_rd_s</obj_property>
+      <obj_property name="ObjectShortName">fifo_wb_wr_rd_s</obj_property>
+   </wvobject>
+</wave_config>

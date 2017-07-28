@@ -107,3 +107,11 @@ INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/yarr_sim/ddr3_ctrl_wb_be
 INFO: [VRFC 10-307] analyzing entity ddr3_ctrl_wb_bench
 INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/kintex7/ddr3k7-core/ddr3_ctrl_wb.vhd" into library xil_defaultlib
 INFO: [VRFC 10-307] analyzing entity ddr3_ctrl_wb
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/kintex7/ddr3k7-core/ddr3_write_core.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity ddr3_write_core
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/yarr_sim/ddr3_write_core_bench.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity ddr3_write_core_bench
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/kintex7/ddr3k7-core/ddr3_read_core.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity ddr3_read_core
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/yarr_sim/ddr3_read_core_bench.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity ddr3_read_core_bench

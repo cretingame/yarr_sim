@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="fifo_29x32_synth_1" LaunchPart="xc7k160tfbg676-2" LaunchTime="1501261239">
+  <File Type="VDS-TIMING-PB" Name="fifo_29x32_timing_summary_synth.pb"/>
+  <File Type="VDS-TIMINGSUMMARY" Name="fifo_29x32_timing_summary_synth.rpt"/>
+  <File Type="RDS-RDS" Name="fifo_29x32.vds"/>
+  <File Type="PA-TCL" Name="fifo_29x32.tcl"/>
+  <File Type="RDS-PROPCONSTRS" Name="fifo_29x32_drc_synth.rpt"/>
+  <File Type="RDS-UTIL" Name="fifo_29x32_utilization_synth.rpt"/>
+  <File Type="RDS-UTIL-PB" Name="fifo_29x32_utilization_synth.pb"/>
+  <File Type="RDS-DCP" Name="fifo_29x32.dcp"/>
+  <FileSet Name="sources" Type="BlockSrcs" RelSrcDir="$PSRCDIR/fifo_29x32">
+    <File Path="$PPRDIR/../../Yarr-fw/ip-cores/kintex7/fifo_29x32/fifo_29x32.xci">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopModule" Val="fifo_29x32"/>
+      <Option Name="UseBlackboxStub" Val="1"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="BlockSrcs" RelSrcDir="$PSRCDIR/fifo_29x32">
+    <File Path="$PPRDIR/../../Yarr-fw/ip-cores/kintex7/fifo_29x32/fifo_29x32.xci">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopModule" Val="fifo_29x32"/>
+      <Option Name="UseBlackboxStub" Val="1"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2016">
+      <Desc>Vivado Synthesis Defaults</Desc>
+    </StratHandle>
+    <Step Id="synth_design"/>
+  </Strategy>
+</GenRun>
