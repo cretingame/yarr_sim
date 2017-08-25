@@ -1,7 +1,7 @@
 # compile vhdl design source files
 vhdl xpm  "/opt/Xilinx/Vivado/2016.2/data/ip/xpm/xpm_VCOMP.vhd"
 vhdl fifo_generator_v13_1_1  "../../../project_sim2.ip_user_files/ipstatic/fifo_generator_v13_1_1/hdl/fifo_generator_v13_1_rfs.vhd"
-vhdl xil_defaultlib  "../../../../../Yarr-fw/rtl/common/wshexp_core_pkg.vhd"
+vhdl xil_defaultlib  "../../../../../Yarr-fw/rtl/kintex7/wbexp-core/gn4124_core_pkg.vhd"
 vhdl xil_defaultlib  "../../../../../Yarr-fw/rtl/common/common_pkg.vhd"
 vhdl xil_defaultlib  "../../../../../Yarr-fw/ip-cores/kintex7/ila_l2p_dma/sim/ila_l2p_dma.vhd"
 vhdl xil_defaultlib  "../../../../../Yarr-fw/ip-cores/kintex7/ila_pd_pdm/sim/ila_pd_pdm.vhd"
@@ -39,13 +39,15 @@ vhdl xil_defaultlib  "../../../../../Yarr-fw/rtl/common/k_bram.vhd"
 vhdl xil_defaultlib  "../../../../top_bench.vhd"
 vhdl xil_defaultlib  "../../../../../Yarr-fw/rtl/common/k_dual_bram.vhd"
 vhdl xil_defaultlib  "../../../../k_dual_bram_bench.vhd"
-vhdl xil_defaultlib  "../../../../../Yarr-fw/rtl/kintex7/ddr3k7-core/ddr3_ctrl_pkg.vhd"
 vhdl xil_defaultlib  "../../../../ddr3_ctrl_wb_bench.vhd"
 vhdl xil_defaultlib  "../../../../../Yarr-fw/rtl/kintex7/ddr3k7-core/ddr3_ctrl_wb.vhd"
 vhdl xil_defaultlib  "../../../../../Yarr-fw/rtl/kintex7/ddr3k7-core/ddr3_write_core.vhd"
 vhdl xil_defaultlib  "../../../../ddr3_write_core_bench.vhd"
 vhdl xil_defaultlib  "../../../../../Yarr-fw/rtl/kintex7/ddr3k7-core/ddr3_read_core.vhd"
 vhdl xil_defaultlib  "../../../../ddr3_read_core_bench.vhd"
+vhdl xil_defaultlib  "../../../../../Yarr-fw/rtl/common/rr_arbiter.vhd"
+vhdl xil_defaultlib  "../../../../virtual_mig.vhd"
+vhdl xil_defaultlib  "../../../../../Yarr-fw/rtl/common/wb_traffic_gen.vhd"
 
 # Do not sort compile order
 nosort

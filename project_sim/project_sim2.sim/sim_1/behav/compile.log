@@ -47,22 +47,16 @@ INFO: [VRFC 10-311] analyzing module fifo_generator_v13_1_1_axic_reg_slice
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/yarr_sim/project_sim/project_sim2.ip_user_files/ipstatic/fifo_generator_v13_1_1/hdl/fifo_generator_v13_1_rfs.v" into library fifo_generator_v13_1_1
 INFO: [VRFC 10-311] analyzing module fifo_generator_v13_1_1
 INFO: [VRFC 10-2458] undeclared symbol sleep_i, assumed default net type wire [/home/asautaux/yarr_sim/project_sim/project_sim2.ip_user_files/ipstatic/fifo_generator_v13_1_1/hdl/fifo_generator_v13_1_rfs.v:519]
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/Yarr-fw/ip-cores/kintex7/fifo_27x16/sim/fifo_27x16.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module fifo_27x16
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/Yarr-fw/ip-cores/kintex7/fifo_27x16_bench/sim/fifo_27x16_bench.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module fifo_27x16_bench
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/yarr_sim/project_sim/project_sim2.ip_user_files/ip/clk_wiz_0/clk_wiz_0_clk_wiz.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module clk_wiz_0_clk_wiz
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/yarr_sim/project_sim/project_sim2.ip_user_files/ip/clk_wiz_0/clk_wiz_0.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module clk_wiz_0
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/Yarr-fw/ip-cores/kintex7/fifo_315x16/sim/fifo_315x16.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module fifo_315x16
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/Yarr-fw/ip-cores/kintex7/fifo_605x32/sim/fifo_605x32.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module fifo_605x32
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/Yarr-fw/ip-cores/kintex7/fifo_29x32/sim/fifo_29x32.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module fifo_29x32
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/Yarr-fw/ip-cores/kintex7/fifo_4x16/sim/fifo_4x16.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module fifo_4x16
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/Yarr-fw/ip-cores/kintex7/fifo_256x16/sim/fifo_256x16.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module fifo_256x16
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/Yarr-fw/ip-cores/kintex7/fifo_8x32/sim/fifo_8x32.v" into library xil_defaultlib
@@ -277,7 +271,7 @@ INFO: [VRFC 10-307] analyzing entity reset_blk_ramfifo
 INFO: [VRFC 10-307] analyzing entity axi_reg_slice
 INFO: [VRFC 10-307] analyzing entity fifo_generator_top
 INFO: [VRFC 10-307] analyzing entity fifo_generator_v13_1_1_synth
-INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/common/wshexp_core_pkg.vhd" into library xil_defaultlib
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/kintex7/wbexp-core/gn4124_core_pkg.vhd" into library xil_defaultlib
 INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/common/common_pkg.vhd" into library xil_defaultlib
 INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/ip-cores/kintex7/ila_l2p_dma/sim/ila_l2p_dma.vhd" into library xil_defaultlib
 INFO: [VRFC 10-307] analyzing entity ila_l2p_dma
@@ -351,7 +345,6 @@ INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/common/k_dua
 INFO: [VRFC 10-307] analyzing entity k_dual_bram
 INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/yarr_sim/k_dual_bram_bench.vhd" into library xil_defaultlib
 INFO: [VRFC 10-307] analyzing entity k_dual_bram_bench
-INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/kintex7/ddr3k7-core/ddr3_ctrl_pkg.vhd" into library xil_defaultlib
 INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/yarr_sim/ddr3_ctrl_wb_bench.vhd" into library xil_defaultlib
 INFO: [VRFC 10-307] analyzing entity ddr3_ctrl_wb_bench
 INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/kintex7/ddr3k7-core/ddr3_ctrl_wb.vhd" into library xil_defaultlib
@@ -364,3 +357,9 @@ INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/kintex7/ddr3
 INFO: [VRFC 10-307] analyzing entity ddr3_read_core
 INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/yarr_sim/ddr3_read_core_bench.vhd" into library xil_defaultlib
 INFO: [VRFC 10-307] analyzing entity ddr3_read_core_bench
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/common/rr_arbiter.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity rr_arbiter
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/yarr_sim/virtual_mig.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity virtual_mig
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/asautaux/Yarr-fw/rtl/common/wb_traffic_gen.vhd" into library xil_defaultlib
+INFO: [VRFC 10-307] analyzing entity wb_traffic_gen

@@ -9,7 +9,7 @@ then
 exit $RETVAL
 fi
 }
-echo "xvlog -m64 --relax -prj ddr3_read_core_bench_vlog.prj"
-ExecStep $xv_path/bin/xvlog -m64 --relax -prj ddr3_read_core_bench_vlog.prj 2>&1 | tee compile.log
-echo "xvhdl -m64 --relax -prj ddr3_read_core_bench_vhdl.prj"
-ExecStep $xv_path/bin/xvhdl -m64 --relax -prj ddr3_read_core_bench_vhdl.prj 2>&1 | tee -a compile.log
+echo "xvlog -m64 --relax -prj ddr3_ctrl_wb_bench_vlog.prj"
+ExecStep $xv_path/bin/xvlog -m64 --relax -prj ddr3_ctrl_wb_bench_vlog.prj 2>&1 | tee compile.log
+echo "xvhdl -m64 --relax -prj ddr3_ctrl_wb_bench_vhdl.prj"
+ExecStep $xv_path/bin/xvhdl -m64 --relax -prj ddr3_ctrl_wb_bench_vhdl.prj 2>&1 | tee -a compile.log

@@ -47,22 +47,16 @@ INFO: [VRFC 10-311] analyzing module fifo_generator_v13_1_1_axic_reg_slice
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/yarr_sim/project_sim/project_sim2.ip_user_files/ipstatic/fifo_generator_v13_1_1/hdl/fifo_generator_v13_1_rfs.v" into library fifo_generator_v13_1_1
 INFO: [VRFC 10-311] analyzing module fifo_generator_v13_1_1
 INFO: [VRFC 10-2458] undeclared symbol sleep_i, assumed default net type wire [/home/asautaux/yarr_sim/project_sim/project_sim2.ip_user_files/ipstatic/fifo_generator_v13_1_1/hdl/fifo_generator_v13_1_rfs.v:519]
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/Yarr-fw/ip-cores/kintex7/fifo_27x16/sim/fifo_27x16.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module fifo_27x16
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/Yarr-fw/ip-cores/kintex7/fifo_27x16_bench/sim/fifo_27x16_bench.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module fifo_27x16_bench
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/yarr_sim/project_sim/project_sim2.ip_user_files/ip/clk_wiz_0/clk_wiz_0_clk_wiz.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module clk_wiz_0_clk_wiz
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/yarr_sim/project_sim/project_sim2.ip_user_files/ip/clk_wiz_0/clk_wiz_0.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module clk_wiz_0
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/Yarr-fw/ip-cores/kintex7/fifo_315x16/sim/fifo_315x16.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module fifo_315x16
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/Yarr-fw/ip-cores/kintex7/fifo_605x32/sim/fifo_605x32.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module fifo_605x32
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/Yarr-fw/ip-cores/kintex7/fifo_29x32/sim/fifo_29x32.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module fifo_29x32
-INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/Yarr-fw/ip-cores/kintex7/fifo_4x16/sim/fifo_4x16.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module fifo_4x16
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/Yarr-fw/ip-cores/kintex7/fifo_256x16/sim/fifo_256x16.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module fifo_256x16
 INFO: [VRFC 10-2263] Analyzing Verilog file "/home/asautaux/Yarr-fw/ip-cores/kintex7/fifo_8x32/sim/fifo_8x32.v" into library xil_defaultlib

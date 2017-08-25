@@ -31,8 +31,6 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-library work;
-use work.ddr3_ctrl_pkg.all;
 
 entity ddr3_read_core_bench is
 --  Port ( );

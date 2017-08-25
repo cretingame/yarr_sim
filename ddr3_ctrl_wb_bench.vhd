@@ -31,8 +31,8 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-library work;
-use work.ddr3_ctrl_pkg.all;
+--use ieee.std_logic_arith.all;
+--use ieee.std_logic_unsigned.all;
 
 entity ddr3_ctrl_wb_bench is
 --  Port ( );
@@ -94,9 +94,50 @@ architecture Behavioral of ddr3_ctrl_wb_bench is
         wb_data_i  : in  std_logic_vector(g_DATA_PORT_SIZE - 1 downto 0);
         wb_data_o  : out std_logic_vector(g_DATA_PORT_SIZE - 1 downto 0);
         wb_ack_o   : out std_logic;
-        wb_stall_o : out std_logic
+        wb_stall_o : out std_logic;
+        
+        ----------------------------------------------------------------------------
+        -- Wishbone bus port
+        ----------------------------------------------------------------------------
+        wb1_sel_i   : in  std_logic_vector(g_MASK_SIZE - 1 downto 0);
+        wb1_cyc_i   : in  std_logic;
+        wb1_stb_i   : in  std_logic;
+        wb1_we_i    : in  std_logic;
+        wb1_addr_i  : in  std_logic_vector(32 - 1 downto 0);
+        wb1_data_i  : in  std_logic_vector(g_DATA_PORT_SIZE - 1 downto 0);
+        wb1_data_o  : out std_logic_vector(g_DATA_PORT_SIZE - 1 downto 0);
+        wb1_ack_o   : out std_logic;
+        wb1_stall_o : out std_logic      
       );
   end component ddr3_ctrl_wb;
+
+    component wb_traffic_gen is
+        generic (
+            ADDR_WIDTH : integer := 32;
+            DATA_WIDTH : integer := 64;
+            WRITE : std_logic := '1';
+            COUNTER_START : integer := 0
+        );
+        port (
+            -- SYS CON
+            clk			: in std_logic;
+            rst			: in std_logic;
+            en          : in std_logic;
+            
+            -- Wishbone Master out
+            wb_adr_o			: out std_logic_vector(ADDR_WIDTH-1 downto 0);
+            wb_dat_o			: out std_logic_vector(DATA_WIDTH-1 downto 0);
+            wb_we_o				: out std_logic;
+            wb_stb_o			: out std_logic;
+            wb_cyc_o			: out std_logic; 
+            
+            -- Wishbone Master in
+            --wb_dat_i			: in std_logic_vector(DATA_WIDTH-1 downto 0);
+            --wb_ack_i			: in std_logic;
+            wb_stall_i			: in std_logic
+        );
+    end component wb_traffic_gen;
+	 
   
 COMPONENT fifo_27x16_bench
     PORT (
@@ -113,14 +154,37 @@ COMPONENT fifo_27x16_bench
     );
   END COMPONENT;
   
+component virtual_mig is
+      generic (
+          constant ADDR_WIDTH : integer := 16;
+          constant DATA_WIDTH : integer := 512 
+      );
+      port (
+          -- SYS CON
+          clk            : in std_logic;
+          rst            : in std_logic;
+          
+          -- DATA in
+          adr_i            : in std_logic_vector(ADDR_WIDTH-1 downto 0);
+          dat_i            : in std_logic_vector(DATA_WIDTH-1 downto 0);
+          mask_i          : in std_logic_vector(DATA_WIDTH/8-1 downto 0);
+          cmd_i           : in std_logic_vector(2 downto 0);
+          en_i            : in std_logic; 
+          
+          -- DATA out
+          dat_o            : out std_logic_vector(DATA_WIDTH-1 downto 0);
+          valid_o            : out std_logic        
+      );
+  end component;
+  
   constant period : time := 4 ns; -- 250MHz
   constant period_ddr : time := 7.5 ns; -- 533 Mhz/4
   constant g_BYTE_ADDR_WIDTH : integer := 29;
   constant g_MASK_SIZE       : integer := 8;
   constant g_DATA_PORT_SIZE  : integer := 64;
   
-  constant c_outoforder : std_logic := '1';
-  constant c_write : std_logic := '1';
+  --constant c_outoforder : std_logic := '0';
+  constant c_write : std_logic := '0';
   constant c_read : std_logic := '1';
   
   --constant c_rd_valid : std_logic_vector := "00000000000000000000000000000000000000000000111100111100000000011010001000000000110100000000011010001000000000110100010000000001101000000000110100010000000001101000100000000010000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011000000000110100010000000001101000000000110100010000000001101000100000000011010000000001101000100000000011010001000000000110100010000000001101000000000110100010000000001101000100000000011010001000000000110100000000011010001000000000110100010000000001101000000000110100000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010100010001000100000000010011001000000000110100000000011010001000000000110100010000000001101000100000000011010001000000000100000000100000000000000000000000000000011111011111110100000000011010001000000000110100000000011010001000000000110100010000000001101000100000000011000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
@@ -129,7 +193,7 @@ COMPONENT fifo_27x16_bench
   signal rst_tbs : STD_LOGIC;
   signal rst_n_tbs : std_logic;
   
-  signal step : integer := 0;
+  --signal step : integer := 0;
   signal step_wb : integer := 0;
   signal step_ddr : integer := -16;
   
@@ -153,6 +217,7 @@ COMPONENT fifo_27x16_bench
   
   signal ddr_app_addr_s                  :     std_logic_vector(g_BYTE_ADDR_WIDTH-1 downto 0);
   signal ddr_app_addr_tbs                :     std_logic_vector(g_BYTE_ADDR_WIDTH-1 downto 0);
+  signal ddr_app_addr_v_tbs              :     std_logic_vector(31 downto 0);
   signal ddr_app_addr_u_tbs              :     unsigned(31 downto 0);
   signal ddr_app_cmd_s                   :     std_logic_vector(2 downto 0);
   signal ddr_app_cmd_en_s                :     std_logic;
@@ -185,7 +250,27 @@ COMPONENT fifo_27x16_bench
   signal wb_dat_s2m_tbs : STD_LOGIC_VECTOR (64 - 1 downto 0);
   signal wb_s2m_msg_tbs : STRING(1 to 2);
 
+  signal wb1_addr_tbs : STD_LOGIC_VECTOR (32 - 1 downto 0);
+  signal wb1_dat_m2s_tbs : STD_LOGIC_VECTOR (64 - 1 downto 0);
+  signal wb1_dat_s2m_s : STD_LOGIC_VECTOR (64 - 1 downto 0);
+  signal wb1_cyc_tbs : STD_LOGIC;
+  signal wb1_sel_tbs : STD_LOGIC_VECTOR (8 - 1 downto 0);
+  signal wb1_stb_tbs : STD_LOGIC;
+  signal wb1_we_tbs : STD_LOGIC;
+  signal wb1_ack_s : STD_LOGIC;
+  signal wb1_stall_s : STD_LOGIC;
+  
+  signal wb1_dat_s2m_tbs : STD_LOGIC_VECTOR (64 - 1 downto 0);
+  signal wb1_s2m_msg_tbs : STRING(1 to 2);
+
+  signal read_en_tbs : std_logic;
+  signal write_en_tbs : std_logic;
+
 begin
+    
+
+
+
     
 	clk_p: process
 	begin
@@ -215,364 +300,78 @@ begin
     
     rst_n_tbs <= not rst_tbs;
     
-    wb_stimuli_p: process
+    
+	enable_p: process
     begin
-        step <= 1;
-
-
-
+       write_en_tbs <= '0';
+       read_en_tbs <= '0';
+       wait for 5*period;
+       write_en_tbs <= '1';
+       wait for 4*period;
+       read_en_tbs <= '1';
         
-        wb_addr_tbs <= (others => '0');
-        wb_dat_m2s_tbs <= (others => '0');
-        wb_cyc_tbs <= '0';
-        wb_sel_tbs <= (others => '0');
-        wb_stb_tbs <= '0';
-        wb_we_tbs <= '0';
-
-        
-        wait for 6*period;
-        
-        ---------------------------
-        -- WRITE
-        ---------------------------
-        if c_write = '1' then
-        
-        if c_outoforder = '1' then
-        
-        
-        
-        for J in 0 to 3 loop
-            for I in 0 to J loop
-            
-                step <= 100 + J*10 + I;
-                wb_addr_tbs <= std_logic_vector(to_unsigned(I,32)+J*16);
-                wb_dat_m2s_tbs <= X"DEADBEEF" & std_logic_vector(to_unsigned(I,32)+J*16);
-                wb_cyc_tbs <= '1';
-                wb_sel_tbs <= "11111111";
-                wb_stb_tbs <= '1';
-                wb_we_tbs <= '1';
-                wait for period;
-            
-            end loop;
-            
-            step <= 200 + J*10;
-            wb_addr_tbs <= X"000CACA1";
-            wb_dat_m2s_tbs <= X"CACA0001DEADBEEF";
-            wb_cyc_tbs <= '1';
-            wb_sel_tbs <= "11111111";
-            wb_stb_tbs <= '0';
-            wb_we_tbs <= '1';
-            wait for 10*period;
-            
-        end loop;
-        
-        step <= 2;
-        wb_addr_tbs <= X"000CACA2";
-        wb_dat_m2s_tbs <= X"CACA0002DEADBEEF";
-        wb_cyc_tbs <= '1';
-        wb_sel_tbs <= "11111111";
-        wb_stb_tbs <= '0';
-        wb_we_tbs <= '0';
-        wait for 10*period;
-        
-        
-        
-        for J in 0 to 2 loop
-            
-            for I in 0 to 2-J loop
-        
-                step <= 800 + J*10 + I;
-                wb_addr_tbs <= std_logic_vector(to_unsigned(I,32)+ (J+1)*16);
-                wb_dat_m2s_tbs <= X"DEADBEEF" & std_logic_vector(to_unsigned(I,32)+(J+1)*16);
-                wb_cyc_tbs <= '1';
-                wb_sel_tbs <= "11111111";
-                wb_stb_tbs <= '1';
-                wb_we_tbs <= '1';
-                wait for period;
-        
-            end loop;            
-            
-            for I in 0 to J loop
-            
-                step <= 300 + J*10 + I;
-                wb_addr_tbs <= std_logic_vector(to_unsigned(I+4,32)+ J*16);
-                wb_dat_m2s_tbs <= X"DEADBEEF" & std_logic_vector(to_unsigned(I,32)+J*16);
-                wb_cyc_tbs <= '1';
-                wb_sel_tbs <= "11111111";
-                wb_stb_tbs <= '1';
-                wb_we_tbs <= '1';
-                wait for period;
-            
-            end loop;
-            
-            step <= 400 + J*10;
-            wb_addr_tbs <= X"000CACA3";
-            wb_dat_m2s_tbs <= X"CACA0003DEADBEEF";
-            wb_cyc_tbs <= '1';
-            wb_sel_tbs <= "11111111";
-            wb_stb_tbs <= '0';
-            wb_we_tbs <= '1';
-            wait for 10*period;
-            
-        end loop;
-        
-        step <= 3;
-        wb_addr_tbs <= X"000CACA4";
-        wb_dat_m2s_tbs <= X"CACA0004DEADBEEF";
-        wb_cyc_tbs <= '1';
-        wb_sel_tbs <= "11111111";
-        wb_stb_tbs <= '0';
-        wb_we_tbs <= '0';
-        wait for 30*period;
-        
-        step <= 4;
-        
-        for I in 0 to 7 loop
-            step <= 400+I;
+       wait;
+    end process enable_p;
     
-            wb_addr_tbs <= std_logic_vector(to_unsigned(I,16)) & std_logic_vector(to_unsigned(I,16));
-            wb_dat_m2s_tbs <= X"DEADBABE" & std_logic_vector(to_unsigned(I,16)) & std_logic_vector(to_unsigned(I,16));
-            wb_cyc_tbs <= '1';
-            wb_sel_tbs <= "11111111";
-            wb_stb_tbs <= '1';
-            wb_we_tbs <= '1';
-            wait for period;
-        
-        end loop;
-        
-        step <= 5;
-        wb_addr_tbs <= X"000CACA4";
-        wb_dat_m2s_tbs <= X"CACA0004DEADBEEF";
-        wb_cyc_tbs <= '1';
-        wb_sel_tbs <= "11111111";
-        wb_stb_tbs <= '0';
-        wb_we_tbs <= '0';
-        wait for 7*period;
-        
-        end if; -- out of order
-        
-        for I in 0 to 27 loop
-            step <= 600+I;
+    rst_n_tbs <= not rst_tbs;    
+
+
+    wb_read_comp: wb_traffic_gen
+        generic map (
+            ADDR_WIDTH => 32,
+            DATA_WIDTH => 64,
+            WRITE => '0',
+            COUNTER_START =>  0
+        )
+        port map (
+            -- SYS CON
+            clk            => clk_tbs,
+            rst            => rst_tbs,
+            en             => read_en_tbs,
+            
+            -- Wishbone Master out
+            wb_adr_o            => wb_addr_tbs,
+            wb_dat_o            => wb_dat_m2s_tbs,
+            wb_we_o             => wb_we_tbs,
+            wb_stb_o            => wb_stb_tbs,
+            wb_cyc_o            => wb_cyc_tbs,
+            
+            -- Wishbone Master in
+            --wb_dat_i            : in std_logic_vector(DATA_WIDTH-1 downto 0);
+            --wb_ack_i            : in std_logic;
+            wb_stall_i            => wb_stall_s
+        );
     
-            wb_addr_tbs <= std_logic_vector(to_unsigned(I,32));
-            wb_dat_m2s_tbs <= X"DEADBEEF" & std_logic_vector(to_unsigned(I,32));
-            wb_cyc_tbs <= '1';
-            wb_sel_tbs <= "11111111";
-            wb_stb_tbs <= '1';
-            wb_we_tbs <= '1';
-            wait for period;
-        
-        end loop;
-        
-        
-        step <= 6;
-        wb_addr_tbs <= X"000CACA5";
-        wb_dat_m2s_tbs <= X"CACA0005DEADBEEF";
-        wb_cyc_tbs <= '1';
-        wb_sel_tbs <= "11111111";
-        wb_stb_tbs <= '0';
-        wb_we_tbs <= '0';
-        wait for 25*period;        
-        
-        for I in 28 to 63 loop
-            step <= 700+I;
-    
-            wb_addr_tbs <= std_logic_vector(to_unsigned(I,32));
-            wb_dat_m2s_tbs <= X"DEADBEEF" & std_logic_vector(to_unsigned(I,32));
-            wb_cyc_tbs <= '1';
-            wb_sel_tbs <= "11111111";
-            wb_stb_tbs <= '1';
-            wb_we_tbs <= '1';
-            wait for period;
-        
-        end loop;
+    wb_sel_tbs <= (others => '1');
  
-        step <= 7;
-        wb_addr_tbs <= X"000CACA6";
-        wb_dat_m2s_tbs <= X"CACA0006DEADBEEF";
-        wb_cyc_tbs <= '1';
-        wb_sel_tbs <= "11111111";
-        wb_stb_tbs <= '0';
-        wb_we_tbs <= '0';
-        wait for period;  
-        
-        end if;
-        
-        wait for 5*period;
-        
-        ---------------------------
-        -- READ
-        ---------------------------
-        if c_read = '1' then
-        
-        if c_outoforder = '1' then
-        
-        -- First loop
-        for J in 0 to 3 loop
-            for I in 0 to J loop
+    wb1_write_comp: wb_traffic_gen
+        generic map (
+            ADDR_WIDTH => 32,
+            DATA_WIDTH => 64,
+            WRITE => '1',
+            COUNTER_START =>  0
+        )
+        port map (
+            -- SYS CON
+            clk            => clk_tbs,
+            rst            => rst_tbs,
+            en             => write_en_tbs,
             
-                step <= 100 + J*10 + I;
-                wb_addr_tbs <= std_logic_vector(to_unsigned(I,32));
-                wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
-                wb_cyc_tbs <= '1';
-                wb_sel_tbs <= "11111111";
-                wb_stb_tbs <= '1';
-                wb_we_tbs <= '0';
-                wait for period;
+            -- Wishbone Master out
+            wb_adr_o            => wb1_addr_tbs,
+            wb_dat_o            => wb1_dat_m2s_tbs,
+            wb_we_o             => wb1_we_tbs,
+            wb_stb_o            => wb1_stb_tbs,
+            wb_cyc_o            => wb1_cyc_tbs,
             
-            end loop;
-            
-            step <= 200 + J*10;
-            wb_addr_tbs <= X"00000000";
-            wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
-            wb_cyc_tbs <= '1';
-            wb_sel_tbs <= "11111111";
-            wb_stb_tbs <= '0';
-            wb_we_tbs <= '0';
-            wait for 8*period;
-            
-        end loop;
-        step <= 8;
-        wb_addr_tbs <= X"000000FA";
-        wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
-        wb_cyc_tbs <= '0';
-        wb_sel_tbs <= "11111111";
-        wb_stb_tbs <= '0';
-        wb_we_tbs <= '0';
-        wait for 10*period;        
-        
-        end if;
-        
-        step <= 9;
-        wb_addr_tbs <= X"000000FF";
-        wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
-        wb_cyc_tbs <= '1';
-        wb_sel_tbs <= "11111111";
-        wb_stb_tbs <= '0';
-        wb_we_tbs <= '0';
-        wait for period; 
-        
-        for I in 0 to 16#119# loop
-        
-            step <= 10000+I;
-            wb_addr_tbs <= std_logic_vector(to_unsigned(I,32));
-            wb_dat_m2s_tbs <= X"DEADBEEFDEADBEE0";
-            wb_cyc_tbs <= '1';
-            wb_sel_tbs <= "11111111";
-            wb_stb_tbs <= '1';
-            wb_we_tbs <= '0';
-            wait for period;
-        
-        end loop;
-        
-        step <= 100;
-        wb_addr_tbs <= X"000000FA";
-        wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
-        wb_cyc_tbs <= '1';
-        wb_sel_tbs <= "11111111";
-        wb_stb_tbs <= '0';
-        wb_we_tbs <= '0';
-        wait for 10*period;
-        
-        --step <= 101;
-        --wb_addr_tbs <= X"000000FA";
-        --wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
-        --wb_cyc_tbs <= '0';
-        --wb_sel_tbs <= "11111111";
-        --wb_stb_tbs <= '0';
-        --wb_we_tbs <= '0';
-        --wait for 40*period;
-        
-        --step <= 102;
-        --wb_addr_tbs <= X"000000FF";
-        --wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
-        --wb_cyc_tbs <= '1';
-        --wb_sel_tbs <= "11111111";
-        --wb_stb_tbs <= '0';
-        --wb_we_tbs <= '0';
-        --wait for period; 
-        
-        for I in 16#11a# to 16#319# loop
+            -- Wishbone Master in
+            --wb_dat_i            : in std_logic_vector(DATA_WIDTH-1 downto 0);
+            --wb_ack_i            : in std_logic;
+            wb_stall_i            => wb1_stall_s
+        );
     
-            step <= 20000+I;
-            wb_addr_tbs <= std_logic_vector(to_unsigned(I,32));
-            wb_dat_m2s_tbs <= X"DEADBEEFDEADBEE0";
-            wb_cyc_tbs <= '1';
-            wb_sel_tbs <= "11111111";
-            wb_stb_tbs <= '1';
-            wb_we_tbs <= '0';
-            wait for period;
-        
-        end loop;
-        
-        step <= 200;
-        wb_addr_tbs <= X"000000FA";
-        wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
-        wb_cyc_tbs <= '1';
-        wb_sel_tbs <= "11111111";
-        wb_stb_tbs <= '0';
-        wb_we_tbs <= '0';
-        wait for 93*period;
-        
-        step <= 201;
-        wb_addr_tbs <= X"000000FA";
-        wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
-        wb_cyc_tbs <= '0';
-        wb_sel_tbs <= "11111111";
-        wb_stb_tbs <= '0';
-        wb_we_tbs <= '0';
-        wait for 328*period;
-        
-        
-        step <= 202;
-        wb_addr_tbs <= X"000000FF";
-        wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
-        wb_cyc_tbs <= '1';
-        wb_sel_tbs <= "11111111";
-        wb_stb_tbs <= '0';
-        wb_we_tbs <= '0';
-        wait for period; 
-        
-        for I in 16#31a# to 16#519# loop
-    
-            step <= 30000+I;
-            wb_addr_tbs <= std_logic_vector(to_unsigned(I,32));
-            wb_dat_m2s_tbs <= X"DEADBEEFDEADBEE0";
-            wb_cyc_tbs <= '1';
-            wb_sel_tbs <= "11111111";
-            wb_stb_tbs <= '1';
-            wb_we_tbs <= '0';
-            wait for period;
-        
-        end loop;
-        
-        
-        step <= 300;
-        wb_addr_tbs <= X"000000FA";
-        wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
-        wb_cyc_tbs <= '1';
-        wb_sel_tbs <= "11111111";
-        wb_stb_tbs <= '0';
-        wb_we_tbs <= '0';
-        wait for 133*period;
-        
-        step <= 301;
-        wb_addr_tbs <= X"000000FA";
-        wb_dat_m2s_tbs <= X"DEADBEEFDEADBEEF";
-        wb_cyc_tbs <= '0';
-        wb_sel_tbs <= "11111111";
-        wb_stb_tbs <= '0';
-        wb_we_tbs <= '0';
-        wait for 1*period;
-        
-        
-        
-        
-        end if;
-        
-        wait;
-        
-    end process wb_stimuli_p;
+    wb1_sel_tbs <= (others => '1');
+ 
     
     s2m_wb_check_p : process
         variable counter_v : unsigned (31 downto 0);
@@ -594,8 +393,8 @@ begin
             end if;
         end if;
         
-        wb_dat_s2m_tbs <= X"deadbeef" & std_logic_vector(counter_v);
-        
+        --wb_dat_s2m_tbs <= X"deadbeef" & std_logic_vector(counter_v);
+        wb_dat_s2m_tbs <= X"00000000" & std_logic_vector(counter_v);
     
     
     
@@ -632,40 +431,40 @@ begin
     with step_ddr select ddr_app_wdf_rdy_s <= 
         --'0' when 150,
         '1' when others;
+
     
-    --ddr_app_rd_data_valid_s <= c_rd_valid(step_ddr) when step_ddr >= 0 and step_ddr < 2048 else
-    --                           '0';
-    
-    ddr_app_rd_data_valid_s <= not fifo_empty_s;
-    fifo_wr_s <= ddr_app_cmd_en_s and ddr_app_rdy_s;
+--    ddr_app_rd_data_valid_s <= not fifo_empty_s;
+--    fifo_wr_s <= ddr_app_cmd_en_s and ddr_app_rdy_s;
                              
-    ddr_app_rd_data_end_s <= '1';
+--    ddr_app_rd_data_end_s <= '1';
     
-    ddr_app_addr_u_tbs <= unsigned("000" & ddr_app_addr_tbs);
     
-    ddr_app_rd_data_s       <= X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+7) &
-                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+6) &
-                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+5) &
-                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+4) &
-                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+3) & 
-                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+2) & 
-                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+1) & 
-                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+0) when ddr_app_rd_data_valid_s = '1' else
-                               (others => '0');
+--    ddr_app_addr_v_tbs <= "000" & ddr_app_addr_tbs;
+--    ddr_app_addr_u_tbs <= unsigned(ddr_app_addr_v_tbs);
+    
+--    ddr_app_rd_data_s       <= X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+7) &
+--                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+6) &
+--                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+5) &
+--                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+4) &
+--                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+3) & 
+--                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+2) & 
+--                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+1) & 
+--                               X"deadbeef" & std_logic_vector(ddr_app_addr_u_tbs+0) when ddr_app_rd_data_valid_s = '1' else
+--                               (others => '0');
                                
-    fifo_wb_read_addr : fifo_27x16_bench
-     PORT MAP (
-       rst => rst_tbs,
-       wr_clk => ddr_app_ui_clk_s,
-       rd_clk => ddr_app_ui_clk_s,
-       din => ddr_app_addr_s,
-       wr_en => fifo_wr_s,
-       rd_en => ddr_app_rd_data_valid_s,
-       dout => ddr_app_addr_tbs,
-       full => open,
-       almost_full => open,
-       empty => fifo_empty_s
-     );
+--    fifo_wb_read_addr : fifo_27x16_bench
+--     PORT MAP (
+--       rst => rst_tbs,
+--       wr_clk => ddr_app_ui_clk_s,
+--       rd_clk => ddr_app_ui_clk_s,
+--       din => ddr_app_addr_s,
+--       wr_en => fifo_wr_s,
+--       rd_en => ddr_app_rd_data_valid_s,
+--       dout => ddr_app_addr_tbs,
+--       full => open,
+--       almost_full => open,
+--       empty => fifo_empty_s
+--     );
     
     ddr_stimuli_p : process
         
@@ -675,41 +474,21 @@ begin
     
     ddr_counter <= to_unsigned(0,32);
     
-    --ddr_app_rd_data_s <= (others => '0');
-    
-
-    
-    --ddr_app_rd_data_valid_s <= '0';
-    
-    --wait until ddr_app_cmd_en_s = '1' and ddr_app_cmd_s = "000";
-    
-    --step_ddr <= 1;
-    
-    --wait for period_ddr;
     loop
     
-    --if step_ddr >= 0 and step_ddr < 2048 then
-    
-    --end if;
+
     wait for period_ddr;
     if ddr_app_rd_data_valid_s = '1' then
-    --if ddr_app_cmd_en_s = '1' and ddr_app_cmd_s = "001" and ddr_app_rdy_s = '1' then
-        
-        --step_ddr <= 3;
+
         ddr_counter <= ddr_counter + 8;
 
-        --ddr_app_rd_data_end_s           <= '1';
-        --ddr_app_rd_data_valid_s         <= '1';
+
         
         data_end := not data_end;
         
     else
         
-        --step_ddr <= 5;
-        
-        --ddr_app_rd_data_s               <= (others => '0');
-        --ddr_app_rd_data_end_s           <= '0';
-        --ddr_app_rd_data_valid_s         <= '0';
+
         
     end if;
     end loop;
@@ -759,8 +538,46 @@ begin
       wb_data_i           => wb_dat_m2s_tbs,
       wb_data_o           => wb_dat_s2m_s,
       wb_ack_o            => wb_ack_s,
-      wb_stall_o          => wb_stall_s
+      wb_stall_o          => wb_stall_s,
+      
+      ----------------------------------------------------------------------------
+      -- Wishbone bus port
+      ----------------------------------------------------------------------------
+      wb1_sel_i   => wb1_sel_tbs,
+      wb1_cyc_i   => wb1_cyc_tbs,     
+      wb1_stb_i   => wb1_stb_tbs,     
+      wb1_we_i    => wb1_we_tbs,      
+      wb1_addr_i  => wb1_addr_tbs,    
+      wb1_data_i  => wb1_dat_m2s_tbs, 
+      wb1_data_o  => wb1_dat_s2m_s,   
+      wb1_ack_o   => wb1_ack_s,       
+      wb1_stall_o => wb1_stall_s     
+      
       );
+
+    comp_virtual_mig:virtual_mig
+      generic map (
+          ADDR_WIDTH => 12,
+          DATA_WIDTH => 512 
+      )
+      port map (
+          -- SYS CON
+          clk            => ddr_app_ui_clk_s,
+          rst            => rst_tbs,
+         
+          -- DATA i
+          adr_i          => ddr_app_addr_s(12-1 downto 0),
+          dat_i          => ddr_app_wdf_data_s,
+          mask_i         => ddr_app_wdf_mask_s,
+          cmd_i          => ddr_app_cmd_s,
+          en_i           => ddr_app_cmd_en_s,
+         
+          -- DATA ou
+          dat_o           => ddr_app_rd_data_s,
+          valid_o         => ddr_app_rd_data_valid_s
+      );
+      
+      ddr_app_rd_data_end_s <= ddr_app_rd_data_valid_s;
       
 --    u_mig_7series_0 : mig_7series_0
 --    port map (

@@ -2,8 +2,8 @@
 # Vivado v2016.2 (64-bit)
 # SW Build 1577090 on Thu Jun  2 16:32:35 MDT 2016
 # IP Build 1577682 on Fri Jun  3 12:00:54 MDT 2016
-# Start of session at: Thu Jul 27 14:30:33 2017
-# Process ID: 32640
+# Start of session at: Wed Aug 23 10:16:06 2017
+# Process ID: 19993
 # Current directory: /home/asautaux/yarr_sim/project_sim/project_sim2.runs/fifo_605x32_synth_1
 # Command line: vivado -log fifo_605x32.vds -mode batch -messageDb vivado.pb -notrace -source fifo_605x32.tcl
 # Log file: /home/asautaux/yarr_sim/project_sim/project_sim2.runs/fifo_605x32_synth_1/fifo_605x32.vds
